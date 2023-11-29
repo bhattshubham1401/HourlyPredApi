@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e0b5d363-f693-485c-8fa0-4e6dc86ec4da" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/config/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/config/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/future_predictions_sensor_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/future_predictions_sensor_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/future_predictions_sensor_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/model/MLmodel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/model/conda.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/model/model.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/model/python_env.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/model/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/artifacts/predictions_sensor_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/meta.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/metrics/mae" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/metrics/r2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/metrics/rmse" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/params/colsample_bytree" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/params/learning_rate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/params/max_depth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/params/n_estimators" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/params/subsample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/tags/mlflow.log-model.history" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/tags/mlflow.runName" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/tags/mlflow.source.git.commit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/tags/mlflow.source.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/tags/mlflow.source.type" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/602c14c041ee49dba30d58e3d543f374/tags/mlflow.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/future_predictions_sensor_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/model/MLmodel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/model/conda.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/model/model.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/model/python_env.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/model/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/artifacts/predictions_sensor_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/meta.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/metrics/mae" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/metrics/r2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/metrics/rmse" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/params/colsample_bytree" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/params/learning_rate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/params/max_depth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/params/n_estimators" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/params/subsample" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/tags/mlflow.log-model.history" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/tags/mlflow.runName" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/tags/mlflow.source.git.commit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/tags/mlflow.source.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/tags/mlflow.source.type" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/805fb6a611e7456a88ec85d3c738fb8c/tags/mlflow.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/meta.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/mlruns/0/meta.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/params.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/params.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/predictions_sensor_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/predictions_sensor_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/research/03_data_transformation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/research/03_data_transformation.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/components/data_transformation.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/components/data_transformation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/components/model_evaluation.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/components/model_evaluation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/components/model_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/components/model_trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/config/configuration.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/config/configuration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/entity/config_entity.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/entity/config_entity.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/utils/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/src/mlProject/utils/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/..//HourlyModel/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/..//HourlyModel/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/routes.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="Freeze Requirements File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2YRAqhyfFBAZGJC2u3jeWX40GsM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/fastapi-mongodb&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e0b5d363-f693-485c-8fa0-4e6dc86ec4da" name="Changes" comment="" />
+      <created>1700478210653</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700478210653</updated>
+    </task>
+    <servers />
+  </component>
+</project>
