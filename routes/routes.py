@@ -1,18 +1,20 @@
-from fastapi import APIRouter
-from Models.todos import Todo
+from flask import Blueprint, request
 from config.db import collection_name
-from schema.schemas import list_serial
 
-router = APIRouter()
+router = Blueprint('router', __name__)
+
 
 # GET request
-@router.get("/")
-async def get_todos():
-    todos = list_serial(collection_name.find())
+@router.route('/getPredData', methods=['GET'])
+def get_todos():
+    # Access parameters from the query string
+    todo_id = request.args.get('id')
+    date = request.args.get('date')
+
+    # Concatenate todo_id and date to create a new identifier
+    id = todo_id + "_" + date
+    query = {'_id': id}
+
+    todos = list(collection_name.find(query))
     return todos
-
-# @router.post("/")
-# async def post_todo(todo : Todo):
-#     collection_name.insert_one(dict(todo))
-
 
