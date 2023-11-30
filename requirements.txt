@@ -100,3 +100,4 @@ legacy~=0.1.6
 platformdirs~=3.11.0
 json5~=0.9.14
 fastapi~=0.104.1
+waitress~=2.1.2
