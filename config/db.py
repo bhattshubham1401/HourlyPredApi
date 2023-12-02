@@ -3,9 +3,11 @@ from pymongo.mongo_client import MongoClient
 host = "13.127.57.185"
 port = 27017
 db = "pvvnl"
+username = "ml_user"
+password = "Project@3i2"
 collection = "predict"
 collection1 = "actual"
-MONGO_URL = f"mongodb://{host}:{port}"
+MONGO_URL = f"mongodb://{username}:{password}@{host}:{port}/{db}"
 client = MongoClient(MONGO_URL)
 
 db1 = client[db]
