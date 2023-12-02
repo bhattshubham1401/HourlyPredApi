@@ -15,6 +15,6 @@ def get_todos():
     id = todo_id + "_" + date
     query = {'_id': id}
 
-    todos = list(collection_name.find(query, {'data': 1}))
+    todos = list(collection_name.find(query))
     return todos
 
