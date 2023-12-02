@@ -1,8 +1,6 @@
-from datetime import datetime
-
 from flask import Blueprint, request
 
-from config.db import collection_name, collection_name1
+from config.db import collection_name
 
 router = Blueprint('router', __name__)
 
@@ -34,6 +32,6 @@ def get_todos():
 #             'Clock': start_date
 #         }))
 
-        return todos
-    except Exception as e:
-        print(e)
+    #     return todos
+    # except Exception as e:
+    #     print(e)
