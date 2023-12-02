@@ -25,14 +25,14 @@ def get_todos():
         print(e)
 
 
-@router.route('/getActualData', methods=['POST'])
-async def get_actual_data(id: str, date: str):
-    try:
-        start_date = datetime.strptime(date, '%Y-%m-%d')
-        todos = list(collection_name1.find({
-            'sensor_id': id,
-            'Clock': start_date
-        }))
+# @router.route('/getActualData', methods=['POST'])
+# async def get_actual_data(id: str, date: str):
+#     try:
+#         start_date = datetime.strptime(date, '%Y-%m-%d')
+#         todos = list(collection_name1.find({
+#             'sensor_id': id,
+#             'Clock': start_date
+#         }))
 
         return todos
     except Exception as e:
