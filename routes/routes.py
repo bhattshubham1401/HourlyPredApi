@@ -13,8 +13,8 @@ def get_todos():
 
     # Concatenate todo_id and date to create a new identifier
     id = todo_id + "_" + date
-    query = {'_id': id}, {'data': 1}
+    query = {'_id': id}
 
-    todos = list(collection_name.find(query))
+    todos = list(collection_name.find(query, {'data': 1}))
     return todos
 
