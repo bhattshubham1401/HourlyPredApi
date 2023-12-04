@@ -36,7 +36,10 @@ def get_todos():
 
         payLoad1 = {"datas": formatted_data["data"]}
 
-        return jsonify(payLoad), jsonify(payLoad1)
+        # Combine the data into a single response
+        combined_payload = {"payloads": [payLoad, payLoad1]}
+
+        return jsonify(combined_payload)
 
     except Exception as e:
         print(e)
