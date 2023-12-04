@@ -18,14 +18,14 @@ def get_todos():
         query = {'_id': id}
 
         todos = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-        formatted_data = {"data": []}
-        for key, value in todos[0]["data"].items():
-            formatted_data["data"].append(value)
+        # formatted_data = {"data": []}
+        # for key, value in todos[0]["data"].items():
+        #     formatted_data["data"].append(value)
+        #
+        # # Now, formatted_data has the structure you wanted
+        # payLoad = {"datas": formatted_data["data"]}
 
-        # Now, formatted_data has the structure you wanted
-        payLoad = {"datas": formatted_data["data"]}
-
-        return payLoad
+        return todos
     except Exception as e:
         print(e)
 
