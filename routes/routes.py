@@ -6,7 +6,7 @@ router = Blueprint('router', __name__)
 
 
 # GET request
-@router.route('/getPredData', methods=['GET'])
+@router.route('/getPredDatas', methods=['GET'])
 def get_todos():
     try:
         # Access parameters from the query string
@@ -18,7 +18,14 @@ def get_todos():
         query = {'_id': id}
 
         todos = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-        return todos
+        formatted_data = {"data": []}
+        for key, value in todos[0]["data"].items():
+            formatted_data["data"].append(value)
+
+        # Now, formatted_data has the structure you wanted
+        payLoad = {"datas": formatted_data["data"]}
+
+        return payLoad
     except Exception as e:
         print(e)
 
