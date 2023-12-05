@@ -22,11 +22,11 @@ def get_todos():
 
         formatted_data_pred = {"data_pred": []}
         for key, value in todos_pred[0]["data"].items():
-            formatted_data_pred["data_pred"].append(value)
+            formatted_data_pred["data_pred"].append(round(value, 2))
 
         formatted_data_act = {"data_act": []}
         for key, value in todos_act[0]["data"].items():
-            formatted_data_act["data_act"].append(value)
+            formatted_data_act["data_act"].append(round(value, 2))
 
         return {"predicted_data": formatted_data_pred, "actual_data": formatted_data_act}
     except Exception as e:
