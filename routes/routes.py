@@ -17,11 +17,11 @@ def get_todos():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        todos = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
 
         formatted_data_pred = {"data_pred": []}
-        for key, value in todos[0]["data"].items():
+        for key, value in todos_pred[0]["data"].items():
             formatted_data_pred["data_pred"].append(value)
 
         formatted_data_act = {"data_act": []}
@@ -31,6 +31,7 @@ def get_todos():
         return formatted_data_act, formatted_data_pred
     except Exception as e:
         print(e)
+
 
 
 # @router.route('/getActualData', methods=['POST'])
