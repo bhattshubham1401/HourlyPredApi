@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1
 
@@ -19,6 +19,9 @@ def get_todos():
 
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
+        if not todos_act:
+            # Actual data not found, return a response indicating it
+            return jsonify({"predicted_data": todos_pred[0]["data"] if todos_pred else None, "actual_data": None})
 
         formatted_data_pred = {"data_pred": []}
         for key, value in todos_pred[0]["data"].items():
