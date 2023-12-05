@@ -29,6 +29,12 @@ def get_todos():
                 formatted_data_act["data_act"].append({"act_kwh": value["act_kwh"]})
             actual_data = formatted_data_act
 
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+
+        formatted_data_pred = {"data_pred": []}
+        for key, value in todos_pred[0]["data"].items():
+            formatted_data_pred["data_pred"].append(value)
+
         return {"actual_data": actual_data}
 
         # Ensure consistency by wrapping actual_data in a dictionary
