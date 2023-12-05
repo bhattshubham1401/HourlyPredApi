@@ -28,7 +28,7 @@ def get_todos():
         for key, value in todos_act[0]["data"].items():
             formatted_data_act["data_act"].append(value)
 
-        return formatted_data_act, formatted_data_pred
+        return {"predicted_data": formatted_data_pred, "actual_data": formatted_data_act}
     except Exception as e:
         print(e)
 
