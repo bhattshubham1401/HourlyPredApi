@@ -17,7 +17,7 @@ def get_todos():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        # Check if actual data exists
         todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
         if not todos_act:
             # Actual data not found, create an array of zeros for each hour
@@ -26,8 +26,13 @@ def get_todos():
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": {}}
             for key, value in todos_act[0]["data"].items():
-                formatted_data_act["data_act"][key] = value
-            actual_data = formatted_data_act
+                formatted_data_act["data_act"][key] = {"act_kwh": value["act_kwh"]}
+            actual_data = formatted_data_act["data_act"]
+
+        # Ensure consistency by wrapping actual_data in a dictionary
+        actual_data = {"data_act": actual_data}
+
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
 
         formatted_data_pred = {"data_pred": {}}
         for key, value in todos_pred[0]["data"].items():
@@ -37,6 +42,8 @@ def get_todos():
 
     except Exception as e:
         print(e)
+        # Handle other exceptions as needed
+        return jsonify({"error": "An error occurred while processing the request"}), 500
 
 
 
