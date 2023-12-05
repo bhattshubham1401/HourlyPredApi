@@ -22,7 +22,7 @@ def get_todos():
         if not todos_act:
             # Actual data not found, create zero values for each hour
             zero_values = {"act_kwh": 0.0}
-            actual_data = {zero_values for i in range(24)}
+            actual_data = {zero_values for zero_values in range(24)}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": {}}
