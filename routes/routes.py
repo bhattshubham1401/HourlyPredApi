@@ -20,9 +20,8 @@ def get_todos():
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
         if not todos_act:
-            # Actual data not found, create zero values for each hour
-            zero_values = {"act_kwh": 0.0}
-            actual_data = [zero_values.copy() for _ in range(24)]
+            # Actual data not found, create an array of zeros for each hour
+            actual_data = {str(i): {"act_kwh": 0.0} for i in range(24)}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": {}}
