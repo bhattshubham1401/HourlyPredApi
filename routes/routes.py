@@ -21,15 +21,15 @@ def get_todos():
         todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
         if not todos_act:
             # Actual data not found, create an array of zeros for each hour
-            actual_data = {"data_act": []}
-            for i in range(24):
-                actual_data["data_act"].append({str(i): {"act_kwh": 0.0}})
+            actual_data = {"data_act": [{"act_kwh": 0.0} for _ in range(24)]}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": []}
             for key, value in todos_act[0]["data"].items():
-                formatted_data_act["data_act"].append({key: {"act_kwh": value["act_kwh"]}})
+                formatted_data_act["data_act"].append({"act_kwh": value["act_kwh"]})
             actual_data = formatted_data_act
+
+        return {"actual_data": actual_data}
 
         # Ensure consistency by wrapping actual_data in a dictionary
         actual_data = {"data_act": actual_data}
