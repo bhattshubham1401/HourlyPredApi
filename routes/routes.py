@@ -20,18 +20,22 @@ def get_todos():
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
         if not todos_act:
-            # Actual data not found, return a response indicating it
-            return jsonify({"predicted_data": todos_pred[0]["data"] if todos_pred else None, "actual_data": None})
+            # Actual data not found, create zero values for each hour
+            zero_values = {"act_kwh": 0.0}
+            actual_data = {str(i): zero_values for i in range(24)}
+        else:
+            # Actual data found, extract values from the data
+            formatted_data_act = {"data_act": {}}
+            for key, value in todos_act[0]["data"].items():
+                formatted_data_act["data_act"][key] = value
+            actual_data = formatted_data_act
 
-        formatted_data_pred = {"data_pred": []}
+        formatted_data_pred = {"data_pred": {}}
         for key, value in todos_pred[0]["data"].items():
-            formatted_data_pred["data_pred"].append(value)
+            formatted_data_pred["data_pred"][key] = value
 
-        formatted_data_act = {"data_act": []}
-        for key, value in todos_act[0]["data"].items():
-            formatted_data_act["data_act"].append(value)
+        return {"predicted_data": formatted_data_pred, "actual_data": actual_data}
 
-        return {"predicted_data": formatted_data_pred, "actual_data": formatted_data_act}
     except Exception as e:
         print(e)
 
