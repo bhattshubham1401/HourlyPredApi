@@ -4,7 +4,7 @@ host = "localhost"
 port = 27017
 db = "pvvnl"
 collection = "predict"
-collection1 = "actuals"
+collection1 = "actual"
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
 
