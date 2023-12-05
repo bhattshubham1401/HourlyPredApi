@@ -24,7 +24,7 @@ def get_todos():
             actual_data = {str(i): {"act_kwh": 0.0} for i in range(24)}
         else:
             # Actual data found, extract values from the data
-            formatted_data_act = {"data_act": {}}
+            formatted_data_act = {"data_act": []}
             for key, value in todos_act[0]["data"].items():
                 formatted_data_act["data_act"][key] = {"act_kwh": value["act_kwh"]}
             actual_data = formatted_data_act["data_act"]
@@ -34,7 +34,7 @@ def get_todos():
 
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
 
-        formatted_data_pred = {"data_pred": {}}
+        formatted_data_pred = {"data_pred": []}
         for key, value in todos_pred[0]["data"].items():
             formatted_data_pred["data_pred"][key] = value
 
