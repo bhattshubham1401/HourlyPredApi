@@ -66,12 +66,11 @@ def get_sensorList():
                '641c17bc672215.97177522']
 
         # Convert the cursor to a list
-        todos_cursor = collection_name2.find({'id': '62a9920f75c931.62399458'}, {'id': 1, 'name': 1})
-        # todos_cursor = collection_name2.find()
-        todos = list(todos_cursor)
+        todos_cursor = collection_name2.find({'id': {'$in' : lst}}, {'_id': 0, 'id': 1, 'name': 1})
+        todos = [{'id': doc['id'], 'name': doc['name']} for doc in todos_cursor]
 
         # Return the data as JSON
-        return jsonify(todos)
+        return jsonify({'sensorList': todos})
     except Exception as e:
         print(e)
         return jsonify({"error": "An error occurred"}), 500
