@@ -38,7 +38,7 @@ def get_todos():
             # Predicted data found, extract values from the data
             formatted_data_pred = {"data_pred": []}
             for key, value in todos_pred[0]["data"].items():
-                formatted_data_pred["data_pred"].append(value)
+                formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
 
             predicted_data = formatted_data_pred
 
