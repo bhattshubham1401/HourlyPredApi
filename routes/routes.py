@@ -29,29 +29,26 @@ def get_todos():
                 formatted_data_act["data_act"].append({"act_kwh": value["act_kwh"]})
             actual_data = formatted_data_act
 
+        # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        if not todos_pred:
+            # Predicted data not found, create an array of zeros for each hour
+            predicted_data = {"data_pred": [{"act_kwh": 0.0, "act_load": 0.0, "pre_current": 0.0, "pre_kwh": 0.0, "pre_load": 0.0} for _ in range(24)]}
+        else:
+            # Predicted data found, extract values from the data
+            formatted_data_pred = {"data_pred": []}
+            for key, value in todos_pred[0]["data"].items():
+                formatted_data_pred["data_pred"].append(value)
 
-        formatted_data_pred = {"data_pred": []}
-        for key, value in todos_pred[0]["data"].items():
-            formatted_data_pred["data_pred"].append(value)
+            predicted_data = formatted_data_pred
 
-        # return {"actual_data": actual_data}
-        #
-        # Ensure consistency by wrapping actual_data in a dictionary
-        actual_data = {"data_act": actual_data}
+        # Combine actual and predicted data into a single dictionary
+        response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-
-        formatted_data_pred = {"data_pred": []}
-        for key, value in todos_pred[0]["data"].items():
-            formatted_data_pred["data_pred"][key] = value
-
-        return {"predicted_data": formatted_data_pred, "actual_data": actual_data}
+        return {"data": response_data}
 
     except Exception as e:
-        print(e)
-        # Handle other exceptions as needed
-        return jsonify({"error": "An error occurred while processing the request"}), 500
+        return {"error": str(e)}
 
 
 
