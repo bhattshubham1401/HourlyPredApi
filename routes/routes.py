@@ -66,7 +66,8 @@ def get_sensorList():
                '641c17bc672215.97177522']
 
         # Convert the cursor to a list
-        todos_cursor = collection_name2.find({'id': {'$in': lst}}, {'id': 1, 'name': 1})
+        # todos_cursor = collection_name2.find({'id': {'$in': lst}}, {'id': 1, 'name': 1})
+        todos_cursor = collection_name2.find()
         todos = list(todos_cursor)
 
         # Return the data as JSON
