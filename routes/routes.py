@@ -48,7 +48,7 @@ def get_todos():
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"data": response_data}
+        return {"rc": 0, "message": "Success", "data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
@@ -83,7 +83,7 @@ def get_sensorList():
 
         sensor_list = [{'uuid': item['uuid'], 'sensorName': item['sensorName']} for item in data['resource']]
 
-        return jsonify({'sensorList': sensor_list})
+        return jsonify({"rc": 0, "message": "Success", 'sensorList': sensor_list})
 
     except Exception as e:
         print(e)
@@ -160,7 +160,7 @@ def getPredDataHourly():
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"data": response_data}
+        return {"rc": 0, "message": "Success", "data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
@@ -236,7 +236,7 @@ def getPredDataDaily():
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"data": response_data}
+        return {"rc": 0, "message": "Success", "data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
