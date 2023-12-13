@@ -35,6 +35,8 @@ def get_todos():
 
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        print(todos_pred)
+
         if not todos_pred:
             # Predicted data not found, create an array of zeros for each hour
             predicted_data = {"data_pred": [{"pre_kwh": 0.0} for _ in range(24)]}
@@ -49,7 +51,7 @@ def get_todos():
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"data": response_data}
+        return {"rc": 0 ,"message":"Success","data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
@@ -74,7 +76,7 @@ def get_sensorList():
         todos = [{'id': doc['id'], 'name': doc['name']} for doc in todos_cursor]
 
         # Return the data as JSON
-        return jsonify({'sensorList': todos})
+        return jsonify({"rc": 0 ,"message":"Success",'sensorList': todos})
     except Exception as e:
         print(e)
         return jsonify({"error": "An error occurred"}), 500
@@ -119,45 +121,43 @@ def getPredDataHourly():
         df['Clock'] = pd.to_datetime(df['Clock'])
         df['Kwh'] = df['Kwh'].astype(float)
         df['Kwh'] = (df['Kwh']/1000)
-        
-        
-        df['Clock'] = pd.to_datetime(df['Clock'])
         df.set_index(["Clock"],inplace=True,drop=True)
-        
         df1 = (df[['Kwh']].resample(rule="1H").sum()).round(2)
-  
         if not todos_act:
             # Actual data not found, create an array of zeros for each hour
-            actual_data = {"data_act": [{"hour": _ ,"act_kwh": 0.0} for _ in range(24)]}
+            actual_data = {"data_act": [{"hour": hour ,"act_kwh": 0.0} for hour in range(24)]}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": []}
+            counter=0
             for value in df1["Kwh"]:
-                formatted_data_act["data_act"].append({"act_kwh": value})
-
+                formatted_data_act["data_act"].append({"hour":counter,"act_kwh": value})
+                counter+=1
             if (len(formatted_data_act['data_act']))<24:
                 for i in range((len(formatted_data_act['data_act'])),24):
-                    formatted_data_act["data_act"].append({"hour": i ,"act_kwh": 0.0})
+                    formatted_data_act["data_act"].append({"hour": i, "act_kwh": 0.0})
                 
             actual_data = formatted_data_act
-        
+            print(len(actual_data['data_act']))
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         if not todos_pred:
             # Predicted data not found, create an array of zeros for each hour
-            predicted_data = {"data_pred": [{"pre_kwh": 0.0} for _ in range(24)]}
+            predicted_data = {"data_pred": [{ "hour": hour ,"pre_kwh": 0.0 } for hour in range(24)]}
+            
         else:
             # Predicted data found, extract values from the data
             formatted_data_pred = {"data_pred": []}
+            counter=0
             for key, value in todos_pred[0]["data"].items():
-                formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
-
+                formatted_data_pred["data_pred"].append({"hour":counter,"pre_kwh": value["pre_kwh"]})
+                counter+=1
             predicted_data = formatted_data_pred
-
+            
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"data": response_data}
+        return {"rc": 0 ,"message":"Success","data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
@@ -170,18 +170,11 @@ def getPredDataDaily():
         date = request.args.get('date')
 
         date_object = datetime.strptime(date, '%Y-%m-%d')
-        month, year,day = date_object.month, date_object.year, date_object.day
-
-        print("type=",(type(year)),"year =",year)
-        print("type=",(type(month)),"month=", month)
         first_date = date_object.replace(day=1)
+        day, month, year = first_date.day, first_date.month, first_date.year
         last_date = (first_date.replace(month=first_date.month % 12 + 1, day=1, ) - timedelta(days=1))
         last_date=last_date.replace(hour=23,minute=30,year=year)
         last_day=last_date.day
-        print("firstdate=",first_date,"","lastdate=",last_date)
-        date1=date_object.replace(day=last_day)
-        print("days=",day)
-        print("day type",type(day))
 
         query = {"sensor_id":todo_id, "month":str(month), "year":str(year)}
         
@@ -220,47 +213,43 @@ def getPredDataDaily():
    
         if not todos_act:
             # Actual data not found, create an array of zeros for each hour
-            actual_data = {"data_act": [{"act_kwh{}".format(_): 0.0} for _ in range(last_day)]}
+            actual_data = {"data_act": [{f"act_kwh{_}": 0.0} for _ in range(last_day)]}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": []}
+
             for value in df1["Kwh"]:
-                formatted_data_act["data_act"].append({"act_kwh": value})
-            
-            print("lenth of values",len(formatted_data_act['data_act']))
+                formatted_data_act["data_act"].append({"clock":f"{year}-{month}-{str(day).zfill(2)}","act_kwh": value})
+                day+=1
+
             if (len(formatted_data_act['data_act'])!=last_day):
                 for i in range((len(formatted_data_act['data_act'])),(last_day)):
-                    formatted_data_act["data_act"].append({f"act_kwh {i+1}": 0.0})
+                    formatted_data_act["data_act"].append({"clock":f"{year}-{month}-{str(day).zfill(2)}",f"act_kwh {i+1}": 0.0})
+                    day+=1
             actual_data = formatted_data_act
                 
             # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 1,'data': 1}))
         if not todos_pred:
             # Predicted data not found, create an array of zeros for each hour
-            predicted_data = {"data_pred": [{"pre_kwh{}".format(_): 0.0} for _ in range(1,(last_day+1))]}
+            predicted_data = {"data_pred": [{f"pre_kwh{_}": 0.0} for _ in range(1,(last_day+1))]}
         else:
             # Predicted data found, extract values from the data
             formatted_data_pred = {"data_pred": []}
             for i in range(len(todos_pred)):
                 b=todos_pred[i]['_id'].split("_")
                 date2=b[1]
-                # print(date)
                 sum=0
                 for y in range(24):
                     a=todos_pred[i]['data'][f"{y}"]['pre_kwh']
                     sum=sum+a
-                # print(sum)
-                formatted_data_pred["data_pred"].append({"pre_kwh" : sum, "clock" : date2})
-            # formatted_data_pred = {"data_pred": []}
-            # for key, value in todos_pred[0]["data"].items():
-                # formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
-
+                formatted_data_pred["data_pred"].append({ "clock" : date2, "pre_kwh" : round(sum,2)})
             predicted_data = formatted_data_pred
 
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"data": response_data}
+        return {"rc": 0 ,"message":"Success","data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
