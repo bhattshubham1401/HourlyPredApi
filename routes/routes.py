@@ -1,10 +1,9 @@
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name2
+from config.db import collection_name, collection_name1
 
 router = Blueprint('router', __name__)
 import requests
-import json
 import pandas as pd
 from datetime import datetime, timedelta
 
@@ -58,18 +57,26 @@ def get_todos():
 @router.route('/get_sensorList', methods=['GET'])
 def get_sensorList():
     try:
-        sensor_ids = [
-            '5f718b613291c7.03696209', '5f718c439c7a78.65267835', '614366bce31a86.78825897',
-            '6148740eea9db0.29702291', '62307a944c9117.27764752', '625fb44c5fb514.98107900',
-            '625fb9e020ff31.33961816', '6260fd4351f892.69790282', '627cd4815f2381.31981050',
-            '629087dedbd477.79790710', '629094ee5fdff4.43505210', '6295bdace55341.17149388',
-            '6295eb61511b31.65607460', '62a9920f75c931.62399458', '62a9d0d7af97e3.16097779',
-            '62aad7f5c65185.80723547', '62b15dfee341d1.73837476', '62b595eabd9df4.71374208',
-            '6349368c306542.16235883', '634e7c43038801.39310596', '6399a18b1488b8.07706749',
-            '63a413c88f4716.77874329', '63a4195534d625.00718490', '63a4272631f153.67811394',
-            '63aa9161b9e7e1.16208626', '63aaca5d76b0e8.04988241', '63ca403ccd66f3.47133508',
-            '641c17bc672215.97177522'
-        ]
+        sensor_ids = ['5f718b613291c7.03696209',
+                      '5f718c439c7a78.65267835',
+                      '614366bce31a86.78825897',
+                      '6148740eea9db0.29702291',
+                      '625fb44c5fb514.98107900',
+                      '625fb9e020ff31.33961816',
+                      '6260fd4351f892.69790282',
+                      '627cd4815f2381.31981050',
+                      '629094ee5fdff4.43505210',
+                      '62aad7f5c65185.80723547',
+                      '62b15dfee341d1.73837476',
+                      '62b595eabd9df4.71374208',
+                      '6349368c306542.16235883',
+                      '634e7c43038801.39310596',
+                      '6399a18b1488b8.07706749',
+                      '63a4195534d625.00718490',
+                      '63a4272631f153.67811394',
+                      '63aa9161b9e7e1.16208626',
+                      '63ca403ccd66f3.47133508',
+                      '62a9920f75c931.62399458']
 
         url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
@@ -173,6 +180,7 @@ def getPredDataHourly():
     except Exception as e:
         return {"error": str(e)}
 
+
 @router.route('/getPredDataDaily', methods=['GET'])
 def getPredDataDaily():
     try:
@@ -234,7 +242,8 @@ def getPredDataDaily():
 
             if (len(formatted_data_act['data_act']) != last_day):
                 for i in range((len(formatted_data_act['data_act'])), (last_day)):
-                    formatted_data_act["data_act"].append({"clock": f"{year}-{month}-{str(day).zfill(2)}", f"act_kwh {i + 1}": 0.0})
+                    formatted_data_act["data_act"].append(
+                        {"clock": f"{year}-{month}-{str(day).zfill(2)}", f"act_kwh {i + 1}": 0.0})
                     day += 1
             actual_data = formatted_data_act
 
