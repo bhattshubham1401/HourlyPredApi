@@ -156,15 +156,13 @@ def getPredDataHourly():
 
         if not todos_pred:
             # Predicted data not found, create an array of zeros for each hour
-            predicted_data = {"data_pred": [{"hour": hour, "pre_kwh": 0.0} for hour in range(24)]}
-            # pass
+            predicted_data = {"data_pred": [{"pre_kwh": 0.0} for _ in range(24)]}
         else:
             # Predicted data found, extract values from the data
             formatted_data_pred = {"data_pred": []}
-            counter = 0
-            for value in todos_pred[0]["data"].items():
-                formatted_data_pred["data_pred"].append({"hour": counter, "pre_kwh": value["pre_kwh"]})
-                counter += 1
+            for key, value in todos_pred[0]["data"].items():
+                formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
+
             predicted_data = formatted_data_pred
 
         # Combine actual and predicted data into a single dictionary
@@ -174,7 +172,6 @@ def getPredDataHourly():
 
     except Exception as e:
         return {"error": str(e)}
-
 
 @router.route('/getPredDataDaily', methods=['GET'])
 def getPredDataDaily():
