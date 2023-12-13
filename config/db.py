@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 
-host = "localhost"
+host = "13.127.57.185"
 port = 27017
 db = "pvvnl"
 collection = "predict"
