@@ -91,24 +91,18 @@ def getPredDataHourly():
         query = {'_id': id}
 
         # Check if actual data exists
-        # todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
         l1=[]
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi?sql=select%20raw_data,sensor_id,read_time%20from%20dlms_load_profile%20where%20sensor_id=%27{}%27%20and%20date%28read_time%29=%27{}%27&type=query".format(todo_id, date)
+        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
-            # 'sql': "select raw_data, sensor_id from dlms_load_profile where sensor_id='{}' and read_time between '{first_date and last_date}' order by read_time"
-            # .format(todo_id, date)
+            'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+            .format(todo_id, date),
+            'type': 'query'
         }
         todos_act = requests.get(url, params=params)
         todos_act.raise_for_status()
         data = todos_act.json()
         l1.append(data['resource'])
-
-        # l1=[]
-        # todos_act=requests.get("https://multipoint.myxenius.com/Sensor_newHelper/getDataApi?sql=select%20raw_data,sensor_id,read_time%20from%20dlms_load_profile%20where%20sensor_id=%27{}%27%20and%20date%28read_time%29=%27{}%27&type=query".format(todo_id,date))
-        # data=json.loads(todos_act.text)
-        # l1.append(data['resource'])
         
-        # print(len(l1))
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
             'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
             'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
@@ -131,18 +125,22 @@ def getPredDataHourly():
         df.set_index(["Clock"],inplace=True,drop=True)
         
         df1 = (df[['Kwh']].resample(rule="1H").sum()).round(2)
-        # df1=df1.round(2)
-        # return print(df1['Kwh'])    
+  
         if not todos_act:
             # Actual data not found, create an array of zeros for each hour
-            actual_data = {"data_act": [{"act_kwh": 0.0} for _ in range(24)]}
+            actual_data = {"data_act": [{"hour": _ ,"act_kwh": 0.0} for _ in range(24)]}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": []}
             for value in df1["Kwh"]:
                 formatted_data_act["data_act"].append({"act_kwh": value})
+
+            if (len(formatted_data_act['data_act']))<24:
+                for i in range((len(formatted_data_act['data_act'])),24):
+                    formatted_data_act["data_act"].append({"hour": i ,"act_kwh": 0.0})
+                
             actual_data = formatted_data_act
-            # print(actual_data)
+        
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         if not todos_pred:
@@ -172,11 +170,20 @@ def getPredDataDaily():
         date = request.args.get('date')
 
         date_object = datetime.strptime(date, '%Y-%m-%d')
-        month, year = date_object.month, date_object.year
-        
-        id = todo_id + "_" + date
-        query = {'_id': id}
+        month, year,day = date_object.month, date_object.year, date_object.day
 
+        print("type=",(type(year)),"year =",year)
+        print("type=",(type(month)),"month=", month)
+        first_date = date_object.replace(day=1)
+        last_date = (first_date.replace(month=first_date.month % 12 + 1, day=1, ) - timedelta(days=1))
+        last_date=last_date.replace(hour=23,minute=30,year=year)
+        last_day=last_date.day
+        print("firstdate=",first_date,"","lastdate=",last_date)
+        date1=date_object.replace(day=last_day)
+        print("days=",day)
+        print("day type",type(day))
+
+        query = {"sensor_id":todo_id, "month":str(month), "year":str(year)}
         
         l1=[]
         url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
@@ -213,23 +220,40 @@ def getPredDataDaily():
    
         if not todos_act:
             # Actual data not found, create an array of zeros for each hour
-            actual_data = {"data_act": [{"act_kwh": 0.0} for _ in range(24)]}
+            actual_data = {"data_act": [{"act_kwh{}".format(_): 0.0} for _ in range(last_day)]}
         else:
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": []}
             for value in df1["Kwh"]:
                 formatted_data_act["data_act"].append({"act_kwh": value})
+            
+            print("lenth of values",len(formatted_data_act['data_act']))
+            if (len(formatted_data_act['data_act'])!=last_day):
+                for i in range((len(formatted_data_act['data_act'])),(last_day)):
+                    formatted_data_act["data_act"].append({f"act_kwh {i+1}": 0.0})
             actual_data = formatted_data_act
+                
             # Check if predicted data exists
-        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name.find(query, {'_id': 1,'data': 1}))
         if not todos_pred:
             # Predicted data not found, create an array of zeros for each hour
-            predicted_data = {"data_pred": [{"pre_kwh": 0.0} for _ in range(24)]}
+            predicted_data = {"data_pred": [{"pre_kwh{}".format(_): 0.0} for _ in range(1,(last_day+1))]}
         else:
             # Predicted data found, extract values from the data
             formatted_data_pred = {"data_pred": []}
-            for key, value in todos_pred[0]["data"].items():
-                formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
+            for i in range(len(todos_pred)):
+                b=todos_pred[i]['_id'].split("_")
+                date2=b[1]
+                # print(date)
+                sum=0
+                for y in range(24):
+                    a=todos_pred[i]['data'][f"{y}"]['pre_kwh']
+                    sum=sum+a
+                # print(sum)
+                formatted_data_pred["data_pred"].append({"pre_kwh" : sum, "clock" : date2})
+            # formatted_data_pred = {"data_pred": []}
+            # for key, value in todos_pred[0]["data"].items():
+                # formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
 
             predicted_data = formatted_data_pred
 
