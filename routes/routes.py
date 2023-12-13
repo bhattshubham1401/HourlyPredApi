@@ -234,7 +234,7 @@ def getPredDataDaily():
 
             if (len(formatted_data_act['data_act']) != last_day):
                 for i in range((len(formatted_data_act['data_act'])), (last_day)):
-                    formatted_data_act["data_act"].append({"clock": f"{year}-{month}-{day}", f"act_kwh {i + 1}": 0.0})
+                    formatted_data_act["data_act"].append({"clock": f"{year}-{month}-{str(day).zfill(2)}", f"act_kwh {i + 1}": 0.0})
                     day += 1
             actual_data = formatted_data_act
 
