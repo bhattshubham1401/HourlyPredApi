@@ -146,37 +146,57 @@ def getPredDataHourly():
             # Actual data not found, create an array of zeros for each hour
             actual_data = {"data_act": [{"hour": hour, "act_kwh": 0.0} for hour in range(24)]}
         else:
+            # max_demand=df1['Kwh'].max()
+            # max_demand_time=df1.loc[df1['Kwh'].idxmax()]
+            # max_kwh_hour = max_demand_time.name.hour
             # Actual data found, extract values from the data
             formatted_data_act = {"data_act": []}
-            counter = 0
+            actal_hour_counter, actual_Kwh_sum = 0, 0
             for value in df1["Kwh"]:
-                formatted_data_act["data_act"].append({"hour": counter, "act_kwh": value})
-                counter += 1
-
+                formatted_data_act["data_act"].append({"hour": actal_hour_counter, "act_kwh": value})
+                actual_Kwh_sum += value
+                actal_hour_counter += 1
             if (len(formatted_data_act['data_act'])) < 24:
+
                 for i in range((len(formatted_data_act['data_act'])), 24):
                     formatted_data_act["data_act"].append({"hour": i, "act_kwh": 0.0})
-
+            # max_demand=df1['Kwh'].max()
+            # max_demand_time=df1.loc[df1['Kwh'].idxmax()]
+            # max_kwh_hour = max_demand_time.name.hour
             actual_data = formatted_data_act
-
+            max_value_dict = max(actual_data['data_act'], key=lambda x: x['act_kwh'])
+            actual_max_hour = str(max_value_dict['hour']).zfill(2)
+            actual_max_value = round(max_value_dict['act_kwh'], 2)
+            # print(actual_data)
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-
         if not todos_pred:
             # Predicted data not found, create an array of zeros for each hour
-            predicted_data = {"data_pred": [{"pre_kwh": 0.0} for _ in range(24)]}
+            predicted_data = {"data_pred": [{"hour": hour, "pre_kwh": 0.0} for hour in range(24)]}
+
         else:
             # Predicted data found, extract values from the data
             formatted_data_pred = {"data_pred": []}
+            pred_hour_counter, pred_daily_sum = 0, 0
             for key, value in todos_pred[0]["data"].items():
-                formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
+                formatted_data_pred["data_pred"].append(
+                    {"hour": pred_hour_counter, "pre_kwh": round(value["pre_kwh"], 2)})
+                pred_daily_sum += (value["pre_kwh"])
+                pred_hour_counter += 1
 
             predicted_data = formatted_data_pred
+            max_value_dict = max(predicted_data['data_pred'], key=lambda x: x['pre_kwh'])
+            pred_max_hour = str(max_value_dict['hour']).zfill(2)
+            pred_max_value = round(max_value_dict['pre_kwh'], 2)
 
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
 
-        return {"rc": 0, "message": "Success", "data": response_data}
+        return {"rc": 0, "message": "Success", "actual_kwh_sum": round(actual_Kwh_sum, 2),
+                # "actual_max_demand":max_demand,"actual_max_kwh_hour":max_kwh_hour,
+                "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
+                "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
+                "pred_daily_sum": round(pred_daily_sum, 2), "data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
