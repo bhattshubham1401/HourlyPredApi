@@ -80,17 +80,18 @@ def get_sensorList():
 
         url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
-            'sql': "select id uuid, name sensorName from sensor where id in ({}) ORDER BY name".format(
+
+            'sql': "SELECT id AS uuid, name AS sensorName, CASE WHEN UOM IS NOT NULL THEN UOM ELSE 'UOM' END AS uom FROM sensor WHERE id IN ({}) ORDER BY name".format(
                 ','.join(f"'{sid}'" for sid in sensor_ids)),
+
             'type': 'query'
         }
 
         response = requests.get(url, params=params)
         response.raise_for_status()
         data = response.json()
-
-        sensor_list = [{'uuid': item['uuid'], 'sensorName': item['sensorName']} for item in data['resource']]
-
+        sensor_list = [{'uuid': item['uuid'], 'sensorName': item['sensorName'], "UOM": item['uom']} for item in
+                       data['resource']]
         return jsonify({"rc": 0, "message": "Success", 'sensorList': sensor_list})
 
     except Exception as e:
