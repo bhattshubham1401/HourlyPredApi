@@ -207,7 +207,7 @@ def getPredDataMonthly():
         todo_id = request.args.get('id')
         date = request.args.get('date')
         month_today = (datetime.now()).month
-        date_object = datetime.strptime(date, '%Y-%m-%d')
+        date_object = datetime.strptime(date, '%Y-%m')
         first_date = date_object.replace(day=1)
         day, month, year = first_date.day, first_date.month, first_date.year
         last_date = (first_date.replace(month=first_date.month % 12 + 1, day=1, ) - timedelta(days=1))
