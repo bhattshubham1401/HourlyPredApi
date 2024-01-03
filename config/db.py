@@ -4,7 +4,7 @@ from pymongo.mongo_client import MongoClient
 host = "localhost"
 port = 27017
 db = "pvvnl"
-collection = ".predictTest"
+collection = "predictTest"
 # collection = "prediction_h"
 collection1 = "actual"
 collection2 = "sensor"
