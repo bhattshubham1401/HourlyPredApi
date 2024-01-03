@@ -83,7 +83,7 @@ def get_sensorList():
         url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
 
-            'sql': "SELECT id AS uuid, name AS sensorName, CASE WHEN UOM IS NOT NULL THEN UOM ELSE 'UOM' END AS uom FROM sensor WHERE id IN ({}) ORDER BY name".format(
+            'sql': "SELECT id AS uuid, name AS sensorName, CASE WHEN grid_billing_type IS NOT NULL THEN grid_billing_type ELSE 'UOM' END AS uom FROM sensor WHERE id IN ({}) ORDER BY name".format(
                 ','.join(f"'{sid}'" for sid in sensor_ids)),
 
             'type': 'query'
