@@ -2,7 +2,7 @@ from calendar import monthrange
 
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name3, collection_name4, collection_name5
+from config.db import collection_name, collection_name1, collection_name2, collection_name3
 
 router = Blueprint('router', __name__)
 import requests
@@ -365,7 +365,7 @@ def getPredDataDaily():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name4.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
             # Predicted data found, extract values from the data
@@ -398,7 +398,8 @@ def getPredDataDaily():
                 "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
                 "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
                 "data": response_data,
-                "percentage": percent}
+                "percentage": percent, "collection": collection_name
+                }
 
     except Exception as e:
         return {"error": str(e)}
@@ -588,7 +589,7 @@ def getPredDataDaily1():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name3.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
             # Predicted data found, extract values from the data
@@ -621,7 +622,7 @@ def getPredDataDaily1():
                 "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
                 "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
                 "data": response_data,
-                "percentage": percent}
+                "percentage": percent,"collection": collection_name1}
 
     except Exception as e:
         return {"error": str(e)}
@@ -695,7 +696,7 @@ def getPredDataDaily2():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name4.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name2.find(query, {'_id': 0, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
             # Predicted data found, extract values from the data
@@ -728,14 +729,14 @@ def getPredDataDaily2():
                 "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
                 "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
                 "data": response_data,
-                "percentage": percent}
+                "percentage": percent,"collection": collection_name2}
 
     except Exception as e:
         return {"error": str(e)}
 
 
 @router.route('/getPredDataDaily3', methods=['GET'])
-def getPredDataDaily4():
+def getPredDataDaily3():
     try:
         # Access parameters from the query string
         todo_id = request.args.get('id')
@@ -802,7 +803,7 @@ def getPredDataDaily4():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name5.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name3.find(query, {'_id': 0, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
             # Predicted data found, extract values from the data
@@ -835,7 +836,7 @@ def getPredDataDaily4():
                 "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
                 "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
                 "data": response_data,
-                "percentage": percent}
+                "percentage": percent, "collection": collection_name3}
 
     except Exception as e:
         return {"error": str(e)}
