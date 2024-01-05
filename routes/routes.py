@@ -7,7 +7,7 @@ from config.db import collection_name, collection_name1, collection_name3, colle
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 # GET request
@@ -365,7 +365,7 @@ def getPredDataDaily():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name4.find(query, {'_id': 0, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
             # Predicted data found, extract values from the data
@@ -516,6 +516,10 @@ def getPredDataMonthly():
 
     except Exception as e:
         return {"error": str(e)}
+
+    """ These code is for experiments"""
+
+
 @router.route('/getPredDataDaily1', methods=['GET'])
 def getPredDataDaily1():
     try:
@@ -622,6 +626,7 @@ def getPredDataDaily1():
     except Exception as e:
         return {"error": str(e)}
 
+
 @router.route('/getPredDataDaily2', methods=['GET'])
 def getPredDataDaily2():
     try:
@@ -727,6 +732,7 @@ def getPredDataDaily2():
 
     except Exception as e:
         return {"error": str(e)}
+
 
 @router.route('/getPredDataDaily3', methods=['GET'])
 def getPredDataDaily4():
