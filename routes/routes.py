@@ -383,7 +383,7 @@ def getPredDataDaily():
         # Predicted data not found or incomplete, create an array of zeros for each hour
         if (len(formatted_data_pred['data_pred'])) < 24:
             for i in range((len(formatted_data_pred['data_pred'])), 24):
-                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
+                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
 
         predicted_data = formatted_data_pred
 
@@ -606,7 +606,7 @@ def getPredDataDaily1():
         # Predicted data not found or incomplete, create an array of zeros for each hour
         if (len(formatted_data_pred['data_pred'])) < 24:
             for i in range((len(formatted_data_pred['data_pred'])), 24):
-                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
+                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
 
         predicted_data = formatted_data_pred
 
@@ -713,7 +713,7 @@ def getPredDataDaily2():
         # Predicted data not found or incomplete, create an array of zeros for each hour
         if (len(formatted_data_pred['data_pred'])) < 24:
             for i in range((len(formatted_data_pred['data_pred'])), 24):
-                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
+                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
 
         predicted_data = formatted_data_pred
 
@@ -820,7 +820,7 @@ def getPredDataDaily4():
         # Predicted data not found or incomplete, create an array of zeros for each hour
         if (len(formatted_data_pred['data_pred'])) < 24:
             for i in range((len(formatted_data_pred['data_pred'])), 24):
-                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
+                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
 
         predicted_data = formatted_data_pred
 
