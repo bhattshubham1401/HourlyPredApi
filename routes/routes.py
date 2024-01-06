@@ -688,7 +688,7 @@ def getPredDataDaily2():
 
 
 @router.route('/getPredDataDaily3', methods=['GET'])
-def getPredDataDaily4():
+def getPredDataDaily3():
     try:
         # Access parameters from the query string
         todo_id = request.args.get('id')
