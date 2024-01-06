@@ -5,9 +5,9 @@ host = "localhost"
 port = 27017
 db = "pvvnl"
 collection = "predictTest"
-collection1 = "prediction_h"
-collection2 =  "predict"
-collection3 =  "forcast"
+collection1 = "forcast"
+collection2 =  "prediction_h"
+collection3 =  "predict"
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)

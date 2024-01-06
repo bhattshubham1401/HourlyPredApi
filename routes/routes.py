@@ -9,53 +9,6 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-
-# GET request
-@router.route('/getPredData', methods=['GET'])
-def get_todos():
-    try:
-        # Access parameters from the query string
-        todo_id = request.args.get('id')
-        date = request.args.get('date')
-
-        # Concatenate todo_id and date to create a new identifier
-        id = todo_id + "_" + date
-        query = {'_id': id}
-
-        # Check if actual data exists
-        todos_act = list(collection_name1.find(query, {'_id': 0, 'data': 1}))
-        if not todos_act:
-            # Actual data not found, create an array of zeros for each hour
-            actual_data = {"data_act": [{"act_kwh": 0.0} for _ in range(24)]}
-        else:
-            # Actual data found, extract values from the data
-            formatted_data_act = {"data_act": []}
-            for key, value in todos_act[0]["data"].items():
-                formatted_data_act["data_act"].append({"act_kwh": value["act_kwh"]})
-            actual_data = formatted_data_act
-
-        # Check if predicted data exists
-        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-        if not todos_pred:
-            # Predicted data not found, create an array of zeros for each hour
-            predicted_data = {"data_pred": [{"pre_kwh": 0.0} for _ in range(24)]}
-        else:
-            # Predicted data found, extract values from the data
-            formatted_data_pred = {"data_pred": []}
-            for key, value in todos_pred[0]["data"].items():
-                formatted_data_pred["data_pred"].append({"pre_kwh": value["pre_kwh"]})
-
-            predicted_data = formatted_data_pred
-
-        # Combine actual and predicted data into a single dictionary
-        response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
-
-        return {"rc": 0, "message": "Success", "data": response_data}
-
-    except Exception as e:
-        return {"error": str(e)}
-
-
 @router.route('/get_sensorList', methods=['GET'])
 def get_sensorList():
     try:
