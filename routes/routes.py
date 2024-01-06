@@ -2,7 +2,7 @@ from calendar import monthrange
 
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name3
+from config.db import collection_name, collection_name1, collection_name2, collection_name3
 
 router = Blueprint('router', __name__)
 import requests
