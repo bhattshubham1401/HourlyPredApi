@@ -4,10 +4,11 @@ from pymongo.mongo_client import MongoClient
 host = "localhost"
 port = 27017
 db = "pvvnl"
-collection = "predictTest"
-collection1 = "forcast"
-collection2 = "prediction_h"
-collection3 = "predict"
+
+collection = "forcast"
+collection1 = "forcast1"
+collection2 = "forcast2"
+collection3 = "forcast3"
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
@@ -15,7 +16,7 @@ client = MongoClient(MONGO_URL)
 db1 = client[db]
 '''
 collection is for condition including holidays and weather data 
-collection1 is for condition without holiday and weather
+collection1 is for condition without holiday 
 collection2 is for condition with simple load profile data
 collection3 is for condition including holidays, weather data also make stationary and correlation` 
 '''
