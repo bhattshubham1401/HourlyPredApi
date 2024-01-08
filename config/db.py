@@ -16,9 +16,9 @@ client = MongoClient(MONGO_URL)
 db1 = client[db]
 '''
 collection is for condition including holidays and weather data 
-collection1 is for condition without holiday 
-collection2 is for condition with simple load profile data
-collection3 is for condition including holidays, weather data also make stationary and correlation` 
+collection1 is for condition with simple load profile data.  
+collection2 is for condition with including holidays, weather data also make stationary and correlation` 
+collection3 is for condition 
 '''
 collection_name = db1[collection]
 collection_name1 = db1[collection1]

@@ -431,7 +431,7 @@ def getPredDataMonthly():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name2.find(query, {'_id': 1, 'data': 1}))
+        todos_pred = list(collection_name1.find(query, {'_id': 1, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred)) != 0:
             # Predicted data found, extract values from the data
