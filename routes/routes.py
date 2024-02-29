@@ -9,29 +9,47 @@ import requests
 import pandas as pd
 from datetime import datetime
 
+
+
 @router.route('/get_sensorList', methods=['GET'])
 def get_sensorList():
     try:
-        sensor_ids = ['5f718b613291c7.03696209',
-                      '5f718c439c7a78.65267835',
-                      '614366bce31a86.78825897',
-                      '6148740eea9db0.29702291',
-                      '625fb44c5fb514.98107900',
-                      '625fb9e020ff31.33961816',
-                      '6260fd4351f892.69790282',
-                      '627cd4815f2381.31981050',
-                      '629094ee5fdff4.43505210',
-                      '62aad7f5c65185.80723547',
-                      '62b15dfee341d1.73837476',
-                      '62b595eabd9df4.71374208',
-                      '6349368c306542.16235883',
-                      '634e7c43038801.39310596',
-                      '6399a18b1488b8.07706749',
-                      '63a4195534d625.00718490',
-                      '63a4272631f153.67811394',
-                      '63aa9161b9e7e1.16208626',
-                      '63ca403ccd66f3.47133508',
-                      '62a9920f75c931.62399458']
+        # sensor_ids = ['5f718b613291c7.03696209',
+        #               '5f718c439c7a78.65267835',
+        #               '614366bce31a86.78825897',
+        #               '6148740eea9db0.29702291',
+        #               '625fb44c5fb514.98107900',
+        #               '625fb9e020ff31.33961816',
+        #               '6260fd4351f892.69790282',
+        #               '627cd4815f2381.31981050',
+        #               '629094ee5fdff4.43505210',
+        #               '62aad7f5c65185.80723547',
+        #               '62b15dfee341d1.73837476',
+        #               '62b595eabd9df4.71374208',
+        #               '6349368c306542.16235883',
+        #               '634e7c43038801.39310596',
+        #               '6399a18b1488b8.07706749',
+        #               '63a4195534d625.00718490',
+        #               '63a4272631f153.67811394',
+        #               '63aa9161b9e7e1.16208626',
+        #               '63ca403ccd66f3.47133508',
+        #               '62a9920f75c931.62399458']
+        sensor_ids = [
+            # '5f718b613291c7.03696209',
+            '5f718c439c7a78.65267835',
+            '6148740eea9db0.29702291',
+            '625fb44c5fb514.98107900',
+            '625fb9e020ff31.33961816',
+            '6260fd4351f892.69790282',
+            '627cd4815f2381.31981050',
+            '629094ee5fdff4.43505210',
+            '62b15dfee341d1.73837476',
+            '634e7c43038801.39310596',
+            '6399a18b1488b8.07706749',
+            '63a4195534d625.00718490',
+            '63a4272631f153.67811394',
+            '62a9920f75c931.62399458'
+        ]
 
         url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
@@ -370,6 +388,7 @@ def getPredDataMonthly():
         last_day = day[1]
 
         query = {"sensor_id": todo_id, "month": str(month), "year": str(year)}
+        print(query)
 
         l1 = []
         url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
@@ -432,6 +451,7 @@ def getPredDataMonthly():
 
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 1, 'data': 1}))
+        print(todos_pred)
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred)) != 0:
             # Predicted data found, extract values from the data
