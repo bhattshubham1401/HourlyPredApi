@@ -61,6 +61,7 @@ def get_sensorList():
         }
 
         response = requests.get(url, params=params)
+        print(response)
         response.raise_for_status()
         data = response.json()
         sensor_list = [{'uuid': item['uuid'], 'sensorName': item['sensorName'], "UOM": item['uom']} for item in
