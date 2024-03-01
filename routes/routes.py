@@ -59,6 +59,7 @@ def get_sensorList():
 
             'type': 'query'
         }
+        print(params)
 
         response = requests.get(url, params=params)
         print(response)
@@ -70,7 +71,7 @@ def get_sensorList():
 
     except Exception as e:
         print(e)
-        return jsonify({"rc": -1, "message": "error"}), 500
+        return jsonify({"rc": -1, "message": "errorsssssssss"}), 500
 
 
 @router.route('/getPredDataHourly', methods=['GET'])
