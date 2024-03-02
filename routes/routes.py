@@ -51,7 +51,7 @@ def get_sensorList():
         #     '62a9920f75c931.62399458'
         # ]
 
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
 
             'sql': "SELECT id AS uuid, name AS sensorName, CASE WHEN grid_billing_type IS NOT NULL THEN grid_billing_type ELSE 'UOM' END AS uom FROM sensor WHERE id IN ({}) ORDER BY name".format(
@@ -59,10 +59,8 @@ def get_sensorList():
 
             'type': 'query'
         }
-        print(params)
 
         response = requests.get(url, params=params)
-        print(response)
         response.raise_for_status()
         data = response.json()
         sensor_list = [{'uuid': item['uuid'], 'sensorName': item['sensorName'], "UOM": item['uom']} for item in
@@ -71,7 +69,7 @@ def get_sensorList():
 
     except Exception as e:
         print(e)
-        return jsonify({"rc": -1, "message": "errorsssssssss"}), 500
+        return jsonify({"rc": -1, "message": "error"}), 500
 
 
 @router.route('/getPredDataHourly', methods=['GET'])
