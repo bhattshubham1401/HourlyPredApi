@@ -85,7 +85,7 @@ def getPredDataHourly():
 
         # Check if actual data exists
         l1 = []
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
             'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
             .format(todo_id, date),
@@ -284,7 +284,7 @@ def getPredDataDaily():
 
         # Check if actual data exists
         l1 = []
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
             'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
             .format(todo_id, date),
@@ -391,7 +391,7 @@ def getPredDataMonthly():
         print(query)
 
         l1 = []
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
             'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and month(read_time)='{}' and year(read_time)='{}' order by read_time"
             .format(todo_id, month, year),
@@ -509,7 +509,7 @@ def getPredDataDaily1():
 
         # Check if actual data exists
         l1 = []
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
             'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
             .format(todo_id, date),
@@ -616,7 +616,7 @@ def getPredDataDaily2():
 
         # Check if actual data exists
         l1 = []
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
             'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
             .format(todo_id, date),
@@ -723,7 +723,7 @@ def getPredDataDaily3():
 
         # Check if actual data exists
         l1 = []
-        url = "https://multipoint.myxenius.com/Sensor_newHelper/getDataApi"
+        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
             'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
             .format(todo_id, date),
