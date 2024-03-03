@@ -300,16 +300,11 @@ def getPredDataDaily():
         try:
             documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
             for document in documents:
-                print(document)
-
-                l1.append(document['resource'])
-            # for document in l1:
-            #     if 'sensor_id' in document:
-            #         print(document['sensor_id'])
-            #     else:
-            #         print("Error: 'sensor_id' field not found in document")
+                l1.append(document)
         except Exception as e:
             print("Error occurred while fetching documents:", e)
+
+        print(l1)
 
 
         # for document in documents:
