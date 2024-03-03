@@ -271,6 +271,7 @@ def getPredDataHourly():
 @router.route('/getPredDataDaily', methods=['GET'])
 def getPredDataDaily():
     try:
+        l1 = []
         # Access parameters from the query string
         todo_id = request.args.get('id')
         date = request.args.get('date')
@@ -294,18 +295,30 @@ def getPredDataDaily():
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
         print(act_data)
-        l1 = []
 
-        # Check if actual data exists
-        try:
-            doc = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+        documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+        for document in documents:
+            l1.append(document)
+        print("Documents found:", len(l1))  # Print number of documents found
 
-            for data in doc:
-                print(data)
-                l1.append(data)
-            print("Documents found:", len(l1))  # Print number of documents found
-        except Exception as e:
-            print("Error occurred while fetching documents:", e)
+        # Move the subsequent processing inside the try block to ensure it's executed only if no error occurs
+        columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+                   'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+                   'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+
+        datalist = [(entry['sensor_id'], entry['raw_data']) for entry in l1]
+        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+
+        # # Check if actual data exists
+        # try:
+        #     doc = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+        #
+        #     for data in doc:
+        #         print(data)
+        #         l1.append(data)
+        #     print("Documents found:", len(l1))  # Print number of documents found
+        # except Exception as e:
+        #     print("Error occurred while fetching documents:", e)
 
         # for document in documents:
         #     # print()
@@ -324,13 +337,13 @@ def getPredDataDaily():
         # data = todos_act.json()
         # l1.append(data['resource'])
 
-        columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
-                   'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
-                   'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
-
-        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+        #            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+        #            'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+        #
+        # # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
 
         df = df.drop([
             'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
