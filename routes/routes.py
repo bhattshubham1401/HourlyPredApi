@@ -297,6 +297,7 @@ def getPredDataDaily():
             doc = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
 
             for data in doc:
+                print(data)
                 l1.append(data)
             print("Documents found:", len(l1))  # Print number of documents found
         except Exception as e:
