@@ -284,6 +284,8 @@ def getPredDataDaily():
 
         start_date = f"{int(month_from_date)} 00:00:00"
         end_date = f"{int(month_from_date)} 23:59:59"
+        print(start_date)
+        print(end_date)
 
         act_data = {
             "sensor_id": id,
@@ -294,7 +296,7 @@ def getPredDataDaily():
         # Check if actual data exists
         l1 = []
         documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
-        print(documents)
+
 
         for document in documents:
             l1.append(document['resource'])
