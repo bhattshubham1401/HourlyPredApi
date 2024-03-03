@@ -301,6 +301,11 @@ def getPredDataDaily():
             documents = collection4.find(act_data)
             for document in documents:
                 l1.append(document)
+            for document in l1:
+                if 'sensor_id' in document:
+                    print(document['sensor_id'])
+                else:
+                    print("Error: 'sensor_id' field not found in document")
         except Exception as e:
             print("Error occurred while fetching documents:", e)
 
