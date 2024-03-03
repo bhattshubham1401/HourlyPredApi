@@ -289,8 +289,8 @@ def getPredDataDaily():
         print(type(start_date))
         print("===============================")
         act_data = {
-            "sensor_id": todo_id,
-            "read_time": {"$gte": start_date, "$lt": end_date}
+            "sensor_id": todo_id
+            # "read_time": {"$gte": start_date, "$lt": end_date}
         }
         print(act_data)
 
