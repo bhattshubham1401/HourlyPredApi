@@ -9,6 +9,7 @@ collection = "forcast"
 collection1 = "forcast1"
 collection2 = "forcast2"
 collection3 = "forcast3"
+collection4 = "dlms"
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
