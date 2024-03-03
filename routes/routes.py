@@ -280,119 +280,115 @@ def getPredDataDaily():
 
         # Concatenate todo_id and date to create a new identifier
         id = todo_id + "_" + date
-        print(type(id))
         query = {'_id': id}
 
-        # start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        # end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        start_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        print("===============================")
-        print(type(start_date))
-        print("===============================")
+
         act_data = {
             "sensor_id": todo_id,
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
-        print(act_data)
+        # print(act_data)
 
         # Check if actual data exists
         l1 = []
-        # todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-        documents = list(collection4.find(act_data, {'_id': 0, 'raw_data': 1, 'sensor_id': 1, 'read_time': 1}))
+        documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
         # print(documents)
 
         for document in documents:
-            print(document)
+            # print()
             l1.append(document['resource'])
-        #
-        # # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
-        # # params = {
-        # #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
-        # #     .format(todo_id, date),
-        # #     'type': 'query'
-        # # }
-        # # todos_act = requests.get(url, params=params)
-        # # todos_act.raise_for_status()
-        # # data = todos_act.json()
-        # # l1.append(data['resource'])
-        #
-        # columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
-        #            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
-        #            'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
-        #
-        # # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        # datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
-        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
-        #
-        # df = df.drop([
-        #     'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
-        #     'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
-        #     'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp'], axis=1)
-        # pd.set_option('display.max_columns', None)
-        # df['Clock'] = pd.to_datetime(df['Clock'])
-        # df['Kwh'] = df['Kwh'].astype(float)
-        # df['Kwh'] = (df['Kwh'] / 1000)
-        # df.set_index(["Clock"], inplace=True, drop=True)
-        # df1 = (df[['Kwh']].resample(rule="1H").sum()).round(2)
-        #
-        # percent = 0.0
-        # act_daily_sum, actual_max_hour, actual_max_value = 0.0, "00", 0.0
-        # pred_daily_sum, pred_max_hour, pred_max_value = 0.0, "00", 0.0
-        #
-        # # actual data  storing
-        # formatted_data_act = {"data_act": []}
-        # if df1.empty is False:
-        #     act_hour_counter = 0
-        #     for value in df1["Kwh"]:
-        #         formatted_data_act["data_act"].append({"clock": str(act_hour_counter).zfill(2), "act_kwh": value})
-        #         act_daily_sum += value
-        #         act_hour_counter += 1
-        #     max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
-        #     actual_max_hour = str(max_value_dict['clock']).zfill(2)
-        #     actual_max_value = round(max_value_dict['act_kwh'], 2)
-        #
-        # if (len(formatted_data_act['data_act'])) < 24:
-        #     for i in range((len(formatted_data_act['data_act'])), 24):
-        #         formatted_data_act["data_act"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
-        #
-        # actual_data = formatted_data_act
-        #
-        # # Check if predicted data exists
-        # todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-        # formatted_data_pred = {"data_pred": []}
-        # if (len(todos_pred) != 0):
-        #     # Predicted data found, extract values from the data
-        #     pred_hour_counter = 0
-        #     for key, value in todos_pred[0]["data"].items():
-        #         formatted_data_pred["data_pred"].append(
-        #             {"clock": str(pred_hour_counter).zfill(2), "pre_kwh": round(value["pre_kwh"], 2)})
-        #         pred_daily_sum += (value["pre_kwh"])
-        #         pred_hour_counter += 1
-        #
-        #     max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
-        #     pred_max_hour = str(max_value_dict['clock']).zfill(2)
-        #     pred_max_value = round(max_value_dict['pre_kwh'], 2)
-        #
-        # # Predicted data not found or incomplete, create an array of zeros for each hour
-        # if (len(formatted_data_pred['data_pred'])) < 24:
-        #     for i in range((len(formatted_data_pred['data_pred'])), 24):
-        #         formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
-        #
-        # predicted_data = formatted_data_pred
-        #
-        # if ((month_from_date) != (month_today)) & (act_daily_sum != 0):
-        #     percent = round(abs(((act_daily_sum - pred_daily_sum) / act_daily_sum) * 100), 2)
-        #
-        # # Combine actual and predicted data into a single dictionary
-        # response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
-        #
-        # return {"rc": 0, "message": "Success",
-        #         "actual_daily_sum": round(act_daily_sum, 2), "pred_daily_sum": round(pred_daily_sum, 2),
-        #         "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
-        #         "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
-        #         "data": response_data,
-        #         "percentage": percent}
+        print("helkl")
+        print(l1)
+
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+
+        columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+                   'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+                   'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
+        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+
+        df = df.drop([
+            'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+            'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp'], axis=1)
+        pd.set_option('display.max_columns', None)
+        df['Clock'] = pd.to_datetime(df['Clock'])
+        df['Kwh'] = df['Kwh'].astype(float)
+        df['Kwh'] = (df['Kwh'] / 1000)
+        df.set_index(["Clock"], inplace=True, drop=True)
+        df1 = (df[['Kwh']].resample(rule="1H").sum()).round(2)
+
+        percent = 0.0
+        act_daily_sum, actual_max_hour, actual_max_value = 0.0, "00", 0.0
+        pred_daily_sum, pred_max_hour, pred_max_value = 0.0, "00", 0.0
+
+        # actual data  storing
+        formatted_data_act = {"data_act": []}
+        if df1.empty is False:
+            act_hour_counter = 0
+            for value in df1["Kwh"]:
+                formatted_data_act["data_act"].append({"clock": str(act_hour_counter).zfill(2), "act_kwh": value})
+                act_daily_sum += value
+                act_hour_counter += 1
+            max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
+            actual_max_hour = str(max_value_dict['clock']).zfill(2)
+            actual_max_value = round(max_value_dict['act_kwh'], 2)
+
+        if (len(formatted_data_act['data_act'])) < 24:
+            for i in range((len(formatted_data_act['data_act'])), 24):
+                formatted_data_act["data_act"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
+
+        actual_data = formatted_data_act
+
+        # Check if predicted data exists
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        formatted_data_pred = {"data_pred": []}
+        if (len(todos_pred) != 0):
+            # Predicted data found, extract values from the data
+            pred_hour_counter = 0
+            for key, value in todos_pred[0]["data"].items():
+                formatted_data_pred["data_pred"].append(
+                    {"clock": str(pred_hour_counter).zfill(2), "pre_kwh": round(value["pre_kwh"], 2)})
+                pred_daily_sum += (value["pre_kwh"])
+                pred_hour_counter += 1
+
+            max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
+            pred_max_hour = str(max_value_dict['clock']).zfill(2)
+            pred_max_value = round(max_value_dict['pre_kwh'], 2)
+
+        # Predicted data not found or incomplete, create an array of zeros for each hour
+        if (len(formatted_data_pred['data_pred'])) < 24:
+            for i in range((len(formatted_data_pred['data_pred'])), 24):
+                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
+
+        predicted_data = formatted_data_pred
+
+        if ((month_from_date) != (month_today)) & (act_daily_sum != 0):
+            percent = round(abs(((act_daily_sum - pred_daily_sum) / act_daily_sum) * 100), 2)
+
+        # Combine actual and predicted data into a single dictionary
+        response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
+
+        return {"rc": 0, "message": "Success",
+                "actual_daily_sum": round(act_daily_sum, 2), "pred_daily_sum": round(pred_daily_sum, 2),
+                "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
+                "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
+                "data": response_data,
+                "percentage": percent}
 
     except Exception as e:
         return {"error": str(e)}
