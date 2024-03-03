@@ -276,17 +276,16 @@ def getPredDataDaily():
         date = request.args.get('date')
 
         month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
-        print(type(month_from_date))
         month_today = (datetime.now()).month
 
         # Concatenate todo_id and date to create a new identifier
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = str(month_from_date) + " 00:00:00"
-        end_date = str(month_from_date) + " 23:59:59"
-        print(start_date)
-        print(end_date)
+        start_date = date + " 00:00:00"
+        end_date = date + " 23:59:59"
+        # print(start_date)
+        # print(end_date)
 
         act_data = {
             "sensor_id": id,
