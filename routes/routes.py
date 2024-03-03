@@ -283,13 +283,15 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S")
-        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S")
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        # start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
+        # end_date_str = end_date.strftime("%Y-%m-%d %H:%M:%S")
 
         # print(end_date)
 
         act_data = {
-            "sensor_id": id,
+            "sensor_id": todo_id,
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
         print(act_data)
