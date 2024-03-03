@@ -290,11 +290,12 @@ def getPredDataDaily():
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
         # print(act_data)
+        l1 = []
 
         # Check if actual data exists
         try:
             doc = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
-            l1 = []  # Initialize l1 list here
+
             for data in doc:
                 l1.append(data)
             print("Documents found:", len(l1))  # Print number of documents found
