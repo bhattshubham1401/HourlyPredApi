@@ -274,7 +274,6 @@ def getPredDataDaily():
         # Access parameters from the query string
         todo_id = request.args.get('id')
         date = request.args.get('date')
-        print(type(date))
 
         month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
         month_today = (datetime.now()).month
@@ -285,10 +284,6 @@ def getPredDataDaily():
 
         start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        # start_date_str = start_date.strftime("%Y-%m-%d %H:%M:%S")
-        # end_date_str = end_date.strftime("%Y-%m-%d %H:%M:%S")
-
-        # print(end_date)
 
         act_data = {
             "sensor_id": todo_id,
@@ -296,15 +291,13 @@ def getPredDataDaily():
         }
         print(act_data)
 
-
         # Check if actual data exists
         l1 = []
+        print(collection4)
         documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
         print(documents)
 
-
         for document in documents:
-            # print()
             l1.append(document['resource'])
 
         # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
