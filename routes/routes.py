@@ -298,7 +298,7 @@ def getPredDataDaily():
 
         # Check if actual data exists
         try:
-            documents = collection4.find(act_data)
+            documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
             for document in documents:
                 l1.append(document)
             for document in l1:
