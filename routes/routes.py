@@ -284,12 +284,16 @@ def getPredDataDaily():
 
         start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        print(start_date)
+        print(type(start_date))
+        print(end_date)
+        print(type(end_date))
 
         act_data = {
             "sensor_id": todo_id,
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
-        # print(act_data)
+        print(act_data)
         l1 = []
 
         # Check if actual data exists
