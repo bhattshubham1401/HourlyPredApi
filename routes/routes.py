@@ -2,7 +2,7 @@ from calendar import monthrange
 
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name2, collection_name3
+from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection4
 
 router = Blueprint('router', __name__)
 import requests
@@ -284,22 +284,27 @@ def getPredDataDaily():
 
         # Check if actual data exists
         l1 = []
-        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
-        params = {
-            'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
-            .format(todo_id, date),
-            'type': 'query'
-        }
-        todos_act = requests.get(url, params=params)
-        todos_act.raise_for_status()
-        data = todos_act.json()
-        l1.append(data['resource'])
+        documents = collection4.find(query)
+        for document in documents:
+            l1.append(document['resource'])
+
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
         df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
 
         df = df.drop([
@@ -812,3 +817,10 @@ def getPredDataDaily3():
 
     except Exception as e:
         return {"error": str(e)}
+
+
+def get_mongo_data():
+    try:
+        pass
+    except Exception as e:
+        print(e)
