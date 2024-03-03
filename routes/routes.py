@@ -282,8 +282,8 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        start_date = datetime.strptime("2024-01-11 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime("2024-01-11 23:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         print(start_date)
         print(type(start_date))
         print(end_date)
