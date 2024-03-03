@@ -274,6 +274,7 @@ def getPredDataDaily():
         # Access parameters from the query string
         todo_id = request.args.get('id')
         date = request.args.get('date')
+        print(type(date))
 
         month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
         month_today = (datetime.now()).month
@@ -282,9 +283,9 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = date + " 00:00:00"
-        end_date = date + " 23:59:59"
-        # print(start_date)
+        start_date = str(date) + " 00:00:00"
+        end_date = str(date) + " 23:59:59"
+
         # print(end_date)
 
         act_data = {
