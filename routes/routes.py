@@ -298,9 +298,9 @@ def getPredDataDaily():
 
         # Check if actual data exists
         try:
-            doc = list(collection4.find(act_data))
-            print(doc)
-            # print("Documents found:", len(l1))  # Print number of documents found
+            cursor = collection4.find(act_data)
+            for doc in cursor:
+                print(doc)
         except Exception as e:
             print("Error occurred while fetching documents:", e)
 
