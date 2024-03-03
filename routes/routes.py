@@ -282,10 +282,20 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
+        start_date = f"{month_from_date} 00:00:00"
+        end_date = f"{month_from_date} 23:59:59"
+
+        act_data = {
+            "sensor_id": id,
+            "read_time": {"$gte": start_date, "$lt": end_date}
+        }
+
+
         # Check if actual data exists
         l1 = []
-        documents = collection4.find(query)
+        documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
         for document in documents:
+            print(document)
             l1.append(document['resource'])
 
         # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
