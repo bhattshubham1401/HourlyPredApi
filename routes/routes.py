@@ -298,11 +298,8 @@ def getPredDataDaily():
 
         # Check if actual data exists
         try:
-            doc = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
-
-            for data in doc:
-                print(data)
-                l1.append(data)
+            doc = list(collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1}))
+            print(doc)
             print("Documents found:", len(l1))  # Print number of documents found
         except Exception as e:
             print("Error occurred while fetching documents:", e)
@@ -367,7 +364,7 @@ def getPredDataDaily():
 
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
-        print(todos_pred)
+
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
             # Predicted data found, extract values from the data
