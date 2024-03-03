@@ -293,7 +293,8 @@ def getPredDataDaily():
 
         # Check if actual data exists
         l1 = []
-        documents = collection4.find(act_data)
+        documents = collection4.find({'sensor_id': '634e7c43038801.39310596', 'read_time': {'$gte': '2024-02-13 00:00:00', '$lt': '2024-02-13 23:59:59'}},{"raw_data": 1, "sensor_id": 1, "read_time": 1})
+        # documents = collection4.find(act_data, {"_id": 0, "raw_data": 1, "sensor_id": 1, "read_time": 1})
         print(documents)
 
         for document in documents:
