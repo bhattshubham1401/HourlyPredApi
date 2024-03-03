@@ -292,6 +292,7 @@ def getPredDataDaily():
             "sensor_id": id,
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
+        print(act_data)
 
 
         # Check if actual data exists
