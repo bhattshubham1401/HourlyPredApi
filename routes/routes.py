@@ -292,15 +292,14 @@ def getPredDataDaily():
         # print(act_data)
 
         # Check if actual data exists
-        l1 = []
         try:
             documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+            l1 = []  # Initialize l1 list here
             for document in documents:
                 l1.append(document)
             print("Documents found:", len(l1))  # Print number of documents found
         except Exception as e:
             print("Error occurred while fetching documents:", e)
-        # print(documents)
 
         for document in documents:
             # print()
