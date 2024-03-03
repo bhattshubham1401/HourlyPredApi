@@ -300,9 +300,11 @@ def getPredDataDaily():
         # Check if actual data exists
         l1 = []
         documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+        print(documents)
 
 
         for document in documents:
+            # print()
             l1.append(document['resource'])
 
         # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
