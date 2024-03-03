@@ -282,8 +282,8 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = f"{int(month_from_date)} 00:00:00"
-        end_date = f"{int(month_from_date)} 23:59:59"
+        start_date = month_from_date + " 00:00:00"
+        end_date = month_from_date + " 23:59:59"
         print(start_date)
         print(end_date)
 
