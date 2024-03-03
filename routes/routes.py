@@ -283,8 +283,8 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = str(date) + " 00:00:00"
-        end_date = str(date) + " 23:59:59"
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S")
 
         # print(end_date)
 
