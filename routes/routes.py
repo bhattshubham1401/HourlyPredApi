@@ -304,7 +304,6 @@ def getPredDataDaily():
         except Exception as e:
             print("Error occurred while fetching documents:", e)
 
-        return
 
         # for document in documents:
         #     # print()
