@@ -2,7 +2,7 @@ from calendar import monthrange
 
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection4
+from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4
 
 router = Blueprint('router', __name__)
 import requests
@@ -282,8 +282,8 @@ def getPredDataDaily():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = datetime.strptime("2024-01-11 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        end_date = datetime.strptime("2024-01-11 23:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         print(start_date)
         print(type(start_date))
         print(end_date)
@@ -298,11 +298,11 @@ def getPredDataDaily():
 
         # Check if actual data exists
         try:
-            documents = collection4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
             for document in documents:
-                print(document[0])
+                print(document)
 
-                # l1.append(document)
+                l1.append(document['resource'])
             # for document in l1:
             #     if 'sensor_id' in document:
             #         print(document['sensor_id'])
