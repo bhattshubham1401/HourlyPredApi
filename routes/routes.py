@@ -298,12 +298,28 @@ def getPredDataDaily():
         l1 = []
 
         # Check if actual data exists
-        try:
-            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
-            for document in documents:
-                l1.append(document)
-        except Exception as e:
-            print("Error occurred while fetching documents:", e)
+        # try:
+        #     documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
+        #     for document in documents:
+        #         l1.append(document)
+        # except Exception as e:
+        #     print("Error occurred while fetching documents:", e)
+
+        # Initialize empty lists to store extracted data
+        sensor_ids = []
+        raw_data = []
+
+        # Iterate over each dictionary in the list and extract 'sensor_id' and 'raw_data'
+        for entry in l1:
+            sensor_ids.append(entry['sensor_id'])
+            raw_data.append(entry['raw_data'])
+
+        # Create DataFrame using the extracted data
+        df = pd.DataFrame({'sensor_id': sensor_ids, 'raw_data': raw_data})
+
+        # Print the DataFrame
+        print(df)
+        print("hello")
 
         # for document in documents:
         #     # print()
@@ -321,7 +337,7 @@ def getPredDataDaily():
         # todos_act.raise_for_status()
         # data = todos_act.json()
         # l1.append(data['resource'])
-        print(l1[0])
+        # print(l1[0])
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
