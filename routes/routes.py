@@ -291,14 +291,7 @@ def getPredDataDaily():
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
         l1 = []
-        # Check if actual data exists
-        try:
-            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
-            for document in documents:
-                l1.append(document)
-        except Exception as e:
-            print("Error occurred while fetching documents:", e)
-
+        # Check if actual data exist
         # for document in documents:
         #     # print()
         #     l1.append(document['resource'])
@@ -315,27 +308,24 @@ def getPredDataDaily():
         # todos_act.raise_for_status()
         # data = todos_act.json()
         # l1.append(data['resource'])
-        # print(l1[0])
-        # for entry in l1:
-        #     print(entry)
-        print(type(l1))
+        try:
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
+            for document in documents:
+                l1.append(document)
+        except Exception as e:
+            print("Error occurred while fetching documents:", e)
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
-        # print()
 
         # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        # datalist = [{'sensor_id': entry['sensor_id'], 'raw_data': entry['raw_data']} for entry in l1]
-        # print(datalist)
-
         # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
         datalist = [{'sensor': entry['sensor_id'], **dict(zip(columns[1:], entry['raw_data'].split(',')))} for entry in
                     l1]
 
         # Create DataFrame using the list of dictionaries and set columns
         df = pd.DataFrame(datalist, columns=columns)
-        print(df)
 
         df = df.drop([
             'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
@@ -533,6 +523,36 @@ def getPredDataMonthly():
 def getPredDataDaily1():
     try:
         # Access parameters from the query string
+        # todo_id = request.args.get('id')
+        # date = request.args.get('date')
+        #
+        # month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
+        # month_today = (datetime.now()).month
+        #
+        # # Concatenate todo_id and date to create a new identifier
+        # id = todo_id + "_" + date
+        # query = {'_id': id}
+        #
+        # # Check if actual data exists
+        # l1 = []
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+
+        # columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+        #            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+        #            'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+        #
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # Access parameters from the query string
         todo_id = request.args.get('id')
         date = request.args.get('date')
 
@@ -543,25 +563,49 @@ def getPredDataDaily1():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        # Check if actual data exists
-        l1 = []
-        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
-        params = {
-            'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
-            .format(todo_id, date),
-            'type': 'query'
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+
+        act_data = {
+            "sensor_id": todo_id,
+            "read_time": {"$gte": start_date, "$lt": end_date}
         }
-        todos_act = requests.get(url, params=params)
-        todos_act.raise_for_status()
-        data = todos_act.json()
-        l1.append(data['resource'])
+        l1 = []
+        # Check if actual data exist
+        # for document in documents:
+        #     # print()
+        #     l1.append(document['resource'])
+        # print("helkl")
+        # print(l1)
+
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+        try:
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+            for document in documents:
+                l1.append(document)
+        except Exception as e:
+            print("Error occurred while fetching documents:", e)
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        datalist = [{'sensor': entry['sensor_id'], **dict(zip(columns[1:], entry['raw_data'].split(',')))} for entry in
+                    l1]
+
+        # Create DataFrame using the list of dictionaries and set columns
+        df = pd.DataFrame(datalist, columns=columns)
 
         df = df.drop([
             'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
@@ -639,6 +683,36 @@ def getPredDataDaily1():
 @router.route('/getPredDataDaily2', methods=['GET'])
 def getPredDataDaily2():
     try:
+        # # Access parameters from the query string
+        # todo_id = request.args.get('id')
+        # date = request.args.get('date')
+        #
+        # month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
+        # month_today = (datetime.now()).month
+        #
+        # # Concatenate todo_id and date to create a new identifier
+        # id = todo_id + "_" + date
+        # query = {'_id': id}
+        #
+        # # Check if actual data exists
+        # l1 = []
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+        #
+        # columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+        #            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+        #            'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+        #
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
         # Access parameters from the query string
         todo_id = request.args.get('id')
         date = request.args.get('date')
@@ -650,25 +724,49 @@ def getPredDataDaily2():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        # Check if actual data exists
-        l1 = []
-        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
-        params = {
-            'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
-            .format(todo_id, date),
-            'type': 'query'
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+
+        act_data = {
+            "sensor_id": todo_id,
+            "read_time": {"$gte": start_date, "$lt": end_date}
         }
-        todos_act = requests.get(url, params=params)
-        todos_act.raise_for_status()
-        data = todos_act.json()
-        l1.append(data['resource'])
+        l1 = []
+        # Check if actual data exist
+        # for document in documents:
+        #     # print()
+        #     l1.append(document['resource'])
+        # print("helkl")
+        # print(l1)
+
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+        try:
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+            for document in documents:
+                l1.append(document)
+        except Exception as e:
+            print("Error occurred while fetching documents:", e)
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        datalist = [{'sensor': entry['sensor_id'], **dict(zip(columns[1:], entry['raw_data'].split(',')))} for entry in
+                    l1]
+
+        # Create DataFrame using the list of dictionaries and set columns
+        df = pd.DataFrame(datalist, columns=columns)
 
         df = df.drop([
             'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
@@ -747,6 +845,36 @@ def getPredDataDaily2():
 def getPredDataDaily3():
     try:
         # Access parameters from the query string
+        # todo_id = request.args.get('id')
+        # date = request.args.get('date')
+        #
+        # month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
+        # month_today = (datetime.now()).month
+        #
+        # # Concatenate todo_id and date to create a new identifier
+        # id = todo_id + "_" + date
+        # query = {'_id': id}
+        #
+        # # Check if actual data exists
+        # l1 = []
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+        #
+        # columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
+        #            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
+        #            'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+        #
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # Access parameters from the query string
         todo_id = request.args.get('id')
         date = request.args.get('date')
 
@@ -757,25 +885,49 @@ def getPredDataDaily3():
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        # Check if actual data exists
-        l1 = []
-        url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
-        params = {
-            'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
-            .format(todo_id, date),
-            'type': 'query'
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+
+        act_data = {
+            "sensor_id": todo_id,
+            "read_time": {"$gte": start_date, "$lt": end_date}
         }
-        todos_act = requests.get(url, params=params)
-        todos_act.raise_for_status()
-        data = todos_act.json()
-        l1.append(data['resource'])
+        l1 = []
+        # Check if actual data exist
+        # for document in documents:
+        #     # print()
+        #     l1.append(document['resource'])
+        # print("helkl")
+        # print(l1)
+
+        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
+        # params = {
+        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and date(read_time)='{}' order by read_time"
+        #     .format(todo_id, date),
+        #     'type': 'query'
+        # }
+        # todos_act = requests.get(url, params=params)
+        # todos_act.raise_for_status()
+        # data = todos_act.json()
+        # l1.append(data['resource'])
+        try:
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+            for document in documents:
+                l1.append(document)
+        except Exception as e:
+            print("Error occurred while fetching documents:", e)
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        datalist = [{'sensor': entry['sensor_id'], **dict(zip(columns[1:], entry['raw_data'].split(',')))} for entry in
+                    l1]
+
+        # Create DataFrame using the list of dictionaries and set columns
+        df = pd.DataFrame(datalist, columns=columns)
 
         df = df.drop([
             'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
@@ -849,9 +1001,3 @@ def getPredDataDaily3():
     except Exception as e:
         return {"error": str(e)}
 
-
-def get_mongo_data():
-    try:
-        pass
-    except Exception as e:
-        print(e)
