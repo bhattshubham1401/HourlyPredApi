@@ -285,18 +285,12 @@ def getPredDataDaily():
 
         start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        print(start_date)
-        print(type(start_date))
-        print(end_date)
-        print(type(end_date))
 
         act_data = {
             "sensor_id": todo_id,
             "read_time": {"$gte": start_date, "$lt": end_date}
         }
-        print(act_data)
         l1 = []
-
         # Check if actual data exists
         try:
             documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
@@ -324,15 +318,15 @@ def getPredDataDaily():
         # print(l1[0])
         # for entry in l1:
         #     print(entry)
+        print(l1)
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
         datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        # print(datalist)
+        print(datalist)
 
-        # datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
         df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
         print(df)
 
