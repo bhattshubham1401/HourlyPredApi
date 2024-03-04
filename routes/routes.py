@@ -306,22 +306,9 @@ def getPredDataDaily():
         #     print("Error occurred while fetching documents:", e)
 
         # Initialize empty lists to store extracted data
-        sensor_ids = []
-        raw_data = []
 
         # Iterate over each dictionary in the list and extract 'sensor_id' and 'raw_data'
-        for entry in l1:
-            sensor_ids.append(entry['sensor_id'])
-            raw_data.append(entry['raw_data'])
-
-        # Create DataFrame using the extracted data
-        df = pd.DataFrame({'sensor_id': sensor_ids, 'raw_data': raw_data})
-
-        # Print the DataFrame
-        print(df)
-        print("hello")
-
-        # for document in documents:
+               # for document in documents:
         #     # print()
         #     l1.append(document['resource'])
         # print("helkl")
@@ -339,15 +326,19 @@ def getPredDataDaily():
         # l1.append(data['resource'])
         # print(l1[0])
 
+        for items in l1:
+            pass
+
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        # print(datalist)
+        datalist = [(items['sensor_id'], items['raw_data']) for i in range(len(l1)) for items in l1[i]]
+        print(datalist)
+
 
         # datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
         # print(df)
 
         df = df.drop([
