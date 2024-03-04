@@ -318,7 +318,7 @@ def getPredDataDaily():
         # print(l1[0])
         # for entry in l1:
         #     print(entry)
-        print(l1)
+        print(type(l1))
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
