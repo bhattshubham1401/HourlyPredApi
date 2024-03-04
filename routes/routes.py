@@ -323,8 +323,10 @@ def getPredDataDaily():
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+        # print()
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        datalist = [('sensor_id', 'raw_data') for i in range(len(l1))]
         print(datalist)
 
         df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
