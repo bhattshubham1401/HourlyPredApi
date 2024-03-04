@@ -326,10 +326,15 @@ def getPredDataDaily():
         # print()
 
         # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        datalist = [('sensor_id', 'raw_data') for i in range(len(l1))]
-        print(datalist)
+        # datalist = [{'sensor_id': entry['sensor_id'], 'raw_data': entry['raw_data']} for entry in l1]
+        # print(datalist)
 
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        datalist = [{'sensor': entry['sensor_id'], **dict(zip(columns[1:], entry['raw_data'].split(',')))} for entry in
+                    l1]
+
+        # Create DataFrame using the list of dictionaries and set columns
+        df = pd.DataFrame(datalist, columns=columns)
         print(df)
 
         df = df.drop([
