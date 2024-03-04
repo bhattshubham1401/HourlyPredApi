@@ -298,17 +298,14 @@ def getPredDataDaily():
         l1 = []
 
         # Check if actual data exists
-        # try:
-        #     documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
-        #     for document in documents:
-        #         l1.append(document)
-        # except Exception as e:
-        #     print("Error occurred while fetching documents:", e)
+        try:
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
+            for document in documents:
+                l1.append(document)
+        except Exception as e:
+            print("Error occurred while fetching documents:", e)
 
-        # Initialize empty lists to store extracted data
-
-        # Iterate over each dictionary in the list and extract 'sensor_id' and 'raw_data'
-               # for document in documents:
+        # for document in documents:
         #     # print()
         #     l1.append(document['resource'])
         # print("helkl")
@@ -324,21 +321,19 @@ def getPredDataDaily():
         # todos_act.raise_for_status()
         # data = todos_act.json()
         # l1.append(data['resource'])
-        # print(l1[0])
-
-        for items in l1:
-            pass
+        print(l1[0])
+        for entry in l1:
+            print(entry)
 
         columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        datalist = [(items['sensor_id'], items['raw_data']) for i in range(len(l1)) for items in l1[i]]
+        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
         print(datalist)
 
-
         # datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
-        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
         # print(df)
 
         df = df.drop([
