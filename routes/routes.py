@@ -3,6 +3,7 @@ from calendar import monthrange
 from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4
+from dependencies.websocket._http import proxy_info
 
 router = Blueprint('router', __name__)
 import requests
@@ -304,9 +305,6 @@ def getPredDataDaily():
         except Exception as e:
             print("Error occurred while fetching documents:", e)
 
-        print(l1)
-
-
         # for document in documents:
         #     # print()
         #     l1.append(document['resource'])
@@ -328,9 +326,12 @@ def getPredDataDaily():
                    'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
                    'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
 
-        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
+        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        print(datalist)
+
+        # datalist = [(entry['sensor_id'], entry['raw_data']) for sublist in l1 for entry in sublist]
         df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        # print(df)
 
         df = df.drop([
             'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
