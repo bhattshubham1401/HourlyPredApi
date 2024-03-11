@@ -1091,13 +1091,10 @@ def getPredDataMonthlyjdvvnl():
         formatted_data_pred = {"data_pred": []}
         if todos_pred:
             # Predicted data found, extract values from the data
-            for i in range(len(todos_pred)):
-                b = todos_pred[i]['_id'].split("_")
-                print(b)
+            for entry in todos_pred:
+                b = entry['_id'].split("_")
                 date2 = b[1]
-                print(date2)
-                print(last_day)
-                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(last_day))
+                pred_daily_sum = sum(entry['data'][str(day)]['pre_kwh'] for day in range(1, last_day + 1))
                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
                 pred_monthly_sum += pred_daily_sum
 
