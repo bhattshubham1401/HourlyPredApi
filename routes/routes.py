@@ -1006,9 +1006,11 @@ def getPredDataDaily3():
 @router.route('/getPredDataMonthlyjdvvnl', methods=['POST'])
 def getPredDataMonthlyjdvvnl():
     try:
-        todo_id = request.args.get('id')
-        date = request.args.get('date')
-        print(date)
+        # todo_id = request.args.get('id')
+        # date = request.args.get('date')
+        data = request.get_json()
+        todo_id = data.get('id')
+        date = data.get('date')
 
         month = datetime.strptime(date, '%Y-%m').month
         year = datetime.strptime(date, '%Y-%m').year
