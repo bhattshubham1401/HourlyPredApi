@@ -1004,113 +1004,113 @@ def getPredDataDaily3():
     except Exception as e:
         return {"error": str(e)}
 
-@router.route('/getPredDataMonthlyjdvvnl', methods=['GET'])
-def getPredDataMonthly():
-    try:
-        todo_id = request.args.get('id')
-        date = request.args.get('date')
-
-        month = datetime.strptime(date, '%Y-%m').month
-        year = datetime.strptime(date, '%Y-%m').year
-        day = monthrange(year, month)
-        last_day = day[1]
-
-        # Concatenate todo_id and date to create a new identifier
-        id = todo_id + "_" + date
-        query = {'_id': id}
-
-        start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
-        end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
-
-        act_data = {
-            "parent_sensor_id": todo_id,
-            "meter_date": {"$gte": start_date, "$lte": end_date}
-        }
-
-        l1 = []
-        try:
-            documents = collection_name5.find(act_data, {"meter_date": 1, "parent_sensor_id": 1, "consumed_KWh": 1})
-            for document in documents:
-                l1.append(document)
-        except Exception as e:
-            print("Error occurred while fetching documents:", e)
-
-        columns = ['meter_date', 'parent_sensor_id', 'consumed_KWh']
-        datalist = [(entry['parent_sensor_id'], entry['consumed_KWh'], entry['meter_date']) for entry in l1]
-        print(datalist)
-        return
-
-        df = pd.DataFrame(datalist, columns=columns)
-
-        df['meter_date'] = pd.to_datetime(df['meter_date'])
-        df['consumed_KWh'] = df['consumed_KWh'].astype(float)
-        df.set_index(["meter_date"], inplace=True)
-
-        df1 = df.resample(rule="1D").sum().round(2)
-
-        percent = 0.0
-        act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
-        pred_monthly_sum, pred_max_date, pred_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-{last_day}", 0.0
-
-        formatted_data_act = {"data_act": []}
-        first_day = 1
-        if not df1.empty:
-            # Actual data found, extract values from the data
-            for index, row in df1.iterrows():
-                formatted_data_act["data_act"].append(
-                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh']})
-                act_monthly_sum += row['consumed_KWh']
-                first_day += 1
-
-            max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
-            act_max_date = max_value_dict['clock']
-            act_max_date_value = max_value_dict['act_kwh']
-
-        if len(formatted_data_act['data_act']) != last_day:
-            for _ in range(len(formatted_data_act['data_act']) + 1, last_day + 1):
-                formatted_data_act["data_act"].append(
-                    {"clock": f"{year}-{str(month).zfill(2)}-{str(first_day).zfill(2)}", "act_kwh": 0.0})
-                first_day += 1
-
-        actual_data = formatted_data_act
-
-        # Check if predicted data exists
-        todos_pred = list(collection_name6.find(query, {'_id': 1, 'data': 1}))
-        print(todos_pred)
-        formatted_data_pred = {"data_pred": []}
-        if todos_pred:
-            # Predicted data found, extract values from the data
-            for i in range(len(todos_pred)):
-                b = todos_pred[i]['_id'].split("_")
-                date2 = b[1]
-                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(24))
-                formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
-                pred_monthly_sum += pred_daily_sum
-
-            max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
-            pred_max_date = max_value_dict['clock']
-            pred_max_date_value = max_value_dict['pre_kwh']
-
-        # Predicted data not found, create an array of zeros for each hour
-        if len(todos_pred) != last_day:
-            for _ in range(len(todos_pred) + 1, last_day + 1):
-                formatted_data_pred['data_pred'].append(
-                    {"clock": f"{year}-{str(month).zfill(2)}-{str(_).zfill(2)}", "pre_kwh": 0.0})
-
-        predicted_data = formatted_data_pred
-
-        if month != datetime.now().month and act_monthly_sum != 0.0:
-            percent = round(abs((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100, 2)
-
-        # Combine actual and predicted data into a single dictionary
-        response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
-        return {"rc": 0, "message": "Success",
-                "act_max_date_value": act_max_date_value, "act_max_date": act_max_date,
-                "pred_max_date_value": pred_max_date_value, "pred_max_date": pred_max_date,
-                "act_monthly_sum": round(act_monthly_sum, 2), "pred_monthly_sum": round(pred_monthly_sum, 2),
-                "percent": percent, "data": response_data}
-
-    except Exception as e:
-        return {"error": str(e)}
+# @router.route('/getPredDataMonthlyjdvvnl', methods=['GET'])
+# def getPredDataMonthly():
+#     try:
+#         todo_id = request.args.get('id')
+#         date = request.args.get('date')
+#
+#         month = datetime.strptime(date, '%Y-%m').month
+#         year = datetime.strptime(date, '%Y-%m').year
+#         day = monthrange(year, month)
+#         last_day = day[1]
+#
+#         # Concatenate todo_id and date to create a new identifier
+#         id = todo_id + "_" + date
+#         query = {'_id': id}
+#
+#         start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
+#         end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
+#
+#         act_data = {
+#             "parent_sensor_id": todo_id,
+#             "meter_date": {"$gte": start_date, "$lte": end_date}
+#         }
+#
+#         l1 = []
+#         try:
+#             documents = collection_name5.find(act_data, {"meter_date": 1, "parent_sensor_id": 1, "consumed_KWh": 1})
+#             for document in documents:
+#                 l1.append(document)
+#         except Exception as e:
+#             print("Error occurred while fetching documents:", e)
+#
+#         columns = ['meter_date', 'parent_sensor_id', 'consumed_KWh']
+#         datalist = [(entry['parent_sensor_id'], entry['consumed_KWh'], entry['meter_date']) for entry in l1]
+#         print(datalist)
+#         return
+#
+#         df = pd.DataFrame(datalist, columns=columns)
+#
+#         df['meter_date'] = pd.to_datetime(df['meter_date'])
+#         df['consumed_KWh'] = df['consumed_KWh'].astype(float)
+#         df.set_index(["meter_date"], inplace=True)
+#
+#         df1 = df.resample(rule="1D").sum().round(2)
+#
+#         percent = 0.0
+#         act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
+#         pred_monthly_sum, pred_max_date, pred_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-{last_day}", 0.0
+#
+#         formatted_data_act = {"data_act": []}
+#         first_day = 1
+#         if not df1.empty:
+#             # Actual data found, extract values from the data
+#             for index, row in df1.iterrows():
+#                 formatted_data_act["data_act"].append(
+#                     {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh']})
+#                 act_monthly_sum += row['consumed_KWh']
+#                 first_day += 1
+#
+#             max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
+#             act_max_date = max_value_dict['clock']
+#             act_max_date_value = max_value_dict['act_kwh']
+#
+#         if len(formatted_data_act['data_act']) != last_day:
+#             for _ in range(len(formatted_data_act['data_act']) + 1, last_day + 1):
+#                 formatted_data_act["data_act"].append(
+#                     {"clock": f"{year}-{str(month).zfill(2)}-{str(first_day).zfill(2)}", "act_kwh": 0.0})
+#                 first_day += 1
+#
+#         actual_data = formatted_data_act
+#
+#         # Check if predicted data exists
+#         todos_pred = list(collection_name6.find(query, {'_id': 1, 'data': 1}))
+#         print(todos_pred)
+#         formatted_data_pred = {"data_pred": []}
+#         if todos_pred:
+#             # Predicted data found, extract values from the data
+#             for i in range(len(todos_pred)):
+#                 b = todos_pred[i]['_id'].split("_")
+#                 date2 = b[1]
+#                 pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(24))
+#                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
+#                 pred_monthly_sum += pred_daily_sum
+#
+#             max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
+#             pred_max_date = max_value_dict['clock']
+#             pred_max_date_value = max_value_dict['pre_kwh']
+#
+#         # Predicted data not found, create an array of zeros for each hour
+#         if len(todos_pred) != last_day:
+#             for _ in range(len(todos_pred) + 1, last_day + 1):
+#                 formatted_data_pred['data_pred'].append(
+#                     {"clock": f"{year}-{str(month).zfill(2)}-{str(_).zfill(2)}", "pre_kwh": 0.0})
+#
+#         predicted_data = formatted_data_pred
+#
+#         if month != datetime.now().month and act_monthly_sum != 0.0:
+#             percent = round(abs((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100, 2)
+#
+#         # Combine actual and predicted data into a single dictionary
+#         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
+#         return {"rc": 0, "message": "Success",
+#                 "act_max_date_value": act_max_date_value, "act_max_date": act_max_date,
+#                 "pred_max_date_value": pred_max_date_value, "pred_max_date": pred_max_date,
+#                 "act_monthly_sum": round(act_monthly_sum, 2), "pred_monthly_sum": round(pred_monthly_sum, 2),
+#                 "percent": percent, "data": response_data}
+#
+#     except Exception as e:
+#         return {"error": str(e)}
 
 
