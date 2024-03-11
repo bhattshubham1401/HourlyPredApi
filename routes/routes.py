@@ -1010,90 +1010,64 @@ def getPredDataMonthly():
         todo_id = request.args.get('id')
         date = request.args.get('date')
 
-        month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
-        month_today = (datetime.now()).month
         month = datetime.strptime(date, '%Y-%m').month
         year = datetime.strptime(date, '%Y-%m').year
+        day = monthrange(year, month)
+        last_day = day[1]
 
         # Concatenate todo_id and date to create a new identifier
         id = todo_id + "_" + date
         query = {'_id': id}
 
-        start_date = datetime.strptime(month + " 00:00:00" , "%Y-%m-%d").strftime("%Y-%m-%d")
-        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d").strftime("%Y-%m-%d")
+        start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
+        end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
 
         act_data = {
             "parent_sensor_id": todo_id,
-            "meter_date": {"$gte": start_date, "$lt": end_date}
+            "meter_date": {"$gte": start_date, "$lte": end_date}
         }
 
-        # month_today = (datetime.now()).month
-        # month = datetime.strptime(date, '%Y-%m').month
-        # year = datetime.strptime(date, '%Y-%m').year
-        # day = monthrange(year, month)
-        # last_day = day[1]
-        #
-        # query = {"sensor_id": todo_id, "month": str(month), "year": str(year)}
-        #
-        # l1 = []
+        l1 = []
         try:
-            documents = collection_name5.find(query, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
+            documents = collection_name5.find(act_data, {"meter_date": 1, "parent_sensor_id": 1, "consumed_KWh": 1})
             for document in documents:
                 l1.append(document)
         except Exception as e:
             print("Error occurred while fetching documents:", e)
-        # url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
-        # params = {
-        #     'sql': "select raw_data, sensor_id, read_time from dlms_load_profile where sensor_id='{}' and month(read_time)='{}' and year(read_time)='{}' order by read_time"
-        #     .format(todo_id, month, year),
-        #     'type': 'query'
-        # }
-        # todos_act = requests.get(url, params=params)
-        # todos_act.raise_for_status()
-        # data = todos_act.json()
-        # l1.append(data['resource'])
 
-        columns = ['sensor', 'Clock', 'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
-                   'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
-                   'Kwh', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp']
+        columns = ['meter_date', 'parent_sensor_id', 'consumed_KWh']
+        datalist = [(entry['parent_sensor_id'], entry['consumed_KWh'], entry['meter_date']) for entry in l1]
+        print(datalist)
+        return
 
-        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        df = pd.DataFrame(datalist, columns=columns)
 
-        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
-        df = df.drop([
-            'R_Voltage', 'Y_Voltage', 'B_Voltage', 'R_Current', 'Y_Current',
-            'B_Current', 'A', 'BlockEnergy-WhExp', 'B', 'C', 'D', 'BlockEnergy-VAhExp',
-            'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp'], axis=1)
-        pd.set_option('display.max_columns', None)
-        df['Clock'] = pd.to_datetime(df['Clock'])
-        df['Kwh'] = df['Kwh'].astype(float)
-        df['Kwh'] = (df['Kwh'] / 1000)
+        df['meter_date'] = pd.to_datetime(df['meter_date'])
+        df['consumed_KWh'] = df['consumed_KWh'].astype(float)
+        df.set_index(["meter_date"], inplace=True)
 
-        df['Clock'] = pd.to_datetime(df['Clock'])
-        df.set_index(["Clock"], inplace=True, drop=True)
-
-        df1 = (df[['Kwh']].resample(rule="1D").sum()).round(2)
+        df1 = df.resample(rule="1D").sum().round(2)
 
         percent = 0.0
         act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
-        pred_monthly_sum, pred_max_date, pred_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
+        pred_monthly_sum, pred_max_date, pred_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-{last_day}", 0.0
 
         formatted_data_act = {"data_act": []}
         first_day = 1
-        if df1.empty is False:
+        if not df1.empty:
             # Actual data found, extract values from the data
-            for value in df1["Kwh"]:
+            for index, row in df1.iterrows():
                 formatted_data_act["data_act"].append(
-                    {"clock": f"{year}-{str(month).zfill(2)}-{str(first_day).zfill(2)}", "act_kwh": value})
-                act_monthly_sum += value
+                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh']})
+                act_monthly_sum += row['consumed_KWh']
                 first_day += 1
 
             max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
-            act_max_date = str(max_value_dict['clock'])
-            act_max_date_value = round(max_value_dict['act_kwh'], 2)
+            act_max_date = max_value_dict['clock']
+            act_max_date_value = max_value_dict['act_kwh']
 
-        if (len(formatted_data_act['data_act']) != last_day):
-            for i in range((len(formatted_data_act['data_act']) + 1), (last_day + 1)):
+        if len(formatted_data_act['data_act']) != last_day:
+            for _ in range(len(formatted_data_act['data_act']) + 1, last_day + 1):
                 formatted_data_act["data_act"].append(
                     {"clock": f"{year}-{str(month).zfill(2)}-{str(first_day).zfill(2)}", "act_kwh": 0.0})
                 first_day += 1
@@ -1101,34 +1075,32 @@ def getPredDataMonthly():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name.find(query, {'_id': 1, 'data': 1}))
+        todos_pred = list(collection_name6.find(query, {'_id': 1, 'data': 1}))
         print(todos_pred)
         formatted_data_pred = {"data_pred": []}
-        if (len(todos_pred)) != 0:
+        if todos_pred:
             # Predicted data found, extract values from the data
             for i in range(len(todos_pred)):
                 b = todos_pred[i]['_id'].split("_")
                 date2 = b[1]
-                pred_daily_sum = 0
-                for y in range(24):
-                    a = todos_pred[i]['data'][f"{y}"]['pre_kwh']
-                    pred_daily_sum += a
+                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(24))
                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
                 pred_monthly_sum += pred_daily_sum
 
             max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
-            pred_max_date = str(max_value_dict['clock'])
-            pred_max_date_value = round(max_value_dict['pre_kwh'], 2)
+            pred_max_date = max_value_dict['clock']
+            pred_max_date_value = max_value_dict['pre_kwh']
 
         # Predicted data not found, create an array of zeros for each hour
         if len(todos_pred) != last_day:
-            for _ in range(((len(todos_pred)) + 1), (last_day + 1)):
+            for _ in range(len(todos_pred) + 1, last_day + 1):
                 formatted_data_pred['data_pred'].append(
-                    {"clock": f"{year}-{str(month).zfill(2)}-{str(_).zfill(2)}", "pre_kwh": 0.0, })
+                    {"clock": f"{year}-{str(month).zfill(2)}-{str(_).zfill(2)}", "pre_kwh": 0.0})
+
         predicted_data = formatted_data_pred
 
-        if ((month) != (month_today)) & (act_monthly_sum != 0.0):
-            percent = round(abs(((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100), 2)
+        if month != datetime.now().month and act_monthly_sum != 0.0:
+            percent = round(abs((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100, 2)
 
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
@@ -1140,4 +1112,5 @@ def getPredDataMonthly():
 
     except Exception as e:
         return {"error": str(e)}
+
 
