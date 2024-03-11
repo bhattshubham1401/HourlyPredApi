@@ -1047,6 +1047,7 @@ def getPredDataMonthlyjdvvnl():
         # df.set_index(["meter_date"], inplace=True)
 
         # df1 = df.resample(rule="1D").sum().round(2)
+        print(df1)
 
         percent = 0.0
         act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
