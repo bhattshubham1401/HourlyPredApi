@@ -1055,7 +1055,7 @@ def getPredDataMonthlyjdvvnl():
 
         df1['meter_date'] = pd.to_datetime(df1['meter_date'])
         df1['consumed_KWh'] = df1['consumed_KWh'].astype(float)
-        df1['load'] = float(df1['consumed_KWh'].astype(float)/24)
+        df1['load'] = round(df1['consumed_KWh'].astype(float)/24)
         df1.set_index(["meter_date"], inplace=True)
 
         # df1 = df.resample(rule="1D").sum().round(2)
@@ -1099,7 +1099,7 @@ def getPredDataMonthlyjdvvnl():
                 date2 = b[1]
                 pred_daily_sum = sum(
                     todos_pred[i]['data'][str(day)]['pre_kwh'] for day in range(len(todos_pred[i]['data'])))
-                formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": float(pred_daily_sum, 2), "pre_load": float(pred_daily_sum/24, 2)})
+                formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2), "pre_load": round(pred_daily_sum/24, 2)})
 
                 pred_monthly_sum += pred_daily_sum
 
