@@ -9,6 +9,7 @@ router = Blueprint('router', __name__)
 import requests
 import pandas as pd
 from datetime import datetime
+import traceback
 
 
 
@@ -1112,6 +1113,7 @@ def getPredDataMonthlyjdvvnl():
                 "percent": percent, "data": response_data}
 
     except Exception as e:
+        traceback.print_exc()
         return {"error": str(e)}
 
 
