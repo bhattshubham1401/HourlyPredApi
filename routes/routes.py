@@ -1003,7 +1003,7 @@ def getPredDataDaily3():
     except Exception as e:
         return {"error": str(e)}
 
-@router.route('/getPredDataMonthlyjdvvnl', methods=['GET'])
+@router.route('/getPredDataMonthlyjdvvnl', methods=['POST'])
 def getPredDataMonthlyjdvvnl():
     try:
         todo_id = request.args.get('id')
