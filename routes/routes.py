@@ -3,8 +3,6 @@ from calendar import monthrange
 from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, collection_name5, collection_name6
-from dependencies.websocket._http import proxy_info
-
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
@@ -1010,8 +1008,10 @@ def getPredDataMonthlyjdvvnl():
     try:
         todo_id = request.args.get('id')
         date = request.args.get('date')
+        print(date)
 
         month = datetime.strptime(date, '%Y-%m').month
+        print(month)
         year = datetime.strptime(date, '%Y-%m').year
         day = monthrange(year, month)
         last_day = day[1]
