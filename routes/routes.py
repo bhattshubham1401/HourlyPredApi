@@ -1010,8 +1010,7 @@ def getPredDataMonthlyjdvvnl():
         date = request.args.get('date')
         print(date)
 
-        formatted_month = datetime.strptime(date, '%Y-%m')
-        month = formatted_month.strftime('%m')
+        month = datetime.strptime(date, '%Y-%m').strftime('%m')
         print(month)
         year = datetime.strptime(date, '%Y-%m').year
         day = monthrange(year, month)
