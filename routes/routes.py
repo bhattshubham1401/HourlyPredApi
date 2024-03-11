@@ -1026,7 +1026,8 @@ def getPredDataMonthlyjdvvnl():
         }
         pred_data = {
             "sensor_id": todo_id,
-            "meter_date": {"$gte": start_date, "$lte": end_date}
+            "month": month,
+            "year" : year
         }
 
         l1 = []
