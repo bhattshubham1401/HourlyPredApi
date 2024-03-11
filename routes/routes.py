@@ -1037,7 +1037,7 @@ def getPredDataMonthlyjdvvnl():
             print("Error occurred while fetching documents:", e)
 
         columns = ['meter_date', 'consumed_KWh']
-        datalist = [(entry['consumed_KWh'], entry['meter_date']) for entry in l1]
+        datalist = [(entry['meter_date'], entry['consumed_KWh']) for entry in l1]
         # print(datalist)
         # return
 
