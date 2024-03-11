@@ -1079,7 +1079,9 @@ def getPredDataMonthlyjdvvnl():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
+        print(pred_data)
         todos_pred = list(collection_name6.find(pred_data, {'_id': 1, 'data': 1}))
+        print(todos_pred)
         formatted_data_pred = {"data_pred": []}
         if todos_pred:
             # Predicted data found, extract values from the data
