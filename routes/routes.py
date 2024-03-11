@@ -1094,8 +1094,10 @@ def getPredDataMonthlyjdvvnl():
             for i in range(len(todos_pred)):
                 b = todos_pred[i]['_id'].split("_")
                 date2 = b[1]
-                pred_daily_sum = sum(todos_pred[i]['data'][f"{0}"]['pre_kwh'] for _ in range(last_day))
+                pred_daily_sum = sum(
+                    todos_pred[i]['data'][str(day)]['pre_kwh'] for day in range(len(todos_pred[i]['data'])))
                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
+
                 pred_monthly_sum += pred_daily_sum
 
             max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
