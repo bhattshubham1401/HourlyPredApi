@@ -1005,7 +1005,7 @@ def getPredDataDaily3():
         return {"error": str(e)}
 
 @router.route('/getPredDataMonthlyjdvvnl', methods=['GET'])
-def getPredDataMonthly():
+def getPredDataMonthlyjdvvnl():
     try:
         todo_id = request.args.get('id')
         date = request.args.get('date')
