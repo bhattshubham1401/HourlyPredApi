@@ -1055,7 +1055,7 @@ def getPredDataMonthlyjdvvnl():
 
         df1['meter_date'] = pd.to_datetime(df1['meter_date'])
         df1['consumed_KWh'] = df1['consumed_KWh'].astype(float)
-        df1['load'] = round(df1['consumed_KWh']/24)
+        # df1['load'] = round(df1['consumed_KWh'].astype(float)/24)
         df1.set_index(["meter_date"], inplace=True)
 
         # df1 = df.resample(rule="1D").sum().round(2)
@@ -1071,7 +1071,7 @@ def getPredDataMonthlyjdvvnl():
             # Actual data found, extract values from the data
             for index, row in df1.iterrows():
                 formatted_data_act["data_act"].append(
-                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh'], "act_load": row['load']})
+                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh'], "act_load": round(row['consumed_KWh']/24, 2)})
                 act_monthly_sum += row['consumed_KWh']
                 first_day += 1
 
