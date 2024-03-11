@@ -2,7 +2,7 @@ from calendar import monthrange
 
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4
+from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, collection_name5, collection_name6
 from dependencies.websocket._http import proxy_info
 
 router = Blueprint('router', __name__)
@@ -1000,6 +1000,119 @@ def getPredDataDaily3():
                 "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
                 "data": response_data,
                 "percentage": percent}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+@router.route('/getPredDataMonthlyjdvvnl', methods=['GET'])
+def getPredDataMonthly():
+    try:
+        todo_id = request.args.get('id')
+        date = request.args.get('date')
+
+        # month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
+        month_today = (datetime.now()).month
+        month = datetime.strptime(date, '%Y-%m').month
+        year = datetime.strptime(date, '%Y-%m').year
+        day = monthrange(year, month)
+        last_day = day[1]
+
+        # Concatenate todo_id and date to create a new identifier
+        id = todo_id + "_" + date
+        query = {'_id': id}
+
+        start_date = datetime.strptime(year +"-"+ month + "-01" , "%Y-%m-%d").strftime("%Y-%m-%d")
+        end_date = datetime.strptime(year +"-"+ month + "-31" , "%Y-%m-%d").strftime("%Y-%m-%d")
+        print(start_date)
+        print("909000909900")
+        print(end_date)
+
+        act_data = {
+            "parent_sensor_id": todo_id,
+            "meter_date": {"$gte": start_date, "$lt": end_date}
+        }
+
+        l1 = []
+        try:
+            documents = collection_name5.find(act_data, {"meter_date": 1, "parent_sensor_id": 1, "consumed_KWh": 1})
+            for document in documents:
+                l1.append(document)
+        except Exception as e:
+            print("Error occurred while fetching documents:", e)
+
+        columns = ['meter_date', 'parent_sensor_id', 'consumed_KWh']
+        datalist = [(entry['parent_sensor_id'], entry['consumed_KWh'], entry['meter_date']) for i in range(len(l1)) for entry in l1[i]]
+        print(datalist)
+
+        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+
+        df['meter_date'] = pd.to_datetime(df['meter_date'])
+        df['consumed_KWh'] = df['consumed_KWh'].astype(float)
+        df.set_index(["Clock"], inplace=True, drop=True)
+        df1 = (df[['consumed_KWh']].resample(rule="1D").sum()).round(2)
+        percent = 0.0
+        act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
+        pred_monthly_sum, pred_max_date, pred_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-31", 0.0
+
+        formatted_data_act = {"data_act": []}
+        first_day = 1
+        if df1.empty is False:
+            # Actual data found, extract values from the data
+            for value in df1["consumed_KWh"]:
+                formatted_data_act["data_act"].append(
+                    {"clock": f"{year}-{str(month).zfill(2)}-{str(first_day).zfill(2)}", "act_kwh": value})
+                act_monthly_sum += value
+                first_day += 1
+
+            max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
+            act_max_date = str(max_value_dict['clock'])
+            act_max_date_value = round(max_value_dict['act_kwh'], 2)
+
+        if (len(formatted_data_act['data_act']) != last_day):
+            for i in range((len(formatted_data_act['data_act']) + 1), (last_day + 1)):
+                formatted_data_act["data_act"].append(
+                    {"clock": f"{year}-{str(month).zfill(2)}-{str(first_day).zfill(2)}", "act_kwh": 0.0})
+                first_day += 1
+
+        actual_data = formatted_data_act
+
+        # Check if predicted data exists
+        todos_pred = list(collection_name.find(query, {'_id': 1, 'data': 1}))
+        print(todos_pred)
+        formatted_data_pred = {"data_pred": []}
+        if (len(todos_pred)) != 0:
+            # Predicted data found, extract values from the data
+            for i in range(len(todos_pred)):
+                b = todos_pred[i]['_id'].split("_")
+                date2 = b[1]
+                pred_daily_sum = 0
+                for y in range(24):
+                    a = todos_pred[i]['data'][f"{y}"]['pre_kwh']
+                    pred_daily_sum += a
+                formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
+                pred_monthly_sum += pred_daily_sum
+
+            max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
+            pred_max_date = str(max_value_dict['clock'])
+            pred_max_date_value = round(max_value_dict['pre_kwh'], 2)
+
+        # Predicted data not found, create an array of zeros for each hour
+        if len(todos_pred) != last_day:
+            for _ in range(((len(todos_pred)) + 1), (last_day + 1)):
+                formatted_data_pred['data_pred'].append(
+                    {"clock": f"{year}-{str(month).zfill(2)}-{str(_).zfill(2)}", "pre_kwh": 0.0, })
+        predicted_data = formatted_data_pred
+
+        if ((month) != (month_today)) & (act_monthly_sum != 0.0):
+            percent = round(abs(((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100), 2)
+
+        # Combine actual and predicted data into a single dictionary
+        response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
+        return {"rc": 0, "message": "Success",
+                "act_max_date_value": act_max_date_value, "act_max_date": act_max_date,
+                "pred_max_date_value": pred_max_date_value, "pred_max_date": pred_max_date,
+                "act_monthly_sum": round(act_monthly_sum, 2), "pred_monthly_sum": round(pred_monthly_sum, 2),
+                "percent": percent, "data": response_data}
 
     except Exception as e:
         return {"error": str(e)}
