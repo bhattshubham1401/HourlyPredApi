@@ -1094,7 +1094,7 @@ def getPredDataMonthlyjdvvnl():
             for entry in todos_pred:
                 b = entry['_id'].split("_")
                 date2 = b[1]
-                pred_daily_sum = sum(entry['data'][str(day)]['pre_kwh'] for day in range(1, last_day + 1))
+                pred_daily_sum = sum(entry['data'][0]['pre_kwh'] for _ in range(1, last_day + 1))
                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
                 pred_monthly_sum += pred_daily_sum
 
