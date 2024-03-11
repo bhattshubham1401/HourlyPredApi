@@ -1010,16 +1010,15 @@ def getPredDataMonthlyjdvvnl():
         date = request.args.get('date')
         print(date)
 
-        formatted_month = datetime.strptime(date, '%Y-%m').month
-        month = '{:02d}'.format(formatted_month)
-        print(month)
+        month = datetime.strptime(date, '%Y-%m').month
+        print(type(month))
         year = datetime.strptime(date, '%Y-%m').year
-        # day = monthrange(year, month)
-        # last_day = day[1]
+        day = monthrange(year, month)
+        last_day = day[1]
 
 
         start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
-        end_date = datetime(year, month, 31).strftime("%Y-%m-%d")
+        end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
 
         act_data = {
             "parent_sensor_id": todo_id,
