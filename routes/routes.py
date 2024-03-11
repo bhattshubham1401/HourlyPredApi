@@ -1029,24 +1029,24 @@ def getPredDataMonthlyjdvvnl():
 
         l1 = []
         try:
-            documents = collection_name5.find(act_data, {"meter_date": 1, "parent_sensor_id": 1, "consumed_KWh": 1})
+            documents = collection_name5.find(act_data, {"meter_date": 1, "consumed_KWh": 1})
             for document in documents:
                 l1.append(document)
         except Exception as e:
             print("Error occurred while fetching documents:", e)
 
-        columns = ['meter_date', 'parent_sensor_id', 'consumed_KWh']
-        datalist = [(entry['parent_sensor_id'], entry['consumed_KWh'], entry['meter_date']) for entry in l1]
-        print(datalist)
-        return
+        columns = ['meter_date', 'consumed_KWh']
+        datalist = [(entry['consumed_KWh'], entry['meter_date']) for entry in l1]
+        # print(datalist)
+        # return
 
-        df = pd.DataFrame(datalist, columns=columns)
+        df1 = pd.DataFrame(datalist, columns=columns)
 
-        df['meter_date'] = pd.to_datetime(df['meter_date'])
-        df['consumed_KWh'] = df['consumed_KWh'].astype(float)
-        df.set_index(["meter_date"], inplace=True)
+        df1['meter_date'] = pd.to_datetime(df1['meter_date'])
+        df1['consumed_KWh'] = df1['consumed_KWh'].astype(float)
+        # df.set_index(["meter_date"], inplace=True)
 
-        df1 = df.resample(rule="1D").sum().round(2)
+        # df1 = df.resample(rule="1D").sum().round(2)
 
         percent = 0.0
         act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
