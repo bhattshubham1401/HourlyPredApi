@@ -1112,16 +1112,16 @@ def getPredDataMonthlyjdvvnl():
 
         predicted_data = formatted_data_pred
 
-        if month != datetime.now().month and act_monthly_sum != 0.0:
-            percent = round(abs((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100, 2)
+        # if month != datetime.now().month and act_monthly_sum != 0.0:
+        #     percent = round(abs((act_monthly_sum - pred_monthly_sum) / act_monthly_sum) * 100, 2)
 
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
-        return {"rc": 0, "message": "Success",
+        return {"rc": 0, "message": "Success", "sensor_id": todo_id,
                 "act_max_date_value": act_max_date_value, "act_max_date": act_max_date,
                 "pred_max_date_value": pred_max_date_value, "pred_max_date": pred_max_date,
                 "act_monthly_sum": round(act_monthly_sum, 2), "pred_monthly_sum": round(pred_monthly_sum, 2),
-                "percent": percent, "data": response_data}
+                 "data": response_data}
 
     except Exception as e:
         traceback.print_exc()
