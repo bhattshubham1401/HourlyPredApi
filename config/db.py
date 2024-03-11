@@ -1,7 +1,7 @@
 from pymongo.mongo_client import MongoClient
 
-# host = "13.127.57.185"
-host = "localhost"
+host = "13.127.57.185"
+# host = "localhost"
 port = 27017
 db = "pvvnl"
 
@@ -10,6 +10,8 @@ collection1 = "forcast1"
 collection2 = "forcast2"
 collection3 = "forcast3"
 collection4 = "dlms"
+collection5 = "feeder_data_daily_log"
+collection6 = "jdvvnl_LF"
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
@@ -26,6 +28,8 @@ collection_name1 = db1[collection1]
 collection_name2 = db1[collection2]
 collection_name3 = db1[collection3]
 collection_name4 = db1[collection4]
+collection_name5 = db1[collection5]
+collection_name6 = db1[collection6]
 
 try:
     client.admin.command('ping')
