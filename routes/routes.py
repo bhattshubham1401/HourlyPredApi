@@ -1086,8 +1086,8 @@ def getPredDataMonthlyjdvvnl():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        print(pred_data)
         todos_pred = list(collection_name6.find(pred_data, {'_id': 1, 'data': 1}))
+
         print(todos_pred)
         formatted_data_pred = {"data_pred": []}
         if todos_pred:
@@ -1095,7 +1095,7 @@ def getPredDataMonthlyjdvvnl():
             for i in range(len(todos_pred)):
                 b = todos_pred[i]['_id'].split("_")
                 date2 = b[1]
-                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(last_day))
+                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(31))
                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
                 pred_monthly_sum += pred_daily_sum
 
