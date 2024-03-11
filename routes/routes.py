@@ -1042,6 +1042,7 @@ def getPredDataMonthlyjdvvnl():
         # return
 
         df1 = pd.DataFrame(datalist, columns=columns)
+        print(df1.info())
 
         df1['meter_date'] = pd.to_datetime(df1['meter_date'])
         df1['consumed_KWh'] = df1['consumed_KWh'].astype(float)
