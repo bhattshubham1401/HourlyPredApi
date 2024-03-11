@@ -1015,7 +1015,6 @@ def getPredDataMonthlyjdvvnl():
         day = monthrange(year, month)
         last_day = day[1]
 
-
         start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
         end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
 
