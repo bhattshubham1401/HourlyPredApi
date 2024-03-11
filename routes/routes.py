@@ -1030,12 +1030,6 @@ def getPredDataMonthlyjdvvnl():
         # Convert the formatted month and year to strings
         month = str(formatted_month)
         year = str(formatted_year)
-
-        print(month)
-        print(type(month))
-        print(year)
-        print(type(month))
-
         pred_data = {
             "sensor_id": todo_id,
             "month": month,
@@ -1101,7 +1095,7 @@ def getPredDataMonthlyjdvvnl():
             for i in range(len(todos_pred)):
                 b = todos_pred[i]['_id'].split("_")
                 date2 = b[1]
-                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(24))
+                pred_daily_sum = sum(todos_pred[i]['data'][f"{y}"]['pre_kwh'] for y in range(last_day))
                 formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2)})
                 pred_monthly_sum += pred_daily_sum
 
