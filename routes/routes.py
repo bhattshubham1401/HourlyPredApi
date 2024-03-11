@@ -1071,7 +1071,7 @@ def getPredDataMonthlyjdvvnl():
             # Actual data found, extract values from the data
             for index, row in df1.iterrows():
                 formatted_data_act["data_act"].append(
-                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh'], "act_load": row['load']})
+                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh'], "act_load": round(row['load'], 2)})
                 act_monthly_sum += row['consumed_KWh']
                 first_day += 1
 
