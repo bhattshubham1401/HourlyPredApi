@@ -1038,6 +1038,7 @@ def getPredDataMonthly():
         columns = ['meter_date', 'parent_sensor_id', 'consumed_KWh']
         datalist = [(entry['parent_sensor_id'], entry['consumed_KWh'], entry['meter_date']) for entry in l1]
         print(datalist)
+        return
 
         df = pd.DataFrame(datalist, columns=columns)
 
