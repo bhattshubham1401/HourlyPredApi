@@ -1016,15 +1016,16 @@ def getPredDataMonthlyjdvvnl():
         day = monthrange(year, month)
         last_day = day[1]
 
-        # Concatenate todo_id and date to create a new identifier
-        id = todo_id + "_" + date
-        query = {'_id': id}
 
         start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
         end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
 
         act_data = {
             "parent_sensor_id": todo_id,
+            "meter_date": {"$gte": start_date, "$lte": end_date}
+        }
+        pred_data = {
+            "sensor_id": todo_id,
             "meter_date": {"$gte": start_date, "$lte": end_date}
         }
 
@@ -1042,14 +1043,14 @@ def getPredDataMonthlyjdvvnl():
         # return
 
         df1 = pd.DataFrame(datalist, columns=columns)
-        print(df1.info())
+        # print(df1.info())
 
         df1['meter_date'] = pd.to_datetime(df1['meter_date'])
         df1['consumed_KWh'] = df1['consumed_KWh'].astype(float)
         df1.set_index(["meter_date"], inplace=True)
 
         # df1 = df.resample(rule="1D").sum().round(2)
-        print(df1)
+        # print(df1)
 
         percent = 0.0
         act_monthly_sum, act_max_date, act_max_date_value = 0.0, f"{year}-{str(month).zfill(2)}-01", 0.0
@@ -1078,8 +1079,7 @@ def getPredDataMonthlyjdvvnl():
         actual_data = formatted_data_act
 
         # Check if predicted data exists
-        todos_pred = list(collection_name6.find(act_data, {'_id': 1, 'data': 1}))
-        print(todos_pred)
+        todos_pred = list(collection_name6.find(pred_data, {'_id': 1, 'data': 1}))
         formatted_data_pred = {"data_pred": []}
         if todos_pred:
             # Predicted data found, extract values from the data
