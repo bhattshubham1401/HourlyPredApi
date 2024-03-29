@@ -1,0 +1,4 @@
+[2024-03-28 11:23:33,922: INFO: main: We are printing the logs here!!!]
+[2024-03-28 11:23:33,922: INFO: main: -----------Stage Data Transformation Started------------]
+[2024-03-28 11:23:33,923: INFO: stage_03_data_transformation: Error Occur in Data Transformation Pipeline [Errno 2] No such file or directory: 'config\\config.yaml']
+[2024-03-28 11:23:33,923: INFO: main: -----------Stage Data Transformation Completed------------]

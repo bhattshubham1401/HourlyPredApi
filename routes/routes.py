@@ -2,11 +2,13 @@ from calendar import monthrange
 
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, collection_name5, collection_name6
+from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, collection_name5, collection_name6, collection_name7
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
-from datetime import datetime
+import numpy as np
+import json
+from datetime import datetime, timedelta
 import traceback
 
 
@@ -1130,4 +1132,117 @@ def getPredDataMonthlyjdvvnl():
         traceback.print_exc()
         return {"error": str(e)}
 
+@router.route('/getJDVVNLDailyData', methods=['POST'])
+def getJDVVNLDailyData():
+    try:
+        # todo_id = request.args.get('id')
+        # date = request.args.get('date')
+        data = request.get_json()
+        todo_id = data.get('id')
+        date = data.get('date')
+        
+        prev_start_date = (datetime.strptime(date, "%Y-%m-%d") - timedelta(days=1)).replace(hour=23, minute=45, second=0)
+        start_date = prev_start_date.strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+
+        percent = 0.0
+        act_daily_sum, actual_max_hour, actual_max_value = 0, "0000-00-00 00:00:00", 0
+        pred_daily_sum, pred_max_hour, pred_max_value = 0, "0000-00-00 00:00:00", 0
+        response_data = {}
+        # Check if actual data exist        
+        mongo_query = {
+            'sensor_id': todo_id,
+            "creation_time": {"$gte": start_date, "$lt": end_date}}
+        try:
+            document = list(collection_name5.find(mongo_query,{"_id": 0,"creation_time": 1, "opening_KWh": 1}))
+            if len(document)!= 0:
+                act_df = pd.DataFrame(document)
+                act_df['creation_time'] = pd.to_datetime(act_df['creation_time'])
+                act_df.set_index('creation_time', inplace=True, drop=True)
+                act_df.sort_index(inplace=True)
+                act_df.loc[act_df['opening_KWh']==0,"opening_KWh"] = np.nan
+                act_df.loc[act_df['opening_KWh'].first_valid_index():]
+                act_df.bfill(inplace=True)
+
+                resampled_act_df = act_df.resample(rule="15min").asfreq() 
+                resampled_act_df.interpolate(method="linear", inplace=True)
+                resampled_act_df['prev_opening'] = resampled_act_df['opening_KWh'].shift(1)
+                resampled_act_df.dropna(inplace=True)
+                resampled_act_df['consumed_unit'] = (resampled_act_df['opening_KWh'] - resampled_act_df['prev_opening']).round(2)
+                resampled_act_df.loc[resampled_act_df['consumed_unit'] < 0, "opening_KWh"] = resampled_act_df["prev_opening"]
+                resampled_act_df.loc[resampled_act_df['consumed_unit'] < 0, "consumed_unit"] = 0
+
+            else:
+                print("no actual data available for that day")
+
+            new_act_df = pd.DataFrame({"consumed_unit":[0]},index = pd.date_range(date, end_date, freq="15min"))
+            if len(document)!= 0:
+                new_act_df.update(resampled_act_df)
+
+            actual_max_value = new_act_df['consumed_unit'].max()
+            index_with_max_consumed_unit = new_act_df[new_act_df['consumed_unit']==actual_max_value].index
+            actual_max_hour = index_with_max_consumed_unit[0].strftime("%Y-%m-%d %H:%M:%S")   
+            act_daily_sum = new_act_df['consumed_unit'].sum()
+
+            new_act_df.reset_index(inplace=True)
+            act_data_dict = new_act_df.to_dict()
+
+            formatted_data_act = {"data_act": []}
+            for i in range(len(new_act_df)):
+                formatted_data_act["data_act"].append({"clock":act_data_dict['index'][i].strftime("%Y-%m-%d %H:%M:%S"), "consumed_unit":float(act_data_dict['consumed_unit'][i])})
+            response_data['actual_data'] = formatted_data_act['data_act']
+        except Exception as e:
+            print("Error occurred while fetching actual data:", e)
+
+        # Check if predicted data exists
+        pred_data_date = (datetime.strptime(date, "%Y-%m-%d"))
+        mongo_query = {
+            'sensor_id': todo_id,
+            "day":str(pred_data_date.day).zfill(2),
+            "month":str(pred_data_date.month).zfill(2),
+            "year": str(pred_data_date.year)}
+        try:
+            pred_document = []
+            pred_document = list(collection_name7.find(mongo_query,{"_id" : 0,"data" : 1}))
+            if len(pred_document)!= 0:
+                pred_df = pd.DataFrame(pred_document[0]['data']).transpose()
+                pred_df.rename(columns={'pre_kwh':'consumed_unit'}, inplace=True)
+                pred_df.index = pd.date_range(date, periods= len(pred_df), freq="15min")
+
+            else:
+                print("no prediction data available for that day")
+            new_pred_df = pd.DataFrame({"consumed_unit":[0]},index = pd.date_range(date, end_date, freq="15min"))
+
+            if len(pred_document)!= 0:
+                new_pred_df.update(pred_df)
+            pred_max_value = new_pred_df['consumed_unit'].max()
+            index_with_max_consumed_unit_pred = new_pred_df[new_pred_df['consumed_unit']==pred_max_value].index
+            pred_max_hour = index_with_max_consumed_unit_pred[0].strftime("%Y-%m-%d %H:%M:%S")   
+            pred_daily_sum = new_pred_df['consumed_unit'].sum()
+
+            new_pred_df.reset_index(inplace=True)
+            pred_data_dict = new_pred_df.to_dict()
+
+            formatted_data_pred = {"data_pred": []}
+            for j in range(len(new_pred_df)):
+                formatted_data_pred["data_pred"].append({"clock":pred_data_dict['index'][j].strftime("%Y-%m-%d %H:%M:%S"), "consumed_unit":float(pred_data_dict['consumed_unit'][j])})
+
+            response_data['predicted_data'] = formatted_data_pred['data_pred']
+        except Exception as e:
+            print("Error occurred while fetching predicion data:", e)
+        
+        return {"rc": 0, "message": "Success",
+                "actual_max_hour": str(actual_max_hour),
+                "actual_max_value": round(float(actual_max_value),2),
+                "actual_daily_sum": round(float(act_daily_sum),2),
+                "pred_daily_sum": round(float(pred_daily_sum), 2),
+                "pred_max_hour": str(pred_max_hour),
+                "pred_max_value": round(float(pred_max_value),2),
+                "data": response_data,
+                # "percentage": percent
+                }
+
+    except Exception as e:
+        traceback.print_exc()
+        return {"error": str(e)}
 
