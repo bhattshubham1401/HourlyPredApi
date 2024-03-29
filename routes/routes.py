@@ -1,14 +1,16 @@
 from calendar import monthrange
 
+from bson.objectid import ObjectId
 from flask import Blueprint, request, jsonify
 
-from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, collection_name5, collection_name6
+from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
+    collection_name5, collection_name6, collection_name7, collection_name8
+
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
 from datetime import datetime
 import traceback
-
 
 
 @router.route('/get_sensorList', methods=['GET'])
@@ -311,7 +313,7 @@ def getPredDataDaily():
         # data = todos_act.json()
         # l1.append(data['resource'])
         try:
-            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1} )
+            documents = collection_name4.find(act_data, {"raw_data": 1, "sensor_id": 1, "read_time": 1})
             for document in documents:
                 l1.append(document)
         except Exception as e:
@@ -1003,11 +1005,10 @@ def getPredDataDaily3():
     except Exception as e:
         return {"error": str(e)}
 
+
 @router.route('/getPredDataMonthlyjdvvnl', methods=['POST'])
 def getPredDataMonthlyjdvvnl():
     try:
-        # todo_id = request.args.get('id')
-        # date = request.args.get('date')
         data = request.get_json()
         todo_id = data.get('id')
         date = data.get('date')
@@ -1019,7 +1020,6 @@ def getPredDataMonthlyjdvvnl():
 
         start_date = datetime(year, month, 1).strftime("%Y-%m-%d")
         end_date = datetime(year, month, last_day).strftime("%Y-%m-%d")
-
 
         act_data = {
             "parent_sensor_id": todo_id,
@@ -1034,7 +1034,7 @@ def getPredDataMonthlyjdvvnl():
         pred_data = {
             "sensor_id": todo_id,
             "month": month,
-            "year" : year
+            "year": year
         }
 
         l1 = []
@@ -1071,7 +1071,8 @@ def getPredDataMonthlyjdvvnl():
             # Actual data found, extract values from the data
             for index, row in df1.iterrows():
                 formatted_data_act["data_act"].append(
-                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh'], "act_load": round(row['consumed_KWh']/24, 2)})
+                    {"clock": f"{index.date()}", "act_kwh": row['consumed_KWh'],
+                     "act_load": round(row['consumed_KWh'] / 24, 2)})
                 act_monthly_sum += row['consumed_KWh']
                 first_day += 1
 
@@ -1099,7 +1100,8 @@ def getPredDataMonthlyjdvvnl():
                 date2 = b[1]
                 pred_daily_sum = sum(
                     todos_pred[i]['data'][str(day)]['pre_kwh'] for day in range(len(todos_pred[i]['data'])))
-                formatted_data_pred["data_pred"].append({"clock": date2, "pre_kwh": round(pred_daily_sum, 2), "pre_load": round(pred_daily_sum/24, 2)})
+                formatted_data_pred["data_pred"].append(
+                    {"clock": date2, "pre_kwh": round(pred_daily_sum, 2), "pre_load": round(pred_daily_sum / 24, 2)})
 
                 pred_monthly_sum += pred_daily_sum
 
@@ -1120,14 +1122,78 @@ def getPredDataMonthlyjdvvnl():
 
         # Combine actual and predicted data into a single dictionary
         response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
-        return {"rc": 0, "message": "Success", "sensor_id": todo_id, "actual_load": round(act_monthly_sum/24, 2),"pred_load": round(pred_monthly_sum/24, 2),
+        return {"rc": 0, "message": "Success", "sensor_id": todo_id, "actual_load": round(act_monthly_sum / 24, 2),
+                "pred_load": round(pred_monthly_sum / 24, 2),
                 "act_max_date_value": act_max_date_value, "act_max_date": act_max_date,
                 "pred_max_date_value": pred_max_date_value, "pred_max_date": pred_max_date,
                 "act_monthly_sum": round(act_monthly_sum, 2), "pred_monthly_sum": round(pred_monthly_sum, 2),
-                 "data": response_data}
+                "data": response_data}
 
     except Exception as e:
         traceback.print_exc()
         return {"error": str(e)}
 
 
+@router.route('/getweatherdata', methods=['POST'])
+def get_weather_data():
+    try:
+        lst = ['cc0393fd-8fd7-11ee-a933-02d6f4b17064']
+
+
+        pipeline = [
+            {"$match": {'type': 'AC_METER', 'admin_status': {"$in": ['N', 'S', 'U']},
+                        'site_id': {"$in": lst}}},
+            {"$group": {
+                "_id": "$site_id",
+                "latitude": {"$min": "$latitude"},
+                "longitude": {"$min": "$longitude"},
+                "sensors": {
+                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
+            }}
+        ]
+
+        # Execute the pipeline and retrieve the result
+        result = list(collection_name7.aggregate(pipeline))
+        print(result)
+
+        # Construct data to be inserted into MongoDB
+        bulk_insert_data = []
+
+        # Iterate over each site
+        for site_data in result:
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2023-06-01&end_date=2024-03-12&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            print(url)
+            response = requests.get(url)
+            response.raise_for_status()
+            weather_data = response.json()
+
+            # Process weather data if available
+            if "hourly" in weather_data:
+                for i in range(len(weather_data['hourly']['time'])):
+                    hour_data = {
+                        "_id": ObjectId(),  # MongoDB's unique identifier
+                        "site_id": site_data["_id"],
+                        "time": weather_data['hourly']['time'][i],
+                        "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
+                        "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
+                        "apparent_temperature": weather_data['hourly'].get('apparent_temperature', [])[i],
+                        "precipitation": weather_data['hourly'].get('precipitation', [])[i],
+                        "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
+                        "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
+                        "creation_time_iso": datetime.utcfromtimestamp(
+                            datetime.strptime(weather_data['hourly']['time'][i],
+                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
+                    }
+
+                    bulk_insert_data.append(hour_data)
+                    # print(bulk_insert_data)
+
+        # Insert the data into MongoDB in bulk
+        if bulk_insert_data:
+            collection_name8.insert_many(bulk_insert_data)
+            return {"message": "Weather data fetched and stored successfully"}
+        else:
+            return {"message": "No weather data available for the specified sites"}
+
+    except Exception as e:
+        return {"error": str(e)}
