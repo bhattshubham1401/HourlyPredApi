@@ -1,7 +1,7 @@
 from pymongo.mongo_client import MongoClient
 
-host = "13.127.57.185"
-# host = "localhost"
+# host = "13.127.57.185"
+host = "localhost"
 port = 27017
 db = "pvvnl"
 
@@ -13,6 +13,7 @@ collection4 = "dlms"
 collection5 = "load_profile_jdvvnl"
 collection6 = "jdvvnl_LF"
 collection7 = 'jdvvnl_lf_pred'
+collection8 = 'jdvvnlSensor'
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
@@ -32,6 +33,8 @@ collection_name4 = db1[collection4]
 collection_name5 = db1[collection5]
 collection_name6 = db1[collection6]
 collection_name7 = db1[collection7]
+collection_name8 = db1[collection8]
+
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
