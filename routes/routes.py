@@ -1250,9 +1250,33 @@ def getJDVVNLDailyData():
 @router.route('/get_jdvvnlSensorList', methods=['POST'])
 def get_jdvvnlSensorList():
     try:
-        circle_id = 'd07d36a0-facd-11ed-a890-0242bed38519'
+        data = request.get_json()
+        circle_id = data.get('circle_id')
+        # circle_id = 'd07d36a0-facd-11ed-a890-0242bed38519'
         data = list(collection_name8.find({'circle_id':circle_id,"type":"AC_METER","admin_status": {"$in": ['N', 'S', 'U']}},{"_id":0,"id":1,"UOM": 1,"name":1,"asset_id":1}))
         return jsonify({"rc": 0, "message": "Success", 'sensorList': data})
+
+    except Exception as e:
+        print(e)
+        return jsonify({"rc": -1, "message": "error"}), 500
+
+
+@router.route('/get_jdvvnlcircleList', methods=['POST'])
+def get_jdvvnlcircleList():
+    try:
+        distinct_circle_id = {"cf65ac20-facd-11ed-a890-0242bed38519":    'JODHPUR CITY',
+                                'd042ecc0-facd-11ed-a890-0242bed38519' :   'PALI',
+                                'd077df70-facd-11ed-a890-0242bed38519' :   "JODHPUR DC",
+                                'd07d36a0-facd-11ed-a890-0242bed38519'  :  "JAISALMER",
+                                'd08b1950-facd-11ed-a890-0242bed38519'  :  "SRI GANGANAGAR",
+                                'd0d93950-facd-11ed-a890-0242bed38519' :   "BARMER",
+                                'd0f23f90-facd-11ed-a890-0242bed38519' :   "SIROHI",
+                                'd11ef4e0-facd-11ed-a890-0242bed38519' :   "JALORE",
+                                'd1331920-facd-11ed-a890-0242bed38519' :   "HANUMANGARH",
+                                'd1489cf0-facd-11ed-a890-0242bed38519'  :  "BIKANER",
+                                'e5533a70-facd-11ed-a890-0242bed38519'  :  "CHURU"}
+        # distinct_circle_id = collection_name8.distinct("circle_id", {"utility": "2", "type": "AC_METER", "admin_status": {"$in": ['N', 'S', 'U']}})
+        return jsonify({"rc": 0, "message": "Success", 'circleList': distinct_circle_id})
 
     except Exception as e:
         print(e)
