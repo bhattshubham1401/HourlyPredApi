@@ -1189,7 +1189,7 @@ def getJDVVNLDailyData():
 
             formatted_data_act = {"data_act": []}
             for i in range(len(new_act_df)):
-                formatted_data_act["data_act"].append({"clock":act_data_dict['index'][i].strftime("%Y-%m-%d %H:%M:%S"), "consumed_unit":float(act_data_dict['consumed_unit'][i])})
+                formatted_data_act["data_act"].append({"clock":act_data_dict['index'][i].strftime("%H:%M:%S"), "consumed_unit":float(act_data_dict['consumed_unit'][i])})
             response_data['actual_data'] = formatted_data_act['data_act']
         except Exception as e:
             print("Error occurred while fetching actual data:", e)
@@ -1225,7 +1225,7 @@ def getJDVVNLDailyData():
 
             formatted_data_pred = {"data_pred": []}
             for j in range(len(new_pred_df)):
-                formatted_data_pred["data_pred"].append({"clock":pred_data_dict['index'][j].strftime("%Y-%m-%d %H:%M:%S"), "consumed_unit":float(pred_data_dict['consumed_unit'][j])})
+                formatted_data_pred["data_pred"].append({"clock":pred_data_dict['index'][j].strftime("%H:%M:%S"), "consumed_unit":float(pred_data_dict['consumed_unit'][j])})
 
             response_data['predicted_data'] = formatted_data_pred['data_pred']
         except Exception as e:
