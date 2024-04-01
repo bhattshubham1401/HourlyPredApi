@@ -4,12 +4,12 @@ from bson.objectid import ObjectId
 from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
-    collection_name5, collection_name6, collection_name7, collection_name8
+    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9
 
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 import traceback
 
 
@@ -1274,7 +1274,7 @@ def getJDVVNLDailyData():
             "year": str(pred_data_date.year)}
         try:
             pred_document = []
-            pred_document = list(collection_name7.find(mongo_query, {"_id": 0, "data": 1}))
+            pred_document = list(collection_name6.find(mongo_query, {"_id": 0, "data": 1}))
             if len(pred_document) != 0:
                 pred_df = pd.DataFrame(pred_document[0]['data']).transpose()
                 pred_df.rename(columns={'pre_kwh': 'consumed_unit'}, inplace=True)
@@ -1325,7 +1325,7 @@ def get_jdvvnlSensorList():
         data = request.get_json()
         circle_id = data.get('circle_id')
         # circle_id = 'd07d36a0-facd-11ed-a890-0242bed38519'
-        data = list(collection_name8.find(
+        data = list(collection_name7.find(
             {'circle_id': circle_id, "type": "AC_METER", "admin_status": {"$in": ['N', 'S', 'U']}},
             {"_id": 0, "id": 1, "UOM": 1, "name": 1, "asset_id": 1}))
         return jsonify({"rc": 0, "message": "Success", 'sensorList': data})

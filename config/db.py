@@ -10,10 +10,11 @@ collection1 = "forcast1"
 collection2 = "forcast2"
 collection3 = "forcast3"
 collection4 = "dlms"
-collection5 = "feeder_data_daily_log"
-collection6 = "jdvvnl_LF"
+collection5 = "load_profile_jdvvnl"
+collection6 = "jdvvnl_lf_pred"
 collection7 = "jdvvnlSensor"
 collection8 = "weather_data"
+collection9 = "jdvvnl_LF"
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
@@ -34,6 +35,7 @@ collection_name5 = db1[collection5]
 collection_name6 = db1[collection6]
 collection_name7 = db1[collection7]
 collection_name8 = db1[collection8]
+collection_name9 = db1[collection9]
 
 try:
     client.admin.command('ping')
