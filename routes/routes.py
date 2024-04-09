@@ -1135,10 +1135,9 @@ def getPredDataMonthlyjdvvnl():
 
 
 @router.route('/getweatherdata', methods=['POST'])
-def get_weather_data():
+def getweatherdata():
     try:
-        lst = ['cc0393fd-8fd7-11ee-a933-02d6f4b17064']
-
+        lst = ['5af4b63a-8fc5-11ee-a933-02d6f4b17064 ', 'd92147b0-facd-11ed-a890-0242bed38519 ', '65045973481945.69871121 ']
 
         pipeline = [
             {"$match": {'type': 'AC_METER', 'admin_status': {"$in": ['N', 'S', 'U']},
@@ -1198,6 +1197,70 @@ def get_weather_data():
     except Exception as e:
         return {"error": str(e)}
 
+# weather data forcasted
+@router.route('/getweatherdataF', methods=['POST'])
+def getweatherdataF():
+    try:
+        lst = ['5af4b63a-8fc5-11ee-a933-02d6f4b17064 ', 'd92147b0-facd-11ed-a890-0242bed38519 ', '65045973481945.69871121 ']
+
+        pipeline = [
+            {"$match": {'type': 'AC_METER', 'admin_status': {"$in": ['N', 'S', 'U']},
+                        'site_id': {"$in": lst}}},
+            {"$group": {
+                "_id": "$site_id",
+                "latitude": {"$min": "$latitude"},
+                "longitude": {"$min": "$longitude"},
+                "sensors": {
+                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
+            }}
+        ]
+
+        # Execute the pipeline and retrieve the result
+        result = list(collection_name7.aggregate(pipeline))
+        print(result)
+
+        # Construct data to be inserted into MongoDB
+        bulk_insert_data = []
+
+        # Iterate over each site
+        for site_data in result:
+            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date=2024-04-08&end_date=2024-04-17"
+            print(url)
+            response = requests.get(url)
+            response.raise_for_status()
+            weather_data = response.json()
+
+            # Process weather data if available
+            if "hourly" in weather_data:
+                for i in range(len(weather_data['hourly']['time'])):
+                    hour_data = {
+                        "_id": ObjectId(),  # MongoDB's unique identifier
+                        "site_id": site_data["_id"],
+                        "time": weather_data['hourly']['time'][i],
+                        "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
+                        "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
+                        "apparent_temperature": weather_data['hourly'].get('apparent_temperature', [])[i],
+                        "precipitation": weather_data['hourly'].get('precipitation', [])[i],
+                        "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
+                        "wind_speed_80m": weather_data['hourly'].get('wind_speed_80m', [])[i],
+                        "creation_time_iso": datetime.utcfromtimestamp(
+                            datetime.strptime(weather_data['hourly']['time'][i],
+                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
+                    }
+
+                    bulk_insert_data.append(hour_data)
+                    # print(bulk_insert_data)
+
+        # Insert the data into MongoDB in bulk
+        if bulk_insert_data:
+            collection_name8.insert_many(bulk_insert_data)
+            return {"message": "Weather data fetched and stored successfully"}
+        else:
+            return {"message": "No weather data available for the specified sites"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
 
 @router.route('/getJDVVNLDailyData', methods=['POST'])
 def getJDVVNLDailyData():
@@ -1237,7 +1300,7 @@ def getJDVVNLDailyData():
                 resampled_act_df['prev_opening'] = resampled_act_df['opening_KWh'].shift(1)
                 resampled_act_df.dropna(inplace=True)
                 resampled_act_df['consumed_unit'] = (
-                            resampled_act_df['opening_KWh'] - resampled_act_df['prev_opening']).round(2)
+                        resampled_act_df['opening_KWh'] - resampled_act_df['prev_opening']).round(2)
                 resampled_act_df.loc[resampled_act_df['consumed_unit'] < 0, "opening_KWh"] = resampled_act_df[
                     "prev_opening"]
                 resampled_act_df.loc[resampled_act_df['consumed_unit'] < 0, "consumed_unit"] = 0
@@ -1274,7 +1337,7 @@ def getJDVVNLDailyData():
             "year": str(pred_data_date.year)}
         try:
             pred_document = []
-            pred_document = list(collection_name6.find(mongo_query, {"_id": 0, "data": 1}))
+            pred_document = list(collection_name9.find(mongo_query, {"_id": 0, "data": 1}))
             if len(pred_document) != 0:
                 pred_df = pd.DataFrame(pred_document[0]['data']).transpose()
                 pred_df.rename(columns={'pre_kwh': 'consumed_unit'}, inplace=True)
