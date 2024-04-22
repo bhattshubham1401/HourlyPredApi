@@ -1,11 +1,11 @@
 from pymongo.mongo_client import MongoClient
 
-# host = "13.127.57.185"
-host = "localhost"
+host = "13.127.57.185"
+# host = "localhost"
 port = 27017
 db = "pvvnl"
 
-collection = "forcast"
+collection  = "forcast"
 collection1 = "forcast1"
 collection2 = "forcast2"
 collection3 = "forcast3"
