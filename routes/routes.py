@@ -1,10 +1,12 @@
+import concurrent
 from calendar import monthrange
+from concurrent.futures import ThreadPoolExecutor
 
 from bson.objectid import ObjectId
 from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
-    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9
+    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9,collection_name10
 
 router = Blueprint('router', __name__)
 import requests
@@ -12,7 +14,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import traceback
 import numpy as np
-
+from logs import logs_config
 
 @router.route('/get_sensorList', methods=['GET'])
 def get_sensorList():
@@ -1619,3 +1621,70 @@ def get_jdvvnlcircleList():
     except Exception as e:
         print(e)
         return jsonify({"rc": -1, "message": "error"}), 500
+
+@router.route('/circle_id', methods=['POST'])
+def circle_id():
+    try:
+        data = collection_name10.find({},{"_id":0,"id":1},)
+        result = list(data)
+        for doc in result:
+            if '_id' in doc:
+                doc['_id'] = str(doc['_id'])
+        logs_config.logger.info("Fetched circle IDs from database")
+        return result
+    except Exception as e:
+        logs_config.logger.error("Error fetching circle IDs:", exc_info=True)
+        raise e
+
+
+@router.route('/sensor_ids', methods=['POST'])
+def sensor_ids():
+
+    try:
+        query = {
+            "type": "AC_METER",
+            "admin_status": {"$in": ["N", "S", "U"]},
+            "utility": "2"
+        }
+        projection = {"id": 1, "_id": 0}
+        sensor_id = collection_name7.find(query, projection)
+        return [doc["id"] for doc in sensor_id]
+
+    except Exception as e:
+        logs_config.logger.error("Error fetching sensor IDs:", exc_info=True)
+        raise e
+
+
+def data_fetch(sensor_id):
+    try:
+        fromId = sensor_id + "-2024-01-01 00:00:00"
+        toId = sensor_id + "-2024-03-31 23:59:59"
+        query = {"_id": {"$gte": fromId, "$lt": toId}}
+        results = list(collection_name5.find(query))
+
+        if results:
+            for doc in results:
+                # Convert '_id' to string for JSON compatibility
+                doc['_id'] = str(doc['_id'])
+
+        logs_config.logger.info(f"Fetched {len(results)} documents for sensor_id: {sensor_id}")
+        return results
+    except Exception as e:
+        logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}:", exc_info=True)
+        return np.array([])
+
+@router.route('/fetch_data_for_sensors', methods=['POST'])
+def fetch_data_for_sensors():
+    sensors = sensor_ids()
+    with ThreadPoolExecutor() as executor:
+        futures = {executor.submit(data_fetch, sensor_id): sensor_id for sensor_id in sensors}
+
+    results = []
+    for future in concurrent.futures.as_completed(futures):
+        sensor_id = futures[future]
+        try:
+            results.append(future.result())
+        except Exception as exc:
+            logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}: {exc}")
+
+    return jsonify(results)
