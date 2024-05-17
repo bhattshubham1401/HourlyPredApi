@@ -1670,7 +1670,7 @@ def data_fetch(sensor_id):
                 doc['_id'] = str(doc['_id'])
         # transformed_data = dataTransformation.init_transformation(results, site_id)
         logs_config.logger.info(f"Fetched {len(results)} documents for sensor_id: {sensor_id}")
-        return jsonify(results)
+        return list(results)
     except Exception as e:
         logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}:", exc_info=True)
         return []
@@ -1683,7 +1683,7 @@ def fetch_data_for_sensors():
     # sensors = ["0136cda1-63b7-44dd-99e9-4592ebe441fd" , "01412db0-c82d-4e90-bd07-261186c7844a"]
     # sites = ["ffbd3565-8f89-11ee-a933-02d6f4b17064","df554320-facd-11ed-a890-0242bed38519"]
     with ThreadPoolExecutor() as executor:
-        futures = {executor.submit(data_fetch, sensor_id): sensor_id for sensor_id in sensor_info}
+        futures = {executor.submit(data_fetch, sensor_id):sensor_id for sensor_id in sensor_info}
 
     results = []
     for future in concurrent.futures.as_completed(futures):
