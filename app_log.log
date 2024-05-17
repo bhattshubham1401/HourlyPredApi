@@ -392,3 +392,821 @@ TypeError: string indices must be integers, not 'str'
 2024-05-17 12:00:31,281 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
 2024-05-17 12:00:58,046 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
 2024-05-17 12:44:33,337 - INFO - routes.py:1633 - Fetched circle IDs from database
+2024-05-17 13:34:52,307 - INFO - routes.py:1633 - Fetched circle IDs from database
+2024-05-17 13:40:59,450 - INFO - routes.py:1672 - Fetched 334 documents for sensor_id: 01dc8098-5931-4913-8ea5-181d7726dcf5
+2024-05-17 13:40:59,451 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01dc8098-5931-4913-8ea5-181d7726dcf5:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:11,638 - INFO - routes.py:1672 - Fetched 8526 documents for sensor_id: 014f8147-ee70-48cb-aa68-ef58e54eaefe
+2024-05-17 13:41:11,640 - ERROR - routes.py:1675 - Error fetching data for sensor_id 014f8147-ee70-48cb-aa68-ef58e54eaefe:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:12,255 - INFO - routes.py:1672 - Fetched 5748 documents for sensor_id: 05ff5916-2293-43da-ab30-a7ed296c76f1
+2024-05-17 13:41:12,256 - ERROR - routes.py:1675 - Error fetching data for sensor_id 05ff5916-2293-43da-ab30-a7ed296c76f1:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:13,405 - INFO - routes.py:1672 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 13:41:13,407 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01412db0-c82d-4e90-bd07-261186c7844a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:16,146 - INFO - routes.py:1672 - Fetched 8464 documents for sensor_id: 01f33ba2-de83-437a-bd38-b76e2a400e64
+2024-05-17 13:41:16,148 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01f33ba2-de83-437a-bd38-b76e2a400e64:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:16,507 - INFO - routes.py:1672 - Fetched 8031 documents for sensor_id: 0486613b-8ba0-4d73-8bcd-e306514650ad
+2024-05-17 13:41:16,510 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0486613b-8ba0-4d73-8bcd-e306514650ad:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:16,916 - INFO - routes.py:1672 - Fetched 8474 documents for sensor_id: 0425ff76-ae5e-41e4-8938-858aa06ac969
+2024-05-17 13:41:16,918 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0425ff76-ae5e-41e4-8938-858aa06ac969:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:18,386 - INFO - routes.py:1672 - Fetched 8471 documents for sensor_id: 05ade6d3-a470-4b25-b4fd-6d88ef28ace5
+2024-05-17 13:41:18,388 - ERROR - routes.py:1675 - Error fetching data for sensor_id 05ade6d3-a470-4b25-b4fd-6d88ef28ace5:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:18,708 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 01de48d6-058e-4eb0-8a6b-b9519a3ea4ed
+2024-05-17 13:41:18,709 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01de48d6-058e-4eb0-8a6b-b9519a3ea4ed:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:18,790 - INFO - routes.py:1672 - Fetched 8504 documents for sensor_id: 0254a9ea-9295-44a8-a2de-adb7055cd3ab
+2024-05-17 13:41:18,809 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0254a9ea-9295-44a8-a2de-adb7055cd3ab:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:18,957 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 13:41:18,961 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0136cda1-63b7-44dd-99e9-4592ebe441fd:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:22,411 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 05e53979-da58-4f07-90ab-d4dbfcf27929
+2024-05-17 13:41:22,412 - ERROR - routes.py:1675 - Error fetching data for sensor_id 05e53979-da58-4f07-90ab-d4dbfcf27929:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:23,534 - INFO - routes.py:1672 - Fetched 8530 documents for sensor_id: 022040a0-beb4-413c-bc3b-e6564fc2699c
+2024-05-17 13:41:23,536 - ERROR - routes.py:1675 - Error fetching data for sensor_id 022040a0-beb4-413c-bc3b-e6564fc2699c:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:26,934 - INFO - routes.py:1672 - Fetched 8536 documents for sensor_id: 0609d19f-ca0b-420b-a854-3fe0d087b32f
+2024-05-17 13:41:26,935 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0609d19f-ca0b-420b-a854-3fe0d087b32f:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:27,117 - INFO - routes.py:1672 - Fetched 8433 documents for sensor_id: 06572c33-bf33-4981-9089-c06c2b68abb6
+2024-05-17 13:41:27,119 - ERROR - routes.py:1675 - Error fetching data for sensor_id 06572c33-bf33-4981-9089-c06c2b68abb6:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:28,718 - INFO - routes.py:1672 - Fetched 8553 documents for sensor_id: 069055a1-371f-4854-82fc-08620285fe52
+2024-05-17 13:41:28,719 - ERROR - routes.py:1675 - Error fetching data for sensor_id 069055a1-371f-4854-82fc-08620285fe52:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:29,263 - INFO - routes.py:1672 - Fetched 8543 documents for sensor_id: 06545110-09ac-4e99-8b35-740cbced44e7
+2024-05-17 13:41:29,265 - ERROR - routes.py:1675 - Error fetching data for sensor_id 06545110-09ac-4e99-8b35-740cbced44e7:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:29,402 - INFO - routes.py:1672 - Fetched 3 documents for sensor_id: 0c225f6a-dfe7-4f03-a0ef-d44d20abfc6a
+2024-05-17 13:41:29,403 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0c225f6a-dfe7-4f03-a0ef-d44d20abfc6a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:30,136 - INFO - routes.py:1672 - Fetched 6471 documents for sensor_id: 0915e39b-2ec2-4b88-97c4-ae13ea63aca6
+2024-05-17 13:41:30,139 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0915e39b-2ec2-4b88-97c4-ae13ea63aca6:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:32,302 - INFO - routes.py:1672 - Fetched 8539 documents for sensor_id: 09067b68-7a2a-4bfe-b350-0757b450ea08
+2024-05-17 13:41:32,302 - ERROR - routes.py:1675 - Error fetching data for sensor_id 09067b68-7a2a-4bfe-b350-0757b450ea08:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:33,407 - INFO - routes.py:1672 - Fetched 8413 documents for sensor_id: 07617d4d-e6c1-4a59-b454-137a988cf9fa
+2024-05-17 13:41:33,409 - ERROR - routes.py:1675 - Error fetching data for sensor_id 07617d4d-e6c1-4a59-b454-137a988cf9fa:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:33,532 - INFO - routes.py:1672 - Fetched 0 documents for sensor_id: 0dae0eaa-465f-4d56-a475-de6fe6e09f69
+2024-05-17 13:41:33,532 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0dae0eaa-465f-4d56-a475-de6fe6e09f69:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:35,385 - INFO - routes.py:1672 - Fetched 8532 documents for sensor_id: 06edb7f2-c8f9-4e28-a823-272c66a1bce3
+2024-05-17 13:41:35,386 - ERROR - routes.py:1675 - Error fetching data for sensor_id 06edb7f2-c8f9-4e28-a823-272c66a1bce3:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:36,788 - INFO - routes.py:1672 - Fetched 8538 documents for sensor_id: 0a1a23d1-89c5-4bb2-8654-ee64694e52fb
+2024-05-17 13:41:36,789 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0a1a23d1-89c5-4bb2-8654-ee64694e52fb:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:41:37,919 - INFO - routes.py:1672 - Fetched 8558 documents for sensor_id: 09d008e3-88ab-4bf5-b32d-c0fc5047443a
+2024-05-17 13:41:37,921 - ERROR - routes.py:1675 - Error fetching data for sensor_id 09d008e3-88ab-4bf5-b32d-c0fc5047443a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:09,519 - INFO - routes.py:1672 - Fetched 334 documents for sensor_id: 01dc8098-5931-4913-8ea5-181d7726dcf5
+2024-05-17 13:42:09,522 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01dc8098-5931-4913-8ea5-181d7726dcf5:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:18,134 - INFO - routes.py:1672 - Fetched 5748 documents for sensor_id: 05ff5916-2293-43da-ab30-a7ed296c76f1
+2024-05-17 13:42:18,135 - ERROR - routes.py:1675 - Error fetching data for sensor_id 05ff5916-2293-43da-ab30-a7ed296c76f1:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:19,765 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 13:42:19,766 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0136cda1-63b7-44dd-99e9-4592ebe441fd:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:21,441 - INFO - routes.py:1672 - Fetched 8474 documents for sensor_id: 0425ff76-ae5e-41e4-8938-858aa06ac969
+2024-05-17 13:42:21,443 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0425ff76-ae5e-41e4-8938-858aa06ac969:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:21,925 - INFO - routes.py:1672 - Fetched 8526 documents for sensor_id: 014f8147-ee70-48cb-aa68-ef58e54eaefe
+2024-05-17 13:42:21,926 - ERROR - routes.py:1675 - Error fetching data for sensor_id 014f8147-ee70-48cb-aa68-ef58e54eaefe:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:22,224 - INFO - routes.py:1672 - Fetched 8530 documents for sensor_id: 022040a0-beb4-413c-bc3b-e6564fc2699c
+2024-05-17 13:42:22,228 - ERROR - routes.py:1675 - Error fetching data for sensor_id 022040a0-beb4-413c-bc3b-e6564fc2699c:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:22,725 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 01de48d6-058e-4eb0-8a6b-b9519a3ea4ed
+2024-05-17 13:42:22,727 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01de48d6-058e-4eb0-8a6b-b9519a3ea4ed:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:23,005 - INFO - routes.py:1672 - Fetched 8031 documents for sensor_id: 0486613b-8ba0-4d73-8bcd-e306514650ad
+2024-05-17 13:42:23,006 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0486613b-8ba0-4d73-8bcd-e306514650ad:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:23,361 - INFO - routes.py:1672 - Fetched 8504 documents for sensor_id: 0254a9ea-9295-44a8-a2de-adb7055cd3ab
+2024-05-17 13:42:23,362 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0254a9ea-9295-44a8-a2de-adb7055cd3ab:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:23,457 - INFO - routes.py:1672 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 13:42:23,523 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01412db0-c82d-4e90-bd07-261186c7844a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:23,600 - INFO - routes.py:1672 - Fetched 8464 documents for sensor_id: 01f33ba2-de83-437a-bd38-b76e2a400e64
+2024-05-17 13:42:23,601 - INFO - routes.py:1672 - Fetched 8471 documents for sensor_id: 05ade6d3-a470-4b25-b4fd-6d88ef28ace5
+2024-05-17 13:42:23,619 - ERROR - routes.py:1675 - Error fetching data for sensor_id 05ade6d3-a470-4b25-b4fd-6d88ef28ace5:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:23,618 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01f33ba2-de83-437a-bd38-b76e2a400e64:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:26,575 - INFO - routes.py:1672 - Fetched 8536 documents for sensor_id: 0609d19f-ca0b-420b-a854-3fe0d087b32f
+2024-05-17 13:42:26,576 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0609d19f-ca0b-420b-a854-3fe0d087b32f:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:26,960 - INFO - routes.py:1672 - Fetched 8543 documents for sensor_id: 06545110-09ac-4e99-8b35-740cbced44e7
+2024-05-17 13:42:26,962 - ERROR - routes.py:1675 - Error fetching data for sensor_id 06545110-09ac-4e99-8b35-740cbced44e7:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:27,834 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 05e53979-da58-4f07-90ab-d4dbfcf27929
+2024-05-17 13:42:27,836 - ERROR - routes.py:1675 - Error fetching data for sensor_id 05e53979-da58-4f07-90ab-d4dbfcf27929:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:28,207 - INFO - routes.py:1672 - Fetched 8433 documents for sensor_id: 06572c33-bf33-4981-9089-c06c2b68abb6
+2024-05-17 13:42:28,208 - ERROR - routes.py:1675 - Error fetching data for sensor_id 06572c33-bf33-4981-9089-c06c2b68abb6:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:28,435 - INFO - routes.py:1672 - Fetched 8532 documents for sensor_id: 06edb7f2-c8f9-4e28-a823-272c66a1bce3
+2024-05-17 13:42:28,436 - ERROR - routes.py:1675 - Error fetching data for sensor_id 06edb7f2-c8f9-4e28-a823-272c66a1bce3:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2024-05-17 13:42:28,526 - INFO - routes.py:1672 - Fetched 3 documents for sensor_id: 0c225f6a-dfe7-4f03-a0ef-d44d20abfc6a
+2024-05-17 13:42:28,527 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0c225f6a-dfe7-4f03-a0ef-d44d20abfc6a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1673, in data_fetch
+    return jsonify(results)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 311, in __get__
+    obj = instance._get_current_object()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\werkzeug\local.py", line 508, in _get_current_object
+    raise RuntimeError(unbound_message) from None
+RuntimeError: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
