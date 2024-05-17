@@ -360,3 +360,34 @@ pymongo.errors.ServerSelectionTimeoutError: 13.127.57.185:27017: [WinError 10061
 2024-05-16 18:18:48,359 - INFO - routes.py:1670 - Fetched 7338 documents for sensor_id: 080ecc4e-a809-4f0d-87ee-5c23636113fe
 2024-05-16 18:18:48,400 - INFO - routes.py:1670 - Fetched 8496 documents for sensor_id: 07fe2fb6-da3d-44f6-ac76-73c214835a56
 2024-05-16 18:18:48,777 - INFO - routes.py:1670 - Fetched 8558 documents for sensor_id: 07f643b6-1776-4d4e-9430-763e23ef84e3
+2024-05-17 11:33:13,751 - INFO - routes.py:1633 - Fetched circle IDs from database
+2024-05-17 11:38:21,624 - INFO - routes.py:1672 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 11:38:22,708 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 11:45:11,332 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 11:46:03,033 - INFO - routes.py:1672 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 11:53:27,982 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01412db0-c82d-4e90-bd07-261186c7844a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 11:53:44,157 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0136cda1-63b7-44dd-99e9-4592ebe441fd:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 11:56:51,022 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0136cda1-63b7-44dd-99e9-4592ebe441fd:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 11:57:47,726 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01412db0-c82d-4e90-bd07-261186c7844a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 12:00:31,281 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 12:00:58,046 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
