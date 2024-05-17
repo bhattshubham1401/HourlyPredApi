@@ -1638,8 +1638,8 @@ def circle_id():
 
 
 @router.route('/sensor_ids', methods=['POST'])
-def sensor_ids(circle_id):
-    # circle_id = request.args.get("circle_id")
+def sensor_ids():
+    circle_id = request.args.get("circle_id")
 
     try:
         query = {
@@ -1668,9 +1668,9 @@ def data_fetch(sensor_id , site_id):
             for doc in results:
                 # Convert '_id' to string for JSON compatibility
                 doc['_id'] = str(doc['_id'])
-        transformed_data = dataTransformation.init_transformation(results, site_id)
-        logs_config.logger.info(f"Fetched {len(transformed_data)} documents for sensor_id: {sensor_id}")
-        return transformed_data
+        # transformed_data = dataTransformation.init_transformation(results, site_id)
+        logs_config.logger.info(f"Fetched {len(results)} documents for sensor_id: {sensor_id}")
+        return results
     except Exception as e:
         logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}:", exc_info=True)
         return np.array([])
