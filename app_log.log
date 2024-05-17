@@ -1,18 +1,393 @@
-2024-05-15 16:17:16,478 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:19:18,697 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:19:54,718 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:21:38,052 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:22:56,790 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:24:52,601 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:24:54,389 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:25:06,842 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:26:58,372 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:28:17,415 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:28:38,093 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 16:32:43,410 - INFO - routes.py:1633 - Fetched circle IDs from database
-2024-05-15 17:37:04,148 - INFO - routes.py:1669 - Fetched 2 documents for sensor_id: 000ac7b4-9b5e-4177-8fc1-54e5495ee644
-2024-05-15 17:37:07,695 - INFO - routes.py:1669 - Fetched 4120 documents for sensor_id: 00067867-f402-4460-b0aa-3642f328682e
-2024-05-15 17:40:50,781 - INFO - routes.py:1669 - Fetched 2 documents for sensor_id: 000ac7b4-9b5e-4177-8fc1-54e5495ee644
-2024-05-15 17:40:53,812 - INFO - routes.py:1669 - Fetched 4120 documents for sensor_id: 00067867-f402-4460-b0aa-3642f328682e
-2024-05-15 17:43:13,585 - INFO - routes.py:1670 - Fetched 2 documents for sensor_id: 000ac7b4-9b5e-4177-8fc1-54e5495ee644
-2024-05-15 17:43:16,398 - INFO - routes.py:1670 - Fetched 4120 documents for sensor_id: 00067867-f402-4460-b0aa-3642f328682e
+2024-05-16 15:03:01,943 - INFO - routes.py:1670 - Fetched 2 documents for sensor_id: 000ac7b4-9b5e-4177-8fc1-54e5495ee644
+2024-05-16 15:03:08,896 - INFO - routes.py:1670 - Fetched 4120 documents for sensor_id: 00067867-f402-4460-b0aa-3642f328682e
+2024-05-16 15:06:23,710 - INFO - routes.py:1670 - Fetched 2 documents for sensor_id: 000ac7b4-9b5e-4177-8fc1-54e5495ee644
+2024-05-16 15:06:25,470 - INFO - routes.py:1670 - Fetched 4120 documents for sensor_id: 00067867-f402-4460-b0aa-3642f328682e
+2024-05-16 17:57:13,575 - ERROR - routes.py:1654 - Error fetching sensor IDs:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1651, in sensor_ids
+    return [doc["id"] for doc in sensor_id]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1651, in <listcomp>
+    return [doc["id"] for doc in sensor_id]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\cursor.py", line 1243, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\cursor.py", line 1160, in _refresh
+    self.__send_message(q)
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\cursor.py", line 1039, in __send_message
+    response = client._run_operation(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 1425, in _run_operation
+    return self._retryable_read(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 1534, in _retryable_read
+    return self._retry_internal(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 1501, in _retry_internal
+    ).run()
+      ^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 2347, in run
+    return self._read() if self._is_read else self._write()
+           ^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 2477, in _read
+    self._server = self._get_server()
+                   ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 2433, in _get_server
+    return self._client._select_server(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\mongo_client.py", line 1316, in _select_server
+    server = topology.select_server(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\topology.py", line 369, in select_server
+    server = self._select_server(
+             ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\topology.py", line 347, in _select_server
+    servers = self.select_servers(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\topology.py", line 254, in select_servers
+    server_descriptions = self._select_servers_loop(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\IT Radius\anaconda3\Lib\site-packages\pymongo\topology.py", line 304, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: 13.127.57.185:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 6645f9a0086cbedeab72189b, topology_type: Single, servers: [<ServerDescription ('13.127.57.185', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('13.127.57.185:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2024-05-16 17:59:22,919 - INFO - routes.py:1670 - Fetched 2 documents for sensor_id: 000ac7b4-9b5e-4177-8fc1-54e5495ee644
+2024-05-16 17:59:34,291 - INFO - routes.py:1670 - Fetched 7979 documents for sensor_id: 002a248e-ff66-4363-b973-169b418ea1d3
+2024-05-16 17:59:34,396 - INFO - routes.py:1670 - Fetched 4120 documents for sensor_id: 00067867-f402-4460-b0aa-3642f328682e
+2024-05-16 17:59:35,720 - INFO - routes.py:1670 - Fetched 8565 documents for sensor_id: 0035d0a1-23f9-4a51-b8e6-f68b48ddaafd
+2024-05-16 17:59:36,024 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 0051d074-dffd-45b3-b0ae-34af0ee7fe6e
+2024-05-16 17:59:36,271 - INFO - routes.py:1670 - Fetched 8505 documents for sensor_id: 00256dca-f764-433b-aa76-2400e6a064a2
+2024-05-16 17:59:36,513 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 0056031c-24c6-4215-b39e-03326d81fbe0
+2024-05-16 17:59:38,553 - INFO - routes.py:1670 - Fetched 8374 documents for sensor_id: 0021ee55-da30-42b2-b1d8-2ed3b896893d
+2024-05-16 17:59:39,281 - INFO - routes.py:1670 - Fetched 8531 documents for sensor_id: 00281de7-eef7-4b8f-bd39-2ea7c6b15688
+2024-05-16 17:59:39,396 - INFO - routes.py:1670 - Fetched 8545 documents for sensor_id: 00298fb9-475c-46da-a241-645bdf3762ea
+2024-05-16 17:59:40,606 - INFO - routes.py:1670 - Fetched 8563 documents for sensor_id: 0039924a-0c2f-434f-90a2-6ecaec53f14b
+2024-05-16 17:59:40,610 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 00558534-4976-425b-a0a3-72af70d2ef28
+2024-05-16 17:59:40,912 - INFO - routes.py:1670 - Fetched 8533 documents for sensor_id: 0019872f-ed14-44eb-83da-1e59363dbe4c
+2024-05-16 17:59:42,608 - INFO - routes.py:1670 - Fetched 2888 documents for sensor_id: 007be8bb-61a4-4fbb-a786-67e61632b749
+2024-05-16 17:59:43,013 - INFO - routes.py:1670 - Fetched 8520 documents for sensor_id: 0067c7b9-4b7a-40cf-be7b-59e3d2ff5ffe
+2024-05-16 17:59:43,512 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 009e3431-79e9-4102-b41e-4a4bd915087e
+2024-05-16 17:59:45,688 - INFO - routes.py:1670 - Fetched 8539 documents for sensor_id: 004ea514-6c99-4a02-9025-debebcb59e96
+2024-05-16 17:59:46,395 - INFO - routes.py:1670 - Fetched 8339 documents for sensor_id: 0096f171-8e91-4a85-9412-6d50e923c889
+2024-05-16 17:59:47,543 - INFO - routes.py:1670 - Fetched 8503 documents for sensor_id: 007fae7d-912d-4026-8218-16c5830f038b
+2024-05-16 17:59:49,052 - INFO - routes.py:1670 - Fetched 8535 documents for sensor_id: 006f9259-2c51-4af3-858c-6250e175ae4e
+2024-05-16 17:59:50,068 - INFO - routes.py:1670 - Fetched 8500 documents for sensor_id: 007176d0-723d-4c16-be8b-678af511e4f9
+2024-05-16 17:59:50,381 - INFO - routes.py:1670 - Fetched 5816 documents for sensor_id: 00800197-5ccf-4613-9602-c7a7ac7297b9
+2024-05-16 17:59:50,696 - INFO - routes.py:1670 - Fetched 8377 documents for sensor_id: 0070791d-447f-40f1-90d4-cac96e982e9e
+2024-05-16 17:59:51,101 - INFO - routes.py:1670 - Fetched 8527 documents for sensor_id: 00a719bb-2814-4ecf-814d-7ac4f862e834
+2024-05-16 17:59:51,433 - INFO - routes.py:1670 - Fetched 5218 documents for sensor_id: 00b1b366-ef28-47a8-acd8-762e9e561cd7
+2024-05-16 17:59:51,920 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 009f87e4-a013-4baf-baf0-e11be8b12db7
+2024-05-16 17:59:52,994 - INFO - routes.py:1670 - Fetched 8320 documents for sensor_id: 00b23a8b-823c-42f5-b7fd-494aa070b7fd
+2024-05-16 17:59:53,467 - INFO - routes.py:1670 - Fetched 8557 documents for sensor_id: 00a4c858-4704-4a10-bfb2-83eb5be63d31
+2024-05-16 17:59:54,097 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 00bd18e7-f9f8-463a-9bed-892d9c29d531
+2024-05-16 17:59:55,662 - INFO - routes.py:1670 - Fetched 3405 documents for sensor_id: 00b967ae-7f12-4fef-b694-249e4f293eaf
+2024-05-16 17:59:58,596 - INFO - routes.py:1670 - Fetched 8545 documents for sensor_id: 00cb5b28-0a77-4470-87fb-16ae4ca61c1d
+2024-05-16 18:00:00,797 - INFO - routes.py:1670 - Fetched 8247 documents for sensor_id: 00de02bb-540e-4d2e-87c0-5dc697c4025b
+2024-05-16 18:00:01,021 - INFO - routes.py:1670 - Fetched 8516 documents for sensor_id: 00d45892-e2f4-46e4-b2b2-c46452b38eb1
+2024-05-16 18:00:01,204 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 01007cbb-f03d-4f33-865c-5b639302f4a4
+2024-05-16 18:00:02,388 - INFO - routes.py:1670 - Fetched 8502 documents for sensor_id: 00f100cf-6302-40ab-bac4-370e6e625a4d
+2024-05-16 18:00:02,475 - INFO - routes.py:1670 - Fetched 8286 documents for sensor_id: 00bfdf60-e271-4624-8618-f9e877f4cd3f
+2024-05-16 18:00:02,756 - INFO - routes.py:1670 - Fetched 8553 documents for sensor_id: 00f1263a-1373-49ee-aabe-77f22ddd21b9
+2024-05-16 18:00:03,285 - INFO - routes.py:1670 - Fetched 8519 documents for sensor_id: 00fc8b57-7931-4afd-8f39-a7a631f4dd0f
+2024-05-16 18:00:04,277 - INFO - routes.py:1670 - Fetched 8551 documents for sensor_id: 00e85c52-2a0d-4fb4-9949-a6998525ca39
+2024-05-16 18:00:04,443 - INFO - routes.py:1670 - Fetched 8546 documents for sensor_id: 00e14f41-3208-401d-aad7-3e6b04cda52f
+2024-05-16 18:00:06,380 - INFO - routes.py:1670 - Fetched 8544 documents for sensor_id: 01021a83-04c2-4c29-b24f-10ed2388ec55
+2024-05-16 18:00:06,612 - INFO - routes.py:1670 - Fetched 8518 documents for sensor_id: 0101ddfb-836b-4ba2-9f60-9964f9c1bd8f
+2024-05-16 18:00:06,936 - INFO - routes.py:1670 - Fetched 8305 documents for sensor_id: 0109ef96-787a-49c7-90aa-f0653ecfc2dc
+2024-05-16 18:00:09,712 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 013b0124-6dbb-4f69-af27-50eab94d76e5
+2024-05-16 18:00:13,803 - INFO - routes.py:1670 - Fetched 5163 documents for sensor_id: 012b6099-0ec0-4ade-923a-dca19e406398
+2024-05-16 18:00:14,037 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 0144fcd1-3b91-41a9-99b4-0a75f84c569f
+2024-05-16 18:00:14,750 - INFO - routes.py:1670 - Fetched 8545 documents for sensor_id: 01236f9e-5f8c-4556-b664-5cf424e6f986
+2024-05-16 18:00:15,084 - INFO - routes.py:1670 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-16 18:00:15,113 - INFO - routes.py:1670 - Fetched 7526 documents for sensor_id: 012dbb89-8dc5-482c-901a-16837a18dc0b
+2024-05-16 18:00:16,790 - INFO - routes.py:1670 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-16 18:00:16,854 - INFO - routes.py:1670 - Fetched 8537 documents for sensor_id: 0120c313-33d7-4d62-a470-f2bc15765a06
+2024-05-16 18:00:17,187 - INFO - routes.py:1670 - Fetched 8251 documents for sensor_id: 01251eca-b60f-4f3a-9fe5-847943cac30c
+2024-05-16 18:00:17,403 - INFO - routes.py:1670 - Fetched 8548 documents for sensor_id: 011afcb3-09bc-49cf-a3c9-2f968b06a9a5
+2024-05-16 18:00:19,408 - INFO - routes.py:1670 - Fetched 8526 documents for sensor_id: 014f8147-ee70-48cb-aa68-ef58e54eaefe
+2024-05-16 18:00:20,313 - INFO - routes.py:1670 - Fetched 5351 documents for sensor_id: 015856ea-1f27-4d63-9497-07fd9b907ddf
+2024-05-16 18:00:20,390 - INFO - routes.py:1670 - Fetched 8539 documents for sensor_id: 014ff56e-a702-4f7f-9dd2-d3998787d8e8
+2024-05-16 18:00:20,781 - INFO - routes.py:1670 - Fetched 5206 documents for sensor_id: 015def3d-1866-49a8-b07a-9ce3275fde38
+2024-05-16 18:00:20,988 - INFO - routes.py:1670 - Fetched 8453 documents for sensor_id: 01521b21-a40c-4797-83b6-f2037c544666
+2024-05-16 18:00:21,259 - INFO - routes.py:1670 - Fetched 8070 documents for sensor_id: 01538ec8-006f-46b3-81a3-02020e68a616
+2024-05-16 18:00:22,081 - INFO - routes.py:1670 - Fetched 2887 documents for sensor_id: 016c9aaa-79bb-47ca-af12-f7b9d892fd3e
+2024-05-16 18:00:23,094 - INFO - routes.py:1670 - Fetched 8274 documents for sensor_id: 0167525c-a682-44aa-be02-db8612edd874
+2024-05-16 18:00:23,137 - INFO - routes.py:1670 - Fetched 8523 documents for sensor_id: 016a1f07-5b96-41fe-9bd4-24c2450fb510
+2024-05-16 18:00:25,108 - INFO - routes.py:1670 - Fetched 8457 documents for sensor_id: 0182285c-f04f-4030-8002-f4cb08f86300
+2024-05-16 18:00:25,181 - INFO - routes.py:1670 - Fetched 8519 documents for sensor_id: 016a7003-6af1-43bb-a374-662ca22b1c12
+2024-05-16 18:00:25,519 - INFO - routes.py:1670 - Fetched 8552 documents for sensor_id: 0175d32f-3439-46ae-b037-ae8139daec97
+2024-05-16 18:00:25,670 - INFO - routes.py:1670 - Fetched 8523 documents for sensor_id: 017f16ce-bda2-4178-8ff1-516995d111ce
+2024-05-16 18:00:58,249 - INFO - routes.py:1670 - Fetched 8540 documents for sensor_id: 0193ed03-d143-4a7a-b99f-527f97601b8e
+2024-05-16 18:00:58,604 - INFO - routes.py:1670 - Fetched 5419 documents for sensor_id: 01967e91-d494-46c0-8748-3f849947bdbc
+2024-05-16 18:00:59,120 - INFO - routes.py:1670 - Fetched 8554 documents for sensor_id: 0187811f-af44-4bad-b8fe-a7886b1c930a
+2024-05-16 18:00:59,227 - INFO - routes.py:1670 - Fetched 7319 documents for sensor_id: 0195d850-651f-47f2-a21f-59e921c6b4ba
+2024-05-16 18:01:00,135 - INFO - routes.py:1670 - Fetched 497 documents for sensor_id: 01c4bb67-4228-4479-a857-a8ab741e67b9
+2024-05-16 18:01:00,303 - INFO - routes.py:1670 - Fetched 8526 documents for sensor_id: 01a24a7e-0672-4fe3-b62f-3468a3d3f1ae
+2024-05-16 18:01:00,563 - INFO - routes.py:1670 - Fetched 7965 documents for sensor_id: 019ae3a6-9474-4cce-b5bd-76eab774ef48
+2024-05-16 18:01:00,696 - INFO - routes.py:1670 - Fetched 3329 documents for sensor_id: 01b91c2f-ea08-4610-93bf-833768388317
+2024-05-16 18:01:00,766 - INFO - routes.py:1670 - Fetched 8539 documents for sensor_id: 0195f90f-b963-4369-af87-031ffdb6638b
+2024-05-16 18:01:00,941 - INFO - routes.py:1670 - Fetched 7906 documents for sensor_id: 019afe57-a1bb-4b96-b0cb-252ecb4b0500
+2024-05-16 18:01:01,558 - INFO - routes.py:1670 - Fetched 334 documents for sensor_id: 01dc8098-5931-4913-8ea5-181d7726dcf5
+2024-05-16 18:01:01,574 - INFO - routes.py:1670 - Fetched 1060 documents for sensor_id: 01d037f4-0b69-422f-8397-253f0a828479
+2024-05-16 18:01:01,594 - INFO - routes.py:1670 - Fetched 5148 documents for sensor_id: 01acd5c2-1a07-4585-8eba-16e8f1c07d58
+2024-05-16 18:01:01,652 - INFO - routes.py:1670 - Fetched 2858 documents for sensor_id: 01cd15c9-2f3d-4c9a-8cc9-da08cd16375c
+2024-05-16 18:01:02,748 - INFO - routes.py:1670 - Fetched 8502 documents for sensor_id: 01ce072c-ebe8-4232-97a9-29c62a0d07ab
+2024-05-16 18:01:04,203 - INFO - routes.py:1670 - Fetched 8518 documents for sensor_id: 01de48d6-058e-4eb0-8a6b-b9519a3ea4ed
+2024-05-16 18:01:23,725 - INFO - routes.py:1670 - Fetched 8528 documents for sensor_id: 01e2defa-ccd9-49db-862b-90b89f4db419
+2024-05-16 18:01:23,970 - INFO - routes.py:1670 - Fetched 8530 documents for sensor_id: 022040a0-beb4-413c-bc3b-e6564fc2699c
+2024-05-16 18:01:24,096 - INFO - routes.py:1670 - Fetched 8529 documents for sensor_id: 01f82c69-95b7-4b95-8d1c-cf1692152170
+2024-05-16 18:01:24,664 - INFO - routes.py:1670 - Fetched 8464 documents for sensor_id: 01f33ba2-de83-437a-bd38-b76e2a400e64
+2024-05-16 18:01:25,222 - INFO - routes.py:1670 - Fetched 7895 documents for sensor_id: 01f0cdda-b861-4a36-b33b-24312ddff14b
+2024-05-16 18:01:25,420 - INFO - routes.py:1670 - Fetched 8514 documents for sensor_id: 01e8d3b9-c809-46e0-b521-58f916347ce5
+2024-05-16 18:01:25,516 - INFO - routes.py:1670 - Fetched 8520 documents for sensor_id: 0205969b-4765-411e-abd7-615f635596cf
+2024-05-16 18:01:25,493 - INFO - routes.py:1670 - Fetched 8520 documents for sensor_id: 020a851b-e9de-45ff-8fbf-8ae356528c8c
+2024-05-16 18:01:28,284 - INFO - routes.py:1670 - Fetched 8524 documents for sensor_id: 022c2154-852e-4938-bb09-b01667f3d994
+2024-05-16 18:01:28,852 - INFO - routes.py:1670 - Fetched 421 documents for sensor_id: 0234aa07-97cc-4548-ab67-9bcac8861cbf
+2024-05-16 18:01:29,269 - INFO - routes.py:1670 - Fetched 8410 documents for sensor_id: 022cefe5-4c1a-4c89-8f3d-e70671df5ffc
+2024-05-16 18:01:29,323 - INFO - routes.py:1670 - Fetched 8464 documents for sensor_id: 02214453-bd2f-4959-8387-91b0393b4170
+2024-05-16 18:01:30,568 - INFO - routes.py:1670 - Fetched 8395 documents for sensor_id: 022ded71-c67a-4aa7-805f-445b5e276aaa
+2024-05-16 18:01:31,188 - INFO - routes.py:1670 - Fetched 8532 documents for sensor_id: 022d5e4c-515a-40fb-9a9c-e3a29b649429
+2024-05-16 18:01:32,035 - INFO - routes.py:1670 - Fetched 7889 documents for sensor_id: 023f9ce2-4f56-4513-9ad1-e7eff9aa519b
+2024-05-16 18:01:32,593 - INFO - routes.py:1670 - Fetched 4431 documents for sensor_id: 025f88cf-46ba-4b06-8475-965d12231082
+2024-05-16 18:01:33,084 - INFO - routes.py:1670 - Fetched 8554 documents for sensor_id: 022e8752-1036-4875-b8ff-18bc6086854a
+2024-05-16 18:01:33,833 - INFO - routes.py:1670 - Fetched 8465 documents for sensor_id: 022f61eb-c524-42aa-82d6-3f5a4306afb6
+2024-05-16 18:01:34,152 - INFO - routes.py:1670 - Fetched 8540 documents for sensor_id: 0241046c-1ab0-4cc5-b7cf-31da2f9db3ea
+2024-05-16 18:01:34,548 - INFO - routes.py:1670 - Fetched 8504 documents for sensor_id: 0254a9ea-9295-44a8-a2de-adb7055cd3ab
+2024-05-16 18:01:37,134 - INFO - routes.py:1670 - Fetched 8508 documents for sensor_id: 02608385-da9b-40d1-8762-290ba33993d9
+2024-05-16 18:02:14,703 - INFO - routes.py:1670 - Fetched 3283 documents for sensor_id: 02718afe-50f5-4277-89c7-e97451b155e5
+2024-05-16 18:02:16,258 - INFO - routes.py:1670 - Fetched 1092 documents for sensor_id: 029bb244-a30e-4878-9b12-042385b94d43
+2024-05-16 18:02:18,338 - INFO - routes.py:1670 - Fetched 8530 documents for sensor_id: 027788be-0e63-4b8c-9381-63eb3f8c8492
+2024-05-16 18:02:19,766 - INFO - routes.py:1670 - Fetched 8182 documents for sensor_id: 0278e6b4-9ce6-4d96-860e-78080e595191
+2024-05-16 18:02:21,568 - INFO - routes.py:1670 - Fetched 8443 documents for sensor_id: 02679b0d-32fb-42fd-aa3b-68f6b17c94fd
+2024-05-16 18:02:21,586 - INFO - routes.py:1670 - Fetched 8446 documents for sensor_id: 028e2a41-17cd-4d7e-9011-676d424a85ff
+2024-05-16 18:02:21,962 - INFO - routes.py:1670 - Fetched 8556 documents for sensor_id: 0288d2d5-dc0c-4a79-b859-e2e8eec198ad
+2024-05-16 18:02:22,182 - INFO - routes.py:1670 - Fetched 8501 documents for sensor_id: 029464f9-0156-45d0-86f5-b0a0ed59fd4c
+2024-05-16 18:02:22,776 - INFO - routes.py:1670 - Fetched 8488 documents for sensor_id: 029960bc-5ee9-40d8-a956-1c74a0bacb40
+2024-05-16 18:02:22,898 - INFO - routes.py:1670 - Fetched 8533 documents for sensor_id: 02a7c194-b4f5-419e-952f-6a44eabfede1
+2024-05-16 18:02:23,289 - INFO - routes.py:1670 - Fetched 8536 documents for sensor_id: 02a7152d-689c-44a6-86ae-8070b2029164
+2024-05-16 18:02:27,510 - INFO - routes.py:1670 - Fetched 8456 documents for sensor_id: 02acadec-bd03-48d4-9c52-86ed3f5daf8d
+2024-05-16 18:02:28,063 - INFO - routes.py:1670 - Fetched 5237 documents for sensor_id: 02df0e26-5e5b-4d61-999e-3b4ce8a944a8
+2024-05-16 18:02:29,456 - INFO - routes.py:1670 - Fetched 8538 documents for sensor_id: 02c846e6-8ad2-444a-9d1e-a19c2181ca71
+2024-05-16 18:02:30,130 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 02c42b8d-c042-4e5d-bf2e-80d8335e8598
+2024-05-16 18:02:30,911 - INFO - routes.py:1670 - Fetched 7976 documents for sensor_id: 02e341a7-7b94-4d07-b63f-c72f5e2beb7e
+2024-05-16 18:02:30,920 - INFO - routes.py:1670 - Fetched 8324 documents for sensor_id: 02b95ea8-7b75-410d-a9b2-ff304f13962d
+2024-05-16 18:02:31,191 - INFO - routes.py:1670 - Fetched 8556 documents for sensor_id: 02b84738-1be3-424b-b8ae-c44e856b1211
+2024-05-16 18:02:34,402 - INFO - routes.py:1670 - Fetched 7762 documents for sensor_id: 02e594ce-126a-41c2-b8eb-235d0b8e6ba6
+2024-05-16 18:02:34,622 - INFO - routes.py:1670 - Fetched 8446 documents for sensor_id: 02efbea9-4b72-4044-936b-2f6fdc0cbebf
+2024-05-16 18:02:34,832 - INFO - routes.py:1670 - Fetched 8405 documents for sensor_id: 02cf47b5-0f41-4394-b13b-94219667c594
+2024-05-16 18:02:35,250 - INFO - routes.py:1670 - Fetched 8487 documents for sensor_id: 02f774c3-773b-4820-a2e4-001136e68097
+2024-05-16 18:02:35,252 - INFO - routes.py:1670 - Fetched 8127 documents for sensor_id: 02ed934c-6ab4-45f3-8622-ff89d242f18a
+2024-05-16 18:02:36,076 - INFO - routes.py:1670 - Fetched 8549 documents for sensor_id: 02f7c1f2-10f5-4ea0-9e33-b43255a4c32a
+2024-05-16 18:04:04,328 - INFO - routes.py:1670 - Fetched 2964 documents for sensor_id: 03088078-ef82-4ccf-a7d4-7cf345e6d8ad
+2024-05-16 18:04:06,830 - INFO - routes.py:1670 - Fetched 7064 documents for sensor_id: 030c38bf-7664-4368-a3ea-bc97c5cbf8cb
+2024-05-16 18:04:07,708 - INFO - routes.py:1670 - Fetched 8038 documents for sensor_id: 03126f7e-834c-43a3-a866-ccba3acaf201
+2024-05-16 18:04:08,761 - INFO - routes.py:1670 - Fetched 5607 documents for sensor_id: 032e6cf5-1230-4334-9363-6a1bd070a900
+2024-05-16 18:04:10,258 - INFO - routes.py:1670 - Fetched 5395 documents for sensor_id: 0331a28f-47d0-4c41-9a5c-d1857211cc25
+2024-05-16 18:04:10,702 - INFO - routes.py:1670 - Fetched 3 documents for sensor_id: 03457ae7-1edf-4159-b103-e0948ba94f8d
+2024-05-16 18:04:11,098 - INFO - routes.py:1670 - Fetched 8504 documents for sensor_id: 033022bd-5c23-46c4-b3bd-40d2e1643c9c
+2024-05-16 18:04:12,029 - INFO - routes.py:1670 - Fetched 8560 documents for sensor_id: 0321fbcc-6a2e-4b40-a3dc-ba7a57b5e521
+2024-05-16 18:04:12,913 - INFO - routes.py:1670 - Fetched 8558 documents for sensor_id: 03339b4c-83cd-44c8-be39-33fc492663f7
+2024-05-16 18:04:13,745 - INFO - routes.py:1670 - Fetched 8132 documents for sensor_id: 032927e2-0419-4638-a1b4-450c835b50f7
+2024-05-16 18:04:14,749 - INFO - routes.py:1670 - Fetched 5073 documents for sensor_id: 035ed5c7-26d1-487d-bcc2-80b9d52e2abd
+2024-05-16 18:04:14,891 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 03825b95-1b98-4396-b8ff-765060debdf6
+2024-05-16 18:04:15,025 - INFO - routes.py:1670 - Fetched 2 documents for sensor_id: 039c5a45-6ddd-40c1-93e6-0bd38d7022d6
+2024-05-16 18:04:15,125 - INFO - routes.py:1670 - Fetched 2889 documents for sensor_id: 036fcd04-3703-440a-b38f-3a2bf26326e3
+2024-05-16 18:04:15,484 - INFO - routes.py:1670 - Fetched 8524 documents for sensor_id: 032d542d-3a4a-4846-8d8d-73532053ff2d
+2024-05-16 18:04:16,096 - INFO - routes.py:1670 - Fetched 8525 documents for sensor_id: 033c2944-1f50-4437-bdfc-b197ebd31c9a
+2024-05-16 18:04:17,199 - INFO - routes.py:1670 - Fetched 8558 documents for sensor_id: 036cc14f-3432-460d-a616-91a19793d4a0
+2024-05-16 18:04:18,291 - INFO - routes.py:1670 - Fetched 8537 documents for sensor_id: 034596ed-db01-4ff1-8195-38d7f74d86ac
+2024-05-16 18:04:19,749 - INFO - routes.py:1670 - Fetched 5418 documents for sensor_id: 03a67fab-7bda-45e3-bf28-af7e185d56ee
+2024-05-16 18:04:21,205 - INFO - routes.py:1670 - Fetched 7038 documents for sensor_id: 03b3276b-7579-4230-b814-5414f5b4fd4c
+2024-05-16 18:04:22,134 - INFO - routes.py:1670 - Fetched 5489 documents for sensor_id: 03d56842-43d8-416a-bfd1-cff0564a6a0f
+2024-05-16 18:04:22,883 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 03a20ef0-7da2-41ee-9b2b-7805dab050bf
+2024-05-16 18:04:22,905 - INFO - routes.py:1670 - Fetched 8437 documents for sensor_id: 03d021ca-120f-41cb-953f-bb3e2ee7a7b4
+2024-05-16 18:04:31,623 - INFO - routes.py:1670 - Fetched 8531 documents for sensor_id: 037a59d1-ea0f-40bc-8f31-9dc32dcd0fae
+2024-05-16 18:04:32,996 - INFO - routes.py:1670 - Fetched 2887 documents for sensor_id: 041d080d-a9da-41e1-ab4b-47062cae05b8
+2024-05-16 18:04:33,267 - INFO - routes.py:1670 - Fetched 5431 documents for sensor_id: 0408d2ea-2a7b-4f3b-aceb-197a36eac9a1
+2024-05-16 18:04:33,447 - INFO - routes.py:1670 - Fetched 8506 documents for sensor_id: 03b50c35-2c82-429e-90f6-dd6437ed291f
+2024-05-16 18:04:34,283 - INFO - routes.py:1670 - Fetched 6806 documents for sensor_id: 03f9b942-4a7f-49e7-b241-30092036d5b6
+2024-05-16 18:04:37,368 - INFO - routes.py:1670 - Fetched 8542 documents for sensor_id: 03eb6649-c644-43b5-a004-da04c725bcd7
+2024-05-16 18:04:38,908 - INFO - routes.py:1670 - Fetched 8474 documents for sensor_id: 0425ff76-ae5e-41e4-8938-858aa06ac969
+2024-05-16 18:04:39,191 - INFO - routes.py:1670 - Fetched 8555 documents for sensor_id: 03db71a8-29c5-4a4d-a62e-3b7b3b273412
+2024-05-16 18:04:39,615 - INFO - routes.py:1670 - Fetched 8511 documents for sensor_id: 040b462c-b1a5-4350-bd64-093b5d229a0b
+2024-05-16 18:04:39,876 - INFO - routes.py:1670 - Fetched 8520 documents for sensor_id: 0424d7a1-ba53-4ceb-bf71-abca1462522f
+2024-05-16 18:06:36,700 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 0456be42-867c-4079-b95b-1d20d58f444d
+2024-05-16 18:06:38,965 - INFO - routes.py:1670 - Fetched 8501 documents for sensor_id: 0438ee7f-bdb7-4d1b-93d4-55f13d2ec87f
+2024-05-16 18:06:41,259 - INFO - routes.py:1670 - Fetched 8440 documents for sensor_id: 04448aa4-c94d-44ab-b962-37283ddeab20
+2024-05-16 18:06:43,841 - INFO - routes.py:1670 - Fetched 8096 documents for sensor_id: 046c5b4f-bece-4385-b844-b98eb749752b
+2024-05-16 18:06:43,843 - INFO - routes.py:1670 - Fetched 8490 documents for sensor_id: 044c6331-7549-4f3b-a6b0-830fd8b68522
+2024-05-16 18:06:44,215 - INFO - routes.py:1670 - Fetched 8489 documents for sensor_id: 0449a548-1e39-406c-bde3-f342db00d9e2
+2024-05-16 18:06:45,830 - INFO - routes.py:1670 - Fetched 1149 documents for sensor_id: 0496dbac-8dc8-47f8-b304-b314160eddca
+2024-05-16 18:06:45,997 - INFO - routes.py:1670 - Fetched 8509 documents for sensor_id: 0466f9c7-df0d-4296-8350-4b7e1e0887bf
+2024-05-16 18:06:45,992 - INFO - routes.py:1670 - Fetched 8522 documents for sensor_id: 045b0195-8d69-4a1a-b52d-c29814236716
+2024-05-16 18:06:46,780 - INFO - routes.py:1670 - Fetched 8533 documents for sensor_id: 048240bd-3937-44e5-8b68-b88ed37a8957
+2024-05-16 18:06:46,888 - INFO - routes.py:1670 - Fetched 8062 documents for sensor_id: 045b7078-b1a4-4963-8989-a6c85ea44312
+2024-05-16 18:06:47,445 - INFO - routes.py:1670 - Fetched 2888 documents for sensor_id: 04a0a8f8-95d7-44b7-accd-6ddc9744c0ec
+2024-05-16 18:06:47,568 - INFO - routes.py:1670 - Fetched 8031 documents for sensor_id: 0486613b-8ba0-4d73-8bcd-e306514650ad
+2024-05-16 18:06:50,472 - INFO - routes.py:1670 - Fetched 8551 documents for sensor_id: 0495800e-e023-4e55-bec9-9f37520f6049
+2024-05-16 18:06:53,629 - INFO - routes.py:1670 - Fetched 8552 documents for sensor_id: 04aeb738-cbfd-4562-8e8b-07c724ac86e9
+2024-05-16 18:06:55,383 - INFO - routes.py:1670 - Fetched 8564 documents for sensor_id: 04a5781b-14bf-489e-94e8-aa4b23980980
+2024-05-16 18:07:04,496 - INFO - routes.py:1670 - Fetched 8538 documents for sensor_id: 04da152c-40ca-45c2-a315-08dc0771bb3a
+2024-05-16 18:07:05,925 - INFO - routes.py:1670 - Fetched 8531 documents for sensor_id: 04b4a5d1-829e-4de9-8fc4-fda24b4bba6b
+2024-05-16 18:07:06,936 - INFO - routes.py:1670 - Fetched 8553 documents for sensor_id: 04d23c4f-08c4-4837-bc80-e002f2edb08c
+2024-05-16 18:07:06,937 - INFO - routes.py:1670 - Fetched 8511 documents for sensor_id: 04b0029a-025c-4992-a2ae-f88e7bc9ab15
+2024-05-16 18:07:06,950 - INFO - routes.py:1670 - Fetched 323 documents for sensor_id: 04f2619f-f561-4e23-9691-61c5181384ae
+2024-05-16 18:07:09,810 - INFO - routes.py:1670 - Fetched 8542 documents for sensor_id: 04d98987-750a-40eb-b518-48c9f6001195
+2024-05-16 18:07:12,318 - INFO - routes.py:1670 - Fetched 8532 documents for sensor_id: 04df49fb-23f5-48a2-822f-2d03fcd47833
+2024-05-16 18:07:12,922 - INFO - routes.py:1670 - Fetched 8083 documents for sensor_id: 04e6bcba-05d9-42d4-950e-aac2af6a2080
+2024-05-16 18:07:13,359 - INFO - routes.py:1670 - Fetched 8553 documents for sensor_id: 04e34fc7-926a-439b-8eab-f7c72b1df5cc
+2024-05-16 18:07:16,183 - INFO - routes.py:1670 - Fetched 8548 documents for sensor_id: 04fc49c3-4a85-48ec-8e91-57b67b5f9ff6
+2024-05-16 18:07:17,554 - INFO - routes.py:1670 - Fetched 8509 documents for sensor_id: 04f817c8-ea07-4415-b168-99ef9496b4d0
+2024-05-16 18:07:17,965 - INFO - routes.py:1670 - Fetched 38 documents for sensor_id: 051a1606-e0b4-44e5-9021-c0e42fe4fe3f
+2024-05-16 18:07:18,256 - INFO - routes.py:1670 - Fetched 8362 documents for sensor_id: 04b9d76f-271a-43b4-93f1-da4dfac7ce54
+2024-05-16 18:07:18,740 - INFO - routes.py:1670 - Fetched 1454 documents for sensor_id: 051762fd-c4ea-46d1-b98b-beab92a568cb
+2024-05-16 18:07:21,077 - INFO - routes.py:1670 - Fetched 8532 documents for sensor_id: 05084d6a-d22a-4652-b0e1-71ecf2f6da4b
+2024-05-16 18:07:21,923 - INFO - routes.py:1670 - Fetched 8551 documents for sensor_id: 050e5e9c-f022-4b53-b8fb-7514b95c7da5
+2024-05-16 18:07:22,814 - INFO - routes.py:1670 - Fetched 8541 documents for sensor_id: 04ff2b19-d7e3-4c7c-acff-21480afb52d4
+2024-05-16 18:07:23,437 - INFO - routes.py:1670 - Fetched 8527 documents for sensor_id: 05169ef8-f1a9-4c33-8890-9cd8e48a2a29
+2024-05-16 18:07:23,457 - INFO - routes.py:1670 - Fetched 7955 documents for sensor_id: 0504d1e1-1e72-47ae-8611-ba9aa7cfaadb
+2024-05-16 18:07:24,181 - INFO - routes.py:1670 - Fetched 8515 documents for sensor_id: 0548aa65-a79f-4dc5-811d-fdfaf8a2461c
+2024-05-16 18:07:25,222 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 051e228b-c6e6-4162-ac7a-1f97e5b693d8
+2024-05-16 18:07:26,023 - INFO - routes.py:1670 - Fetched 8510 documents for sensor_id: 053f9ca2-b77c-4bab-807a-732b395dec55
+2024-05-16 18:07:26,738 - INFO - routes.py:1670 - Fetched 8302 documents for sensor_id: 053b6995-1606-432f-8eda-62950cf54843
+2024-05-16 18:10:36,603 - INFO - routes.py:1670 - Fetched 7850 documents for sensor_id: 055db198-b19b-4c8d-acc1-b9480a0f57a9
+2024-05-16 18:10:36,978 - INFO - routes.py:1670 - Fetched 5169 documents for sensor_id: 055ba91a-8b5d-4d89-984d-a1bbe05b101d
+2024-05-16 18:10:38,046 - INFO - routes.py:1670 - Fetched 8540 documents for sensor_id: 0556a681-ea2b-499c-be64-2d83ba0f551a
+2024-05-16 18:10:40,777 - INFO - routes.py:1670 - Fetched 7808 documents for sensor_id: 054bd56a-90aa-4b50-b4e3-67cdae5a01b5
+2024-05-16 18:10:41,892 - INFO - routes.py:1670 - Fetched 7962 documents for sensor_id: 055474a2-c039-432c-894f-7b6cb83e5c1b
+2024-05-16 18:10:44,613 - INFO - routes.py:1670 - Fetched 8486 documents for sensor_id: 05661a87-2980-47f2-bc0f-39a944558961
+2024-05-16 18:10:44,891 - INFO - routes.py:1670 - Fetched 8519 documents for sensor_id: 058b1cf9-4086-4798-b232-d0744ad90be7
+2024-05-16 18:10:45,242 - INFO - routes.py:1670 - Fetched 8548 documents for sensor_id: 05996b6f-a48c-4a87-af74-437ed096113f
+2024-05-16 18:10:45,408 - INFO - routes.py:1670 - Fetched 8506 documents for sensor_id: 056a5a30-1f05-4e48-8d79-5560a7c535aa
+2024-05-16 18:10:45,435 - INFO - routes.py:1670 - Fetched 8383 documents for sensor_id: 057e9284-00e3-4180-8a62-a4b6cc72705c
+2024-05-16 18:10:45,670 - INFO - routes.py:1670 - Fetched 3703 documents for sensor_id: 05b8be0d-25a4-45cc-9f4b-af1b35a21695
+2024-05-16 18:10:52,816 - INFO - routes.py:1670 - Fetched 8471 documents for sensor_id: 05ade6d3-a470-4b25-b4fd-6d88ef28ace5
+2024-05-16 18:10:54,229 - INFO - routes.py:1670 - Fetched 3982 documents for sensor_id: 05b982de-7130-44f7-a78b-13d220bfb4f0
+2024-05-16 18:10:59,828 - INFO - routes.py:1670 - Fetched 7537 documents for sensor_id: 05c24549-2322-40e0-a7d2-24bedbd22995
+2024-05-16 18:11:01,913 - INFO - routes.py:1670 - Fetched 8518 documents for sensor_id: 05e53979-da58-4f07-90ab-d4dbfcf27929
+2024-05-16 18:11:02,278 - INFO - routes.py:1670 - Fetched 8557 documents for sensor_id: 05b05e7e-ce0c-4ba4-9ca8-1f39868f5866
+2024-05-16 18:11:07,892 - INFO - routes.py:1670 - Fetched 8544 documents for sensor_id: 05e0684c-b2f3-4282-afb1-7cb6c74a895f
+2024-05-16 18:11:08,869 - INFO - routes.py:1670 - Fetched 8509 documents for sensor_id: 05d9df70-2496-4a72-9e03-475703a2f8b1
+2024-05-16 18:11:10,907 - INFO - routes.py:1670 - Fetched 5748 documents for sensor_id: 05ff5916-2293-43da-ab30-a7ed296c76f1
+2024-05-16 18:11:13,679 - INFO - routes.py:1670 - Fetched 8522 documents for sensor_id: 05f6ac5b-57e1-4bfe-bf0e-a5c16307ed8d
+2024-05-16 18:11:14,461 - INFO - routes.py:1670 - Fetched 8548 documents for sensor_id: 05dc6581-40cd-49ac-a948-2d4a442824bc
+2024-05-16 18:11:17,325 - INFO - routes.py:1670 - Fetched 8500 documents for sensor_id: 0601abea-c35c-41d8-a45a-01fc83e27469
+2024-05-16 18:11:18,480 - INFO - routes.py:1670 - Fetched 8564 documents for sensor_id: 05eb1520-157e-41bb-b42c-6e0478866bb3
+2024-05-16 18:11:20,179 - INFO - routes.py:1670 - Fetched 1537 documents for sensor_id: 0624e57d-e16f-4cce-a495-bb19cff350d3
+2024-05-16 18:11:20,670 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 062a1ca8-0002-4d56-99fa-32f36cd428c4
+2024-05-16 18:11:21,064 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 060b5ee8-b8ef-49d2-8ea2-b975f9fdb3e9
+2024-05-16 18:11:24,684 - INFO - routes.py:1670 - Fetched 8530 documents for sensor_id: 060a496f-492d-4d55-8029-cf74d449191c
+2024-05-16 18:11:26,813 - INFO - routes.py:1670 - Fetched 8536 documents for sensor_id: 0609d19f-ca0b-420b-a854-3fe0d087b32f
+2024-05-16 18:11:30,878 - INFO - routes.py:1670 - Fetched 8544 documents for sensor_id: 05f3251f-a400-46ac-9950-5ef87f48cbe5
+2024-05-16 18:11:31,367 - INFO - routes.py:1670 - Fetched 8559 documents for sensor_id: 061eab7e-5d93-41cb-820e-ce9fd16b96e8
+2024-05-16 18:11:36,434 - INFO - routes.py:1670 - Fetched 7480 documents for sensor_id: 0629e671-8257-48fd-97c3-ddef49e664b0
+2024-05-16 18:11:40,653 - INFO - routes.py:1670 - Fetched 8544 documents for sensor_id: 0634ab1d-8048-4672-a6b9-dc16995cc720
+2024-05-16 18:11:43,738 - INFO - routes.py:1670 - Fetched 8502 documents for sensor_id: 06439e91-203a-43dc-aeb8-509607dc52e4
+2024-05-16 18:11:44,300 - INFO - routes.py:1670 - Fetched 4271 documents for sensor_id: 064af6e0-310a-4b7c-a13f-0aa9fb57b05f
+2024-05-16 18:11:44,823 - INFO - routes.py:1670 - Fetched 8256 documents for sensor_id: 06216254-d53e-4fb5-b6ed-0ed64e861e8b
+2024-05-16 18:11:48,646 - INFO - routes.py:1670 - Fetched 8537 documents for sensor_id: 06375286-1211-4fbd-8fbf-5279539642ad
+2024-05-16 18:11:52,050 - INFO - routes.py:1670 - Fetched 8542 documents for sensor_id: 064a09b4-e65d-41e6-a410-7c0aa2591efd
+2024-05-16 18:12:08,405 - INFO - routes.py:1670 - Fetched 8433 documents for sensor_id: 06572c33-bf33-4981-9089-c06c2b68abb6
+2024-05-16 18:12:12,750 - INFO - routes.py:1670 - Fetched 5727 documents for sensor_id: 0656491e-e2b4-4ee4-b138-7faae9fcc07e
+2024-05-16 18:12:14,882 - INFO - routes.py:1670 - Fetched 8543 documents for sensor_id: 06545110-09ac-4e99-8b35-740cbced44e7
+2024-05-16 18:12:15,432 - INFO - routes.py:1670 - Fetched 6240 documents for sensor_id: 0683a4f6-6449-4a3b-8b47-9b78264e920f
+2024-05-16 18:12:18,394 - INFO - routes.py:1670 - Fetched 8545 documents for sensor_id: 06601c8c-fae9-4f44-a0ab-8d2d06dfad22
+2024-05-16 18:12:19,212 - INFO - routes.py:1670 - Fetched 8539 documents for sensor_id: 0667c837-e4fc-4f5a-b7f1-9e170142f784
+2024-05-16 18:12:21,960 - INFO - routes.py:1670 - Fetched 8536 documents for sensor_id: 0669f9c7-69a3-4b5d-9954-18352cdd6c70
+2024-05-16 18:12:23,527 - INFO - routes.py:1670 - Fetched 8535 documents for sensor_id: 066d3729-2146-47e1-a297-f1ea6be01920
+2024-05-16 18:12:24,601 - INFO - routes.py:1670 - Fetched 8547 documents for sensor_id: 068e444c-83cf-4c14-9eec-ce38842d9545
+2024-05-16 18:17:32,489 - INFO - routes.py:1670 - Fetched 6114 documents for sensor_id: 069058b5-bc5e-44bf-9653-f34d67445551
+2024-05-16 18:17:33,564 - INFO - routes.py:1670 - Fetched 8532 documents for sensor_id: 069580f3-50dd-442c-945d-5d513611173d
+2024-05-16 18:17:34,766 - INFO - routes.py:1670 - Fetched 8458 documents for sensor_id: 068eb827-b392-4f83-a2b1-d9d457824fe4
+2024-05-16 18:17:35,810 - INFO - routes.py:1670 - Fetched 8530 documents for sensor_id: 06a28c6f-53db-4b29-810d-41589d121259
+2024-05-16 18:17:38,015 - INFO - routes.py:1670 - Fetched 8512 documents for sensor_id: 069f6d09-adf9-4b51-839c-54877672a3cb
+2024-05-16 18:17:38,439 - INFO - routes.py:1670 - Fetched 8545 documents for sensor_id: 06a6a273-2b76-4df0-aa0b-90ce473b3833
+2024-05-16 18:17:38,701 - INFO - routes.py:1670 - Fetched 8453 documents for sensor_id: 06afece3-b66d-4119-9b0c-54c163c9ec88
+2024-05-16 18:17:39,357 - INFO - routes.py:1670 - Fetched 8553 documents for sensor_id: 069055a1-371f-4854-82fc-08620285fe52
+2024-05-16 18:17:42,191 - INFO - routes.py:1670 - Fetched 8547 documents for sensor_id: 06b69c01-8965-416a-9656-6deedb178bc8
+2024-05-16 18:17:42,464 - INFO - routes.py:1670 - Fetched 8541 documents for sensor_id: 06ba51d9-5284-4d9b-94e0-bf30787a5dea
+2024-05-16 18:17:53,784 - INFO - routes.py:1670 - Fetched 8356 documents for sensor_id: 06c9363d-2a9e-4624-8345-74945df4196f
+2024-05-16 18:17:54,765 - INFO - routes.py:1670 - Fetched 2885 documents for sensor_id: 06eca898-49d7-497e-94cf-12d9f7e2a6ee
+2024-05-16 18:17:55,735 - INFO - routes.py:1670 - Fetched 8089 documents for sensor_id: 06d18c1f-b692-4e17-9222-8599a3ecbe97
+2024-05-16 18:17:56,139 - INFO - routes.py:1670 - Fetched 8079 documents for sensor_id: 06ea8f16-0fd8-46bd-8477-e42295d5f28a
+2024-05-16 18:17:56,709 - INFO - routes.py:1670 - Fetched 8532 documents for sensor_id: 06edb7f2-c8f9-4e28-a823-272c66a1bce3
+2024-05-16 18:17:57,208 - INFO - routes.py:1670 - Fetched 8274 documents for sensor_id: 06ecb9f5-65fa-45d8-8581-6a45a0e8a7e6
+2024-05-16 18:17:57,899 - INFO - routes.py:1670 - Fetched 8533 documents for sensor_id: 06eca559-29b9-4543-97e6-4e5316e3c935
+2024-05-16 18:17:58,144 - INFO - routes.py:1670 - Fetched 8525 documents for sensor_id: 06d5833f-2ddc-499e-9cc9-8a9ec752bfd2
+2024-05-16 18:17:58,923 - INFO - routes.py:1670 - Fetched 1720 documents for sensor_id: 07231876-6ab2-4c95-b144-13c3ff748f6b
+2024-05-16 18:18:00,003 - INFO - routes.py:1670 - Fetched 5230 documents for sensor_id: 06fb5428-7370-47d9-bf2b-a1915447267f
+2024-05-16 18:18:01,883 - INFO - routes.py:1670 - Fetched 8501 documents for sensor_id: 071e2cc7-ac20-45dd-91c7-3d4093da0edd
+2024-05-16 18:18:04,180 - INFO - routes.py:1670 - Fetched 8518 documents for sensor_id: 07012be8-76f8-4a32-b98a-da3e1ac9e730
+2024-05-16 18:18:05,652 - INFO - routes.py:1670 - Fetched 6130 documents for sensor_id: 07253a38-ea52-4a36-8d31-c9438e37e178
+2024-05-16 18:18:05,784 - INFO - routes.py:1670 - Fetched 8108 documents for sensor_id: 0734efab-c283-451c-bbc7-920c61242e9a
+2024-05-16 18:18:05,824 - INFO - routes.py:1670 - Fetched 8521 documents for sensor_id: 072140b6-8089-4873-998f-ac4c3c464667
+2024-05-16 18:18:06,146 - INFO - routes.py:1670 - Fetched 8364 documents for sensor_id: 070210e4-0607-4cbe-b523-8afa51a109d0
+2024-05-16 18:18:06,387 - INFO - routes.py:1670 - Fetched 8532 documents for sensor_id: 073c4f01-bffd-4ffc-a331-c06444217d29
+2024-05-16 18:18:06,907 - INFO - routes.py:1670 - Fetched 8483 documents for sensor_id: 0728b739-ddc0-4881-95b7-372279878a02
+2024-05-16 18:18:07,826 - INFO - routes.py:1670 - Fetched 25 documents for sensor_id: 07640f6e-2bf1-417d-855f-dd7015af81a2
+2024-05-16 18:18:07,985 - INFO - routes.py:1670 - Fetched 4912 documents for sensor_id: 074a571c-a324-4732-a939-fc8240d9ea21
+2024-05-16 18:18:09,761 - INFO - routes.py:1670 - Fetched 8546 documents for sensor_id: 073629f9-8ef8-45f2-8543-0ba41e2f19bb
+2024-05-16 18:18:13,969 - INFO - routes.py:1670 - Fetched 8527 documents for sensor_id: 0775f659-2b80-4489-bd96-721a1739742a
+2024-05-16 18:18:14,644 - INFO - routes.py:1670 - Fetched 8546 documents for sensor_id: 074c420f-3b1d-4e7f-ad67-065e0d72059f
+2024-05-16 18:18:14,729 - INFO - routes.py:1670 - Fetched 194 documents for sensor_id: 077e9026-0dcc-45d9-a577-1bba476ff0a6
+2024-05-16 18:18:15,555 - INFO - routes.py:1670 - Fetched 7995 documents for sensor_id: 077a1592-5108-4a69-b681-cb9304dd59e6
+2024-05-16 18:18:15,722 - INFO - routes.py:1670 - Fetched 8545 documents for sensor_id: 074d297c-d487-4296-a7ef-b2e4833b128a
+2024-05-16 18:18:17,075 - INFO - routes.py:1670 - Fetched 8530 documents for sensor_id: 075f28dd-cc46-4590-ae24-5cb2013a75d3
+2024-05-16 18:18:18,775 - INFO - routes.py:1670 - Fetched 8539 documents for sensor_id: 078a097d-c642-4cc0-85df-d0cabeba4993
+2024-05-16 18:18:20,709 - INFO - routes.py:1670 - Fetched 8413 documents for sensor_id: 07617d4d-e6c1-4a59-b454-137a988cf9fa
+2024-05-16 18:18:21,027 - INFO - routes.py:1670 - Fetched 8307 documents for sensor_id: 076e1a8a-ae74-4375-8847-8971a40b7f36
+2024-05-16 18:18:21,068 - INFO - routes.py:1670 - Fetched 4775 documents for sensor_id: 078ed657-1cfd-4f11-afbc-18f002933854
+2024-05-16 18:18:21,251 - INFO - routes.py:1670 - Fetched 0 documents for sensor_id: 07ba21d8-dbd1-48c8-bc1f-7590061a115e
+2024-05-16 18:18:21,450 - INFO - routes.py:1670 - Fetched 8550 documents for sensor_id: 078f7fb9-118b-450c-b31d-10627518e4a7
+2024-05-16 18:18:23,222 - INFO - routes.py:1670 - Fetched 8436 documents for sensor_id: 077d70d3-84f0-4237-9c8f-184694048c68
+2024-05-16 18:18:36,812 - INFO - routes.py:1670 - Fetched 8100 documents for sensor_id: 079faf51-fad3-4080-891a-160e955ec7b4
+2024-05-16 18:18:37,106 - INFO - routes.py:1670 - Fetched 8517 documents for sensor_id: 07a4ce06-3398-459f-ab66-80940011d26b
+2024-05-16 18:18:41,411 - INFO - routes.py:1670 - Fetched 8493 documents for sensor_id: 07c10c02-a301-41dc-aef6-e54080acdc60
+2024-05-16 18:18:41,982 - INFO - routes.py:1670 - Fetched 8564 documents for sensor_id: 07938382-7ae4-4cd9-85e8-99bc9928b226
+2024-05-16 18:18:42,748 - INFO - routes.py:1670 - Fetched 8553 documents for sensor_id: 07dbe951-aef5-4288-919e-734a3556e21c
+2024-05-16 18:18:43,703 - INFO - routes.py:1670 - Fetched 8526 documents for sensor_id: 07f60fd0-e1b6-4048-bdfd-884a295384cb
+2024-05-16 18:18:44,072 - INFO - routes.py:1670 - Fetched 8551 documents for sensor_id: 07bb3146-6afa-441f-b5fa-cbba0e034202
+2024-05-16 18:18:44,826 - INFO - routes.py:1670 - Fetched 8547 documents for sensor_id: 07c0bf15-dd2e-48ca-8187-4b4582159bd5
+2024-05-16 18:18:47,061 - INFO - routes.py:1670 - Fetched 8461 documents for sensor_id: 07c0c6ed-7440-4bf9-ab53-9c55928f9956
+2024-05-16 18:18:47,659 - INFO - routes.py:1670 - Fetched 8544 documents for sensor_id: 07cf0c2d-fecb-4278-8ba1-3be26f18a68c
+2024-05-16 18:18:47,683 - INFO - routes.py:1670 - Fetched 5388 documents for sensor_id: 0802f057-29ca-4140-a2ee-9985edb96e5b
+2024-05-16 18:18:48,359 - INFO - routes.py:1670 - Fetched 7338 documents for sensor_id: 080ecc4e-a809-4f0d-87ee-5c23636113fe
+2024-05-16 18:18:48,400 - INFO - routes.py:1670 - Fetched 8496 documents for sensor_id: 07fe2fb6-da3d-44f6-ac76-73c214835a56
+2024-05-16 18:18:48,777 - INFO - routes.py:1670 - Fetched 8558 documents for sensor_id: 07f643b6-1776-4d4e-9430-763e23ef84e3
+2024-05-17 11:33:13,751 - INFO - routes.py:1633 - Fetched circle IDs from database
+2024-05-17 11:38:21,624 - INFO - routes.py:1672 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 11:38:22,708 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 11:45:11,332 - INFO - routes.py:1672 - Fetched 8518 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 11:46:03,033 - INFO - routes.py:1672 - Fetched 8467 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 11:53:27,982 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01412db0-c82d-4e90-bd07-261186c7844a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 11:53:44,157 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0136cda1-63b7-44dd-99e9-4592ebe441fd:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 11:56:51,022 - ERROR - routes.py:1675 - Error fetching data for sensor_id 0136cda1-63b7-44dd-99e9-4592ebe441fd:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 11:57:47,726 - ERROR - routes.py:1675 - Error fetching data for sensor_id 01412db0-c82d-4e90-bd07-261186c7844a:
+Traceback (most recent call last):
+  File "D:\HourlyAPi\HourlyPredApi\routes\routes.py", line 1671, in data_fetch
+    doc['_id'] = str(doc['_id'])
+                     ~~~^^^^^^^
+TypeError: string indices must be integers, not 'str'
+2024-05-17 12:00:31,281 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
+2024-05-17 12:00:58,046 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
