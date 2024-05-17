@@ -391,3 +391,4 @@ Traceback (most recent call last):
 TypeError: string indices must be integers, not 'str'
 2024-05-17 12:00:31,281 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 01412db0-c82d-4e90-bd07-261186c7844a
 2024-05-17 12:00:58,046 - INFO - routes.py:1672 - Fetched 7 documents for sensor_id: 0136cda1-63b7-44dd-99e9-4592ebe441fd
+2024-05-17 12:44:33,337 - INFO - routes.py:1633 - Fetched circle IDs from database
