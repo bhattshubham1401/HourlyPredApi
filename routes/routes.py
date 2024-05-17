@@ -1638,8 +1638,8 @@ def circle_id():
 
 
 @router.route('/sensor_ids', methods=['POST'])
-def sensor_ids():
-    circle_id = request.args.get("circle_id")
+def sensor_ids(circle_id):
+    # circle_id = request.args.get("circle_id")
 
     try:
         query = {
@@ -1648,16 +1648,16 @@ def sensor_ids():
             "admin_status": {"$in": ["N", "S", "U"]},
             "utility": "2"
         }
-        projection = {"id": 1, "_id": 0,"site_id":1}
+        projection = {"id": 1, "_id": 0}
         sensor_id = collection_name7.find(query, projection)
-        return list(sensor_id)
+        return [doc["id"] for doc in sensor_id]
 
     except Exception as e:
         logs_config.logger.error("Error fetching sensor IDs:", exc_info=True)
         raise e
 
 
-def data_fetch(sensor_id , site_id):
+def data_fetch(sensor_id):
     try:
         fromId = sensor_id + "-2024-01-01 00:00:00"
         toId = sensor_id + "-2024-03-31 23:59:59"
@@ -1670,22 +1670,20 @@ def data_fetch(sensor_id , site_id):
                 doc['_id'] = str(doc['_id'])
         # transformed_data = dataTransformation.init_transformation(results, site_id)
         logs_config.logger.info(f"Fetched {len(results)} documents for sensor_id: {sensor_id}")
-        return results
+        return list(results)
     except Exception as e:
         logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}:", exc_info=True)
-        return np.array([])
+        return []
 
 @router.route('/fetch_data_for_sensors', methods=['POST'])
 def fetch_data_for_sensors():
     circle_id =request.args.get("circle_id")
     sensor_info = sensor_ids(circle_id)
-    sensors = [doc["id"] for doc in sensor_info]
-    sites = [doc["site_id"] for doc in sensor_info]
+    # sites = [doc["site_id"] for doc in sensor_info]
     # sensors = ["0136cda1-63b7-44dd-99e9-4592ebe441fd" , "01412db0-c82d-4e90-bd07-261186c7844a"]
     # sites = ["ffbd3565-8f89-11ee-a933-02d6f4b17064","df554320-facd-11ed-a890-0242bed38519"]
     with ThreadPoolExecutor() as executor:
-        futures = {executor.submit(data_fetch, sensor_id,site_id):(sensor_id, site_id)
-        for sensor_id, site_id in zip(sensors, sites)}
+        futures = {executor.submit(data_fetch, sensor_id):sensor_id for sensor_id in sensor_info}
 
     results = []
     for future in concurrent.futures.as_completed(futures):
