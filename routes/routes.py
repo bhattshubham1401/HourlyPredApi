@@ -1,12 +1,11 @@
 import concurrent
 from calendar import monthrange
-from concurrent.futures import ThreadPoolExecutor , ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 
-from bson.objectid import ObjectId
 from flask import Blueprint, request, jsonify
-from DataTransformation import dataTransformation
+
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
-    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9,collection_name10
+    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10
 
 router = Blueprint('router', __name__)
 import requests
@@ -16,48 +15,118 @@ import traceback
 import numpy as np
 from logs import logs_config
 
-@router.route('/get_sensorList', methods=['GET'])
-def get_sensorList():
+
+@router.route('/get_sensorListV1', methods=['GET'])
+def get_sensorListV1():
     try:
-        # sensor_ids = ['5f718b613291c7.03696209',
-        #               '5f718c439c7a78.65267835',
-        #               '614366bce31a86.78825897',
-        #               '6148740eea9db0.29702291',
-        #               '625fb44c5fb514.98107900',
-        #               '625fb9e020ff31.33961816',
-        #               '6260fd4351f892.69790282',
-        #               '627cd4815f2381.31981050',
-        #               '629094ee5fdff4.43505210',
-        #               '62aad7f5c65185.80723547',
-        #               '62b15dfee341d1.73837476',
-        #               '62b595eabd9df4.71374208',
-        #               '6349368c306542.16235883',
-        #               '634e7c43038801.39310596',
-        #               '6399a18b1488b8.07706749',
-        #               '63a4195534d625.00718490',
-        #               '63a4272631f153.67811394',
-        #               '63aa9161b9e7e1.16208626',
-        #               '63ca403ccd66f3.47133508',
-        #               '62a9920f75c931.62399458']
         sensor_ids = [
-            '5f718b613291c7.03696209',
-            '5f718c439c7a78.65267835',
-            '6148740eea9db0.29702291',
-            '625fb44c5fb514.98107900',
-            '625fb9e020ff31.33961816',
-            '6260fd4351f892.69790282',
-            '627cd4815f2381.31981050',
-            '629094ee5fdff4.43505210',
-            '62b15dfee341d1.73837476',
-            '634e7c43038801.39310596',
-            '6399a18b1488b8.07706749',
-            '63a4195534d625.00718490',
-            '63a4272631f153.67811394',
-            '62a9920f75c931.62399458',
-            '62aad7f5c65185.80723547',
-            '63aa9161b9e7e1.16208626',
-            '63ca403ccd66f3.47133508'
+            "66755ea75d9656.09451425",
+            "66792887ab2bf0.01972524",
+            "66796b38011256.43379844",
+            "66796c7d38ef95.94782159",
+            "667975ae47a9d3.45611637",
+            "667989e30478b9.04540881",
+            "66798b07a176f7.28421426",
+            "66798c998af0a4.39772704",
+            "66798d04b74f65.00513254",
+            "66798d6f3b99a8.11022930",
+            "66798dd85a2067.34235472",
+            "66798e4245c0d7.47939284",
+            "66798f359b8a34.89774241",
+            "66798f9a010539.13786166",
+            "66799027e46756.51131984",
+            "667bd42c040dd4.71905290",
+            "667be335c9c907.26863078",
+            "667be57d43ddc1.43514258",
+            "667be670c7f740.52758876",
+            "667be7240c74a4.64013414",
+            "667be8df45fab9.64137172",
+            "667be9cb3031e1.24562866",
+            "667beac5d62785.79876238",
+            "667bfdfeab6d34.51534194",
+            "667bff2df379b5.53081304",
+            "667bffb3b3ae66.16138506",
+            "667c03d72b1502.67552912",
+            "667c05ad3595d9.00092026",
+            "667c065f45a327.55067013",
+            "667c07a988c680.36467497",
+            "667c0867052b10.12209224",
+            "667c09221b1994.79645670",
+            "667c09c03bb026.40883695",
+            "667c0caff0c527.66621614",
+            "667c0d7c1a2c25.42171062",
+            "667c0ece2d5d57.23218009",
+            "667c0f783366a2.15185331",
+            "667c1208be16e3.98383881",
+            "667c12bb905a58.52710727",
+            "667c1332cd8232.01161681",
+            "667c14616ac802.18010687",
+            "667c15626a3e40.50715063",
+            "667c1864225670.88486374",
+            "667c1947cf8119.42008676",
+            "667c485f88cb41.11683168",
+            "667cfde9845216.22492904",
+            "667d15b1ac09a7.11635501",
+            "667d17335293c2.93969318",
+            "667d1921657499.98433906",
+            "667d1cd9150f44.31238978",
+            "667d1f47aca158.41077537",
+            "667d2b22923911.57953310",
+            "667d2d726d34d9.80543124",
+            "667d2ed3431ed1.79929882",
+            "667d2fe49edd63.94185560",
+            "667d31828576d8.46037940",
+            "667d320e166875.30973434",
+            "667d3293d6fcc2.53026792",
+            "667e58d8e67dc9.69173999",
+            "667e58d8e8a9f3.26329150",
+            "667e58d8eaefe0.18391362",
+            "667e58d8efebc2.38937885",
+            "667e58d8f20555.60582824",
+            "667e58d9004242.97860565",
+            "667e58d904aea6.48830596",
+            "667e58d91402f9.55869379",
+            "667e58d9166f67.75643219",
+            "667e58d918dfe6.23747237",
+            "667e58d91b6379.53203432",
+            "667e677c1e25e7.27858012",
+            "667e677c217958.45562798",
+            "667e677c2549e8.85289343",
+            "667e677c2bddd7.76320522",
+            "667e677c2f4e53.85361321",
+            "667e677c3950d9.96416684",
+            "667e677c3cbac5.50389286",
+            "667e677c408dd7.97426812",
+            "667e677c587561.43422097",
+            "667e677c6978f5.52670606",
+            "667e677c722cd4.54466988",
+            "667e6dd7dd4a69.18470849",
+            "667e6dd8418eb0.29956026",
+            "667e6dd848adf1.98125995",
+            "667e6dd84c56d1.57393902",
+            "667e6dd85d3ca6.45572149",
+            "667e6dd8602869.69317036",
+            "667e6dd8632305.25075935"
         ]
+        # sensor_ids = [
+        #     '5f718b613291c7.03696209',
+        #     '5f718c439c7a78.65267835',
+        #     '6148740eea9db0.29702291',
+        #     '625fb44c5fb514.98107900',
+        #     '625fb9e020ff31.33961816',
+        #     '6260fd4351f892.69790282',
+        #     '627cd4815f2381.31981050',
+        #     '629094ee5fdff4.43505210',
+        #     '62b15dfee341d1.73837476',
+        #     '634e7c43038801.39310596',
+        #     '6399a18b1488b8.07706749',
+        #     '63a4195534d625.00718490',
+        #     '63a4272631f153.67811394',
+        #     '62a9920f75c931.62399458',
+        #     '62aad7f5c65185.80723547',
+        #     '63aa9161b9e7e1.16208626',
+        #     '63ca403ccd66f3.47133508'
+        # ]
 
         url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
@@ -1140,109 +1209,26 @@ def getPredDataMonthlyjdvvnl():
 @router.route('/getweatherdata', methods=['POST'])
 def getweatherdata():
     try:
-        lst = ['d6599c30-facd-11ed-a890-0242bed38519',
-'d65c5b50-facd-11ed-a890-0242bed38519',
-'d65d6cc0-facd-11ed-a890-0242bed38519',
-'d65f8fa0-facd-11ed-a890-0242bed38519',
-'d662c3f0-facd-11ed-a890-0242bed38519',
-'d663fc70-facd-11ed-a890-0242bed38519',
-'d66b2860-facd-11ed-a890-0242bed38519',
-'d66dc070-facd-11ed-a890-0242bed38519',
-'d6705880-facd-11ed-a890-0242bed38519',
-'d6727b60-facd-11ed-a890-0242bed38519',
-'d6742910-facd-11ed-a890-0242bed38519',
-'d67588a0-facd-11ed-a890-0242bed38519',
-'d676c120-facd-11ed-a890-0242bed38519',
-'d67820b0-facd-11ed-a890-0242bed38519',
-'d6795930-facd-11ed-a890-0242bed38519',
-'d67b06e0-facd-11ed-a890-0242bed38519',
-'d67c3f60-facd-11ed-a890-0242bed38519',
-'d67dc600-facd-11ed-a890-0242bed38519',
-'d682cf10-facd-11ed-a890-0242bed38519',
-'d685b540-facd-11ed-a890-0242bed38519',
-'d689fb00-facd-11ed-a890-0242bed38519',
-'d68d5660-facd-11ed-a890-0242bed38519',
-'d68eb5f0-facd-11ed-a890-0242bed38519',
-'d69126f0-facd-11ed-a890-0242bed38519',
-'d692ad90-facd-11ed-a890-0242bed38519',
-'d6948250-facd-11ed-a890-0242bed38519',
-'d697ddb0-facd-11ed-a890-0242bed38519',
-'d6991630-facd-11ed-a890-0242bed38519',
-'d69c4a80-facd-11ed-a890-0242bed38519',
-'d69daa10-facd-11ed-a890-0242bed38519',
-'d69ff400-facd-11ed-a890-0242bed38519',
-'d6a37670-facd-11ed-a890-0242bed38519',
-'d6a65ca0-facd-11ed-a890-0242bed38519',
-'d6a9b800-facd-11ed-a890-0242bed38519',
-'d6ab3ea0-facd-11ed-a890-0242bed38519',
-'d6ae9a00-facd-11ed-a890-0242bed38519',
-'d6b06ec0-facd-11ed-a890-0242bed38519',
-'d6b306d0-facd-11ed-a890-0242bed38519',
-'d6b59ee0-facd-11ed-a890-0242bed38519',
-'d6b6fe70-facd-11ed-a890-0242bed38519',
-'d6b836f0-facd-11ed-a890-0242bed38519',
-'d6ba80e0-facd-11ed-a890-0242bed38519',
-'d6be2a60-facd-11ed-a890-0242bed38519',
-'d6c52f40-facd-11ed-a890-0242bed38519',
-'d6c86390-facd-11ed-a890-0242bed38519',
-'d6cb70d0-facd-11ed-a890-0242bed38519',
-'d6cdbac0-facd-11ed-a890-0242bed38519',
-'d6cfdda0-facd-11ed-a890-0242bed38519',
-'d6d11620-facd-11ed-a890-0242bed38519',
-'d6d2eae0-facd-11ed-a890-0242bed38519',
-'d6d49890-facd-11ed-a890-0242bed38519',
-'d6d5d110-facd-11ed-a890-0242bed38519',
-'d6d9a1a0-facd-11ed-a890-0242bed38519',
-'d6db2840-facd-11ed-a890-0242bed38519',
-'d6dcaee0-facd-11ed-a890-0242bed38519',
-'d6df1fe0-facd-11ed-a890-0242bed38519',
-'d6e0a680-facd-11ed-a890-0242bed38519',
-'d6e22d20-facd-11ed-a890-0242bed38519',
-'d6e672e0-facd-11ed-a890-0242bed38519',
-'d6e8e3e0-facd-11ed-a890-0242bed38519',
-'d6e9f550-facd-11ed-a890-0242bed38519',
-'d6eb2dd0-facd-11ed-a890-0242bed38519',
-'d6ecb470-facd-11ed-a890-0242bed38519',
-'d6edecf0-facd-11ed-a890-0242bed38519',
-'d6ef2570-facd-11ed-a890-0242bed38519',
-'d6f1e490-facd-11ed-a890-0242bed38519',
-'d6f53ff0-facd-11ed-a890-0242bed38519',
-'d6fda460-facd-11ed-a890-0242bed38519',
-'d6ff03f0-facd-11ed-a890-0242bed38519',
-'d7003c70-facd-11ed-a890-0242bed38519',
-'d70174f0-facd-11ed-a890-0242bed38519',
-'d702ad70-facd-11ed-a890-0242bed38519',
-'d70bfc40-facd-11ed-a890-0242bed38519',
-'d70e6d40-facd-11ed-a890-0242bed38519',
-'d70f7eb0-facd-11ed-a890-0242bed38519',
-'d711c8a0-facd-11ed-a890-0242bed38519',
-'d7132830-facd-11ed-a890-0242bed38519',
-'d714fcf0-facd-11ed-a890-0242bed38519',
-'d7168390-facd-11ed-a890-0242bed38519',
-'d71969c0-facd-11ed-a890-0242bed38519',
-'d71c28e0-facd-11ed-a890-0242bed38519',
-'d71e4bc0-facd-11ed-a890-0242bed38519',
-'d7232dc0-facd-11ed-a890-0242bed38519',
-'d726d740-facd-11ed-a890-0242bed38519',
-'d728fa20-facd-11ed-a890-0242bed38519',
-'d72af5f0-facd-11ed-a890-0242bed38519',
-'d7327000-facd-11ed-a890-0242bed38519',
-'d7352f20-facd-11ed-a890-0242bed38519',
-'d73667a0-facd-11ed-a890-0242bed38519',
-'d7377910-facd-11ed-a890-0242bed38519',
-'d738ffb0-facd-11ed-a890-0242bed38519',
-'d73a3830-facd-11ed-a890-0242bed38519',
-'d73b49a0-facd-11ed-a890-0242bed38519',
-'d73c8220-facd-11ed-a890-0242bed38519',
-'d73dbaa0-facd-11ed-a890-0242bed38519',
-'d740a0d0-facd-11ed-a890-0242bed38519',
-'d7427590-facd-11ed-a890-0242bed38519',
-'d7473080-facd-11ed-a890-0242bed38519',
-'d748de30-facd-11ed-a890-0242bed38519',
-'d74c1280-facd-11ed-a890-0242bed38519']
+        lst = ['667572f85ded75.67576759',
+               '667997aaa85681.59292546',
+               '667cf45531cb64.78079103',
+               '667d76057bd676.87408467',
+               '667d76830d35c0.44956320',
+               '667ef64f388065.50412235',
+               '667ef71343e491.54578071',
+               '667ef806470426.32625353',
+               '667f00182639e6.29627216',
+               '667f00322b6e24.78981311',
+               '667f0071e87539.72424501',
+               '6680dafb98c536.71089464',
+               '6680e0b51934d8.15669586',
+               '6680e3a8345f51.33991924',
+               '6680e47b643896.02283028',
+               '66839cedc7aec1.26001694'
+               ]
 
         pipeline = [
-            {"$match": {'type': 'AC_METER', 'admin_status': {"$in": ['N', 'S', 'U']},
+            {"$match": {'type': 'AC', 'admin_status': {"$in": ['N', 'S', 'U']},
                         'site_id': {"$in": lst}}},
             {"$group": {
                 "_id": "$site_id",
@@ -1262,7 +1248,7 @@ def getweatherdata():
 
         # Iterate over each site
         for site_data in result:
-            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-03-13&end_date=2024-04-07&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-06-21&end_date=2024-07-15&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
             print(url)
             response = requests.get(url)
             response.raise_for_status()
@@ -1272,7 +1258,7 @@ def getweatherdata():
             if "hourly" in weather_data:
                 for i in range(len(weather_data['hourly']['time'])):
                     hour_data = {
-                        "_id": ObjectId(),  # MongoDB's unique identifier
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
                         "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
@@ -1304,109 +1290,26 @@ def getweatherdata():
 @router.route('/getweatherdataF', methods=['POST'])
 def getweatherdataF():
     try:
-        lst = ['e39de950-facd-11ed-a890-0242bed38519',
-'e3a90ce0-facd-11ed-a890-0242bed38519',
-'e3b6ef90-facd-11ed-a890-0242bed38519',
-'e3bbf8a0-facd-11ed-a890-0242bed38519',
-'e3c399c0-facd-11ed-a890-0242bed38519',
-'e3ca7790-facd-11ed-a890-0242bed38519',
-'e3cf0b70-facd-11ed-a890-0242bed38519',
-'e3d266d0-facd-11ed-a890-0242bed38519',
-'e3e1f730-facd-11ed-a890-0242bed38519',
-'e3ef1690-facd-11ed-a890-0242bed38519',
-'e3f2e720-facd-11ed-a890-0242bed38519',
-'e406bd40-facd-11ed-a890-0242bed38519',
-'e4095550-facd-11ed-a890-0242bed38519',
-'e4187080-facd-11ed-a890-0242bed38519',
-'e41b56b0-facd-11ed-a890-0242bed38519',
-'e420d4f0-facd-11ed-a890-0242bed38519',
-'e42b3530-facd-11ed-a890-0242bed38519',
-'e433c0b0-facd-11ed-a890-0242bed38519',
-'e43df9e0-facd-11ed-a890-0242bed38519',
-'e452ba60-facd-11ed-a890-0242bed38519',
-'e45663e0-facd-11ed-a890-0242bed38519',
-'e46a3a00-facd-11ed-a890-0242bed38519',
-'e46cd210-facd-11ed-a890-0242bed38519',
-'e47361c0-facd-11ed-a890-0242bed38519',
-'e47ab4c0-facd-11ed-a890-0242bed38519',
-'e47c6270-facd-11ed-a890-0242bed38519',
-'e47f96c0-facd-11ed-a890-0242bed38519',
-'e4816b80-facd-11ed-a890-0242bed38519',
-'e4831930-facd-11ed-a890-0242bed38519',
-'e4889770-facd-11ed-a890-0242bed38519',
-'e4936ce0-facd-11ed-a890-0242bed38519',
-'e496c840-facd-11ed-a890-0242bed38519',
-'e49baa40-facd-11ed-a890-0242bed38519',
-'e49fc8f0-facd-11ed-a890-0242bed38519',
-'e4a39980-facd-11ed-a890-0242bed38519',
-'e4a80650-facd-11ed-a890-0242bed38519',
-'e4b10700-facd-11ed-a890-0242bed38519',
-'e4b329e0-facd-11ed-a890-0242bed38519',
-'e4b4fea0-facd-11ed-a890-0242bed38519',
-'e4b72180-facd-11ed-a890-0242bed38519',
-'e4bacb00-facd-11ed-a890-0242bed38519',
-'e4c440e0-facd-11ed-a890-0242bed38519',
-'e4ceef40-facd-11ed-a890-0242bed38519',
-'e4d18750-facd-11ed-a890-0242bed38519',
-'e4d70590-facd-11ed-a890-0242bed38519',
-'e4e2c560-facd-11ed-a890-0242bed38519',
-'e4f8e570-facd-11ed-a890-0242bed38519',
-'e4fc8ef0-facd-11ed-a890-0242bed38519',
-'e5001160-facd-11ed-a890-0242bed38519',
-'e5036cc0-facd-11ed-a890-0242bed38519',
-'e51f5930-facd-11ed-a890-0242bed38519',
-'e528f620-facd-11ed-a890-0242bed38519',
-'e549eba0-facd-11ed-a890-0242bed38519',
-'e54c0e80-facd-11ed-a890-0242bed38519',
-'e5566ec0-facd-11ed-a890-0242bed38519',
-'e559ca20-facd-11ed-a890-0242bed38519',
-'e5627cb0-facd-11ed-a890-0242bed38519',
-'e565ff20-facd-11ed-a890-0242bed38519',
-'e5687020-facd-11ed-a890-0242bed38519',
-'e56fc320-facd-11ed-a890-0242bed38519',
-'e5734590-facd-11ed-a890-0242bed38519',
-'e575dda0-facd-11ed-a890-0242bed38519',
-'e57911f0-facd-11ed-a890-0242bed38519',
-'e57e1b00-facd-11ed-a890-0242bed38519',
-'e58064f0-facd-11ed-a890-0242bed38519',
-'e58742c0-facd-11ed-a890-0242bed38519',
-'e58b1350-facd-11ed-a890-0242bed38519',
-'e58fce40-facd-11ed-a890-0242bed38519',
-'e592db80-facd-11ed-a890-0242bed38519',
-'e595e8c0-facd-11ed-a890-0242bed38519',
-'e599e060-facd-11ed-a890-0242bed38519',
-'e59bb520-facd-11ed-a890-0242bed38519',
-'e59d89e0-facd-11ed-a890-0242bed38519',
-'e59f5ea0-facd-11ed-a890-0242bed38519',
-'e5a13360-facd-11ed-a890-0242bed38519',
-'e5a3a460-facd-11ed-a890-0242bed38519',
-'e5a5c740-facd-11ed-a890-0242bed38519',
-'e5a83840-facd-11ed-a890-0242bed38519',
-'e5ac56f0-facd-11ed-a890-0242bed38519',
-'e5aec7f0-facd-11ed-a890-0242bed38519',
-'e5b111e0-facd-11ed-a890-0242bed38519',
-'e5b30db0-facd-11ed-a890-0242bed38519',
-'e5b53090-facd-11ed-a890-0242bed38519',
-'e5b77a80-facd-11ed-a890-0242bed38519',
-'e5b92830-facd-11ed-a890-0242bed38519',
-'e5bb7220-facd-11ed-a890-0242bed38519',
-'e5be3140-facd-11ed-a890-0242bed38519',
-'e5c13e80-facd-11ed-a890-0242bed38519',
-'e5c31340-facd-11ed-a890-0242bed38519',
-'e5c66ea0-facd-11ed-a890-0242bed38519',
-'e5cb0280-facd-11ed-a890-0242bed38519',
-'e5ccfe50-facd-11ed-a890-0242bed38519',
-'e5d032a0-facd-11ed-a890-0242bed38519',
-'e5d42a40-facd-11ed-a890-0242bed38519',
-'e5d62610-facd-11ed-a890-0242bed38519',
-'e5db5630-facd-11ed-a890-0242bed38519',
-'e5df74e0-facd-11ed-a890-0242bed38519',
-'e5e1bed0-facd-11ed-a890-0242bed38519',
-'e5e4f320-facd-11ed-a890-0242bed38519',
-'e5e73d10-facd-11ed-a890-0242bed38519']
+        lst = ['667572f85ded75.67576759',
+               '667997aaa85681.59292546',
+               '667cf45531cb64.78079103',
+               '667d76057bd676.87408467',
+               '667d76830d35c0.44956320',
+               '667ef64f388065.50412235',
+               '667ef71343e491.54578071',
+               '667ef806470426.32625353',
+               '667f00182639e6.29627216',
+               '667f00322b6e24.78981311',
+               '667f0071e87539.72424501',
+               '6680dafb98c536.71089464',
+               '6680e0b51934d8.15669586',
+               '6680e3a8345f51.33991924',
+               '6680e47b643896.02283028',
+               '66839cedc7aec1.26001694'
+               ]
 
         pipeline = [
-            {"$match": {'type': 'AC_METER', 'admin_status': {"$in": ['N', 'S', 'U']},
+            {"$match": {'type': 'AC', 'admin_status': {"$in": ['N', 'S', 'U']},
                         'site_id': {"$in": lst}}},
             {"$group": {
                 "_id": "$site_id",
@@ -1427,7 +1330,7 @@ def getweatherdataF():
 
         # Iterate over each site
         for site_data in result:
-            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date=2024-04-08&end_date=2024-04-17"
+            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date=2024-07-16&end_date=2024-08-02"
             print(url)
             response = requests.get(url)
             response.raise_for_status()
@@ -1437,7 +1340,7 @@ def getweatherdataF():
             if "hourly" in weather_data:
                 for i in range(len(weather_data['hourly']['time'])):
                     hour_data = {
-                        "_id": ObjectId(),  # MongoDB's unique identifier
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
                         "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
@@ -1622,10 +1525,11 @@ def get_jdvvnlcircleList():
         print(e)
         return jsonify({"rc": -1, "message": "error"}), 500
 
+
 @router.route('/circle_id', methods=['POST'])
 def circle_id():
     try:
-        data = collection_name10.find({},{"_id":0,"id":1},)
+        data = collection_name10.find({}, {"_id": 0, "id": 1}, )
         result = list(data)
         for doc in result:
             if '_id' in doc:
@@ -1643,7 +1547,7 @@ def sensor_ids(circle_id):
 
     try:
         query = {
-            "circle_id":circle_id,
+            "circle_id": circle_id,
             "type": "AC_METER",
             "admin_status": {"$in": ["N", "S", "U"]},
             "utility": "2"
@@ -1657,12 +1561,12 @@ def sensor_ids(circle_id):
         raise e
 
 
-def data_fetch(sensor_id):
+def data_fetch(sensor_id, site_id, conn):
     try:
         fromId = sensor_id + "-2024-01-01 00:00:00"
         toId = sensor_id + "-2024-03-31 23:59:59"
         query = {"_id": {"$gte": fromId, "$lt": toId}}
-        results = list(collection_name5.find(query))
+        results = list(conn.load_profile_jdvvnl.find(query))
 
         if results:
             for doc in results:
@@ -1670,20 +1574,22 @@ def data_fetch(sensor_id):
                 doc['_id'] = str(doc['_id'])
         # transformed_data = dataTransformation.init_transformation(results, site_id)
         logs_config.logger.info(f"Fetched {len(results)} documents for sensor_id: {sensor_id}")
-        return list(results)
+        return results
     except Exception as e:
         logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}:", exc_info=True)
         return []
 
+
 @router.route('/fetch_data_for_sensors', methods=['POST'])
 def fetch_data_for_sensors():
-    circle_id =request.args.get("circle_id")
+    circle_id = request.args.get("circle_id")
+    conn = request.args.get("conn")
     sensor_info = sensor_ids(circle_id)
-    # sites = [doc["site_id"] for doc in sensor_info]
-    # sensors = ["0136cda1-63b7-44dd-99e9-4592ebe441fd" , "01412db0-c82d-4e90-bd07-261186c7844a"]
-    # sites = ["ffbd3565-8f89-11ee-a933-02d6f4b17064","df554320-facd-11ed-a890-0242bed38519"]
+    sensors_id = [doc["id"] for doc in sensor_info]
+    sites = [doc["site_id"] for doc in sensor_info]
     with ThreadPoolExecutor() as executor:
-        futures = {executor.submit(data_fetch, sensor_id):sensor_id for sensor_id in sensor_info}
+        futures = {executor.submit(data_fetch, sensor_id, site_id, conn): (sensor_id, site_id) for sensor_id, site_id in
+                   zip(sensors_id, sites)}
 
     results = []
     for future in concurrent.futures.as_completed(futures):
@@ -1694,3 +1600,112 @@ def fetch_data_for_sensors():
             logs_config.logger.error(f"Error fetching data for sensor_id {sensor_id}: {exc}")
 
     return jsonify(results)
+
+
+@router.route('/get_sensorList', methods=['GET'])
+def get_sensorList():
+    sensor_ids = [
+        "66755ea75d9656.09451425",
+        "66792887ab2bf0.01972524",
+        "66796b38011256.43379844",
+        "66796c7d38ef95.94782159",
+        "667975ae47a9d3.45611637",
+        "667989e30478b9.04540881",
+        "66798b07a176f7.28421426",
+        "66798c998af0a4.39772704",
+        "66798d04b74f65.00513254",
+        "66798d6f3b99a8.11022930",
+        "66798dd85a2067.34235472",
+        "66798e4245c0d7.47939284",
+        "66798f359b8a34.89774241",
+        "66798f9a010539.13786166",
+        "66799027e46756.51131984",
+        "667bd42c040dd4.71905290",
+        "667be335c9c907.26863078",
+        "667be57d43ddc1.43514258",
+        "667be670c7f740.52758876",
+        "667be7240c74a4.64013414",
+        "667be8df45fab9.64137172",
+        "667be9cb3031e1.24562866",
+        "667beac5d62785.79876238",
+        "667bfdfeab6d34.51534194",
+        "667bff2df379b5.53081304",
+        "667bffb3b3ae66.16138506",
+        "667c03d72b1502.67552912",
+        "667c05ad3595d9.00092026",
+        "667c065f45a327.55067013",
+        "667c07a988c680.36467497",
+        "667c0867052b10.12209224",
+        "667c09221b1994.79645670",
+        "667c09c03bb026.40883695",
+        "667c0caff0c527.66621614",
+        "667c0d7c1a2c25.42171062",
+        "667c0ece2d5d57.23218009",
+        "667c0f783366a2.15185331",
+        "667c1208be16e3.98383881",
+        "667c12bb905a58.52710727",
+        "667c1332cd8232.01161681",
+        "667c14616ac802.18010687",
+        "667c15626a3e40.50715063",
+        "667c1864225670.88486374",
+        "667c1947cf8119.42008676",
+        "667c485f88cb41.11683168",
+        "667cfde9845216.22492904",
+        "667d15b1ac09a7.11635501",
+        "667d17335293c2.93969318",
+        "667d1921657499.98433906",
+        "667d1cd9150f44.31238978",
+        "667d1f47aca158.41077537",
+        "667d2b22923911.57953310",
+        "667d2d726d34d9.80543124",
+        "667d2ed3431ed1.79929882",
+        "667d2fe49edd63.94185560",
+        "667d31828576d8.46037940",
+        "667d320e166875.30973434",
+        "667d3293d6fcc2.53026792",
+        "667e58d8e67dc9.69173999",
+        "667e58d8e8a9f3.26329150",
+        "667e58d8eaefe0.18391362",
+        "667e58d8efebc2.38937885",
+        "667e58d8f20555.60582824",
+        "667e58d9004242.97860565",
+        "667e58d904aea6.48830596",
+        "667e58d91402f9.55869379",
+        "667e58d9166f67.75643219",
+        "667e58d918dfe6.23747237",
+        "667e58d91b6379.53203432",
+        "667e677c1e25e7.27858012",
+        "667e677c217958.45562798",
+        "667e677c2549e8.85289343",
+        "667e677c2bddd7.76320522",
+        "667e677c2f4e53.85361321",
+        "667e677c3950d9.96416684",
+        "667e677c3cbac5.50389286",
+        "667e677c408dd7.97426812",
+        "667e677c587561.43422097",
+        "667e677c6978f5.52670606",
+        "667e677c722cd4.54466988",
+        "667e6dd7dd4a69.18470849",
+        "667e6dd8418eb0.29956026",
+        "667e6dd848adf1.98125995",
+        "667e6dd84c56d1.57393902",
+        "667e6dd85d3ca6.45572149",
+        "667e6dd8602869.69317036",
+        "667e6dd8632305.25075935"
+    ]
+
+    try:
+        query = {
+            "circle_id": {"$in": sensor_ids},
+            "type": "AC_METER",
+            "admin_status": {"$in": ["N", "S", "U"]},
+            "utility": "2"
+        }
+        projection = {"id": 1, "_id": 0}
+        sensor_id = collection_name7.find(query, projection)
+        sensor_list = [doc["id"] for doc in sensor_id]
+        return jsonify(sensor_list), 200
+
+    except Exception as e:
+        logs_config.logger.error("Error fetching sensor IDs:", exc_info=True)
+        return jsonify({"error": str(e)}), 500
