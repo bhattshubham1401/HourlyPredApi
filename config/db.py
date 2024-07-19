@@ -20,9 +20,11 @@ collection11 = "transformed_dataV1"
 collection12 = "weather_data_forcast"
 
 MONGO_URL = f"mongodb://{host}:{port}"
+print(MONGO_URL)
 client = MongoClient(MONGO_URL)
-
+print(client)
 db1 = client[db]
+print(db1)
 '''
 collection is for condition including holidays and weather data 
 collection1 is for condition with simple load profile data.  

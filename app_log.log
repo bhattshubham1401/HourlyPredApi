@@ -1511,3 +1511,55 @@ with app.app_context(). See the documentation for more information.
 2024-05-17 18:33:29,219 - INFO - routes.py:1672 - Fetched 8459 documents for sensor_id: fcd20002-6d4a-495e-99cc-1630ed35c4b5
 2024-05-17 18:33:29,229 - INFO - routes.py:1672 - Fetched 8524 documents for sensor_id: fe6f981c-b5fe-40c5-9134-12d32f95e683
 2024-05-17 18:33:29,869 - INFO - routes.py:1672 - Fetched 8561 documents for sensor_id: fdb131f4-f0a7-4c2a-b690-06311c69582e
+2024-07-19 18:30:02,790 - ERROR - routes.py:1710 - Error fetching sensor IDs:
+Traceback (most recent call last):
+  File "D:\HourlyPredApi\routes\routes.py", line 1706, in get_sensorList
+    sensor_list = [doc["id"] for doc in sensor_id]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\routes\routes.py", line 1706, in <listcomp>
+    sensor_list = [doc["id"] for doc in sensor_id]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\cursor.py", line 1264, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\cursor.py", line 1155, in _refresh
+    self.__session = self.__collection.database.client._ensure_session()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\mongo_client.py", line 1823, in _ensure_session
+    return self.__start_session(True, causal_consistency=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\mongo_client.py", line 1766, in __start_session
+    self._topology._check_implicit_session_support()
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\topology.py", line 573, in _check_implicit_session_support
+    self._check_session_support()
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\topology.py", line 589, in _check_session_support
+    self._select_servers_loop(
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\topology.py", line 259, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 669a6315174024aeeef63094, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2024-07-19 18:30:02,791 - ERROR - routes.py:1710 - Error fetching sensor IDs:
+Traceback (most recent call last):
+  File "D:\HourlyPredApi\routes\routes.py", line 1706, in get_sensorList
+    sensor_list = [doc["id"] for doc in sensor_id]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\routes\routes.py", line 1706, in <listcomp>
+    sensor_list = [doc["id"] for doc in sensor_id]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\cursor.py", line 1264, in next
+    if len(self.__data) or self._refresh():
+                           ^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\cursor.py", line 1155, in _refresh
+    self.__session = self.__collection.database.client._ensure_session()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\mongo_client.py", line 1823, in _ensure_session
+    return self.__start_session(True, causal_consistency=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\mongo_client.py", line 1766, in __start_session
+    self._topology._check_implicit_session_support()
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\topology.py", line 573, in _check_implicit_session_support
+    self._check_session_support()
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\topology.py", line 589, in _check_session_support
+    self._select_servers_loop(
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\topology.py", line 259, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 669a6315174024aeeef63094, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
