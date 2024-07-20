@@ -1,11 +1,11 @@
 import concurrent
 from calendar import monthrange
 from concurrent.futures import ThreadPoolExecutor
+
 from flask import Blueprint, request, jsonify
+
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10
-
-
 
 router = Blueprint('router', __name__)
 import requests
@@ -16,8 +16,8 @@ import numpy as np
 from logs import logs_config
 
 
-@router.route('/get_sensorList', methods=['GET'])
-def get_sensorList():
+@router.route('/get_sensorListV1', methods=['GET'])
+def get_sensorListV1():
     try:
         sensor_ids = [
             '5f718b613291c7.03696209',
@@ -1513,8 +1513,8 @@ def fetch_data_for_sensors():
     return jsonify(results)
 
 
-@router.route('/get_sensorListV1', methods=['GET'])
-def get_sensorListV1():
+@router.route('/get_sensorList', methods=['GET'])
+def get_sensorList():
     sensor_ids = [
         "66755ea75d9656.09451425",
         "66792887ab2bf0.01972524",
@@ -1612,9 +1612,10 @@ def get_sensorListV1():
             "admin_status": {"$in": ["N", "S", "U"]}
         }
 
-        projection = {"asset_id": 1, "_id": 0}
-        sensor_id = collection_name7.find(query, projection)
-        sensor_list = [doc["asset_id"] for doc in sensor_id]
+        projection = {"asset_id": 1, 'id' : 1, 'UOM': 1, "_id": 0}
+        data = collection_name7.find(query, projection)
+        sensor_list = [{'uuid': item['id'], 'sensorName': item['asset_id'], "UOM": item['UOM']} for item in
+                       data]
         return jsonify(sensor_list), 200
 
     except Exception as e:
