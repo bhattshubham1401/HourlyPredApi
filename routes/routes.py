@@ -256,8 +256,8 @@ def getPredDataHourly():
 #         return {"error": str(e)}
 
 
-@router.route('/getPredDataDaily', methods=['GET'])
-def getPredDataDaily():
+@router.route('/getPredDataDailyV1', methods=['GET'])
+def getPredDataDailyV1():
     try:
         # Access parameters from the query string
         todo_id = request.args.get('id')
@@ -1512,99 +1512,99 @@ def fetch_data_for_sensors():
 
     return jsonify(results)
 
-
+'''========================================================JPDCL API======================================================================'''
 @router.route('/get_sensorList', methods=['GET'])
 def get_sensorList():
-    sensor_ids = [
-        "66755ea75d9656.09451425",
-        "66792887ab2bf0.01972524",
-        "66796b38011256.43379844",
-        "66796c7d38ef95.94782159",
-        "667975ae47a9d3.45611637",
-        "667989e30478b9.04540881",
-        "66798b07a176f7.28421426",
-        "66798c998af0a4.39772704",
-        "66798d04b74f65.00513254",
-        "66798d6f3b99a8.11022930",
-        "66798dd85a2067.34235472",
-        "66798e4245c0d7.47939284",
-        "66798f359b8a34.89774241",
-        "66798f9a010539.13786166",
-        "66799027e46756.51131984",
-        "667bd42c040dd4.71905290",
-        "667be335c9c907.26863078",
-        "667be57d43ddc1.43514258",
-        "667be670c7f740.52758876",
-        "667be7240c74a4.64013414",
-        "667be8df45fab9.64137172",
-        "667be9cb3031e1.24562866",
-        "667beac5d62785.79876238",
-        "667bfdfeab6d34.51534194",
-        "667bff2df379b5.53081304",
-        "667bffb3b3ae66.16138506",
-        "667c03d72b1502.67552912",
-        "667c05ad3595d9.00092026",
-        "667c065f45a327.55067013",
-        "667c07a988c680.36467497",
-        "667c0867052b10.12209224",
-        "667c09221b1994.79645670",
-        "667c09c03bb026.40883695",
-        "667c0caff0c527.66621614",
-        "667c0d7c1a2c25.42171062",
-        "667c0ece2d5d57.23218009",
-        "667c0f783366a2.15185331",
-        "667c1208be16e3.98383881",
-        "667c12bb905a58.52710727",
-        "667c1332cd8232.01161681",
-        "667c14616ac802.18010687",
-        "667c15626a3e40.50715063",
-        "667c1864225670.88486374",
-        "667c1947cf8119.42008676",
-        "667c485f88cb41.11683168",
-        "667cfde9845216.22492904",
-        "667d15b1ac09a7.11635501",
-        "667d17335293c2.93969318",
-        "667d1921657499.98433906",
-        "667d1cd9150f44.31238978",
-        "667d1f47aca158.41077537",
-        "667d2b22923911.57953310",
-        "667d2d726d34d9.80543124",
-        "667d2ed3431ed1.79929882",
-        "667d2fe49edd63.94185560",
-        "667d31828576d8.46037940",
-        "667d320e166875.30973434",
-        "667d3293d6fcc2.53026792",
-        "667e58d8e67dc9.69173999",
-        "667e58d8e8a9f3.26329150",
-        "667e58d8eaefe0.18391362",
-        "667e58d8efebc2.38937885",
-        "667e58d8f20555.60582824",
-        "667e58d9004242.97860565",
-        "667e58d904aea6.48830596",
-        "667e58d91402f9.55869379",
-        "667e58d9166f67.75643219",
-        "667e58d918dfe6.23747237",
-        "667e58d91b6379.53203432",
-        "667e677c1e25e7.27858012",
-        "667e677c217958.45562798",
-        "667e677c2549e8.85289343",
-        "667e677c2bddd7.76320522",
-        "667e677c2f4e53.85361321",
-        "667e677c3950d9.96416684",
-        "667e677c3cbac5.50389286",
-        "667e677c408dd7.97426812",
-        "667e677c587561.43422097",
-        "667e677c6978f5.52670606",
-        "667e677c722cd4.54466988",
-        "667e6dd7dd4a69.18470849",
-        "667e6dd8418eb0.29956026",
-        "667e6dd848adf1.98125995",
-        "667e6dd84c56d1.57393902",
-        "667e6dd85d3ca6.45572149",
-        "667e6dd8602869.69317036",
-        "667e6dd8632305.25075935"
-    ]
-
+    sensor_ids = ['66755ea75d9656.09451425',
+               '66792887ab2bf0.01972524',
+               '66798b07a176f7.28421426',
+               '66796b38011256.43379844',
+               '66796c7d38ef95.94782159',
+               '667975ae47a9d3.45611637',
+               '66798c998af0a4.39772704',
+               '66798d6f3b99a8.11022930',
+               '66798dd85a2067.34235472',
+               '66798e4245c0d7.47939284',
+               '667bd42c040dd4.71905290',
+               '667be335c9c907.26863078',
+               '66798f9a010539.13786166',
+               '66798d04b74f65.00513254',
+               '667be7240c74a4.64013414',
+               '66798f359b8a34.89774241',
+               '66799027e46756.51131984',
+               '667be8df45fab9.64137172',
+               '667be9cb3031e1.24562866',
+               '667989e30478b9.04540881',
+               '667beac5d62785.79876238',
+               '667c0ece2d5d57.23218009',
+               '667be57d43ddc1.43514258',
+               '667be670c7f740.52758876',
+               '667bfdfeab6d34.51534194',
+               '667bff2df379b5.53081304',
+               '667bffb3b3ae66.16138506',
+               '667c05ad3595d9.00092026',
+               '667e677c217958.45562798',
+               '667e677c2549e8.85289343',
+               '667c07a988c680.36467497',
+               '667e677c2bddd7.76320522',
+               '667c0867052b10.12209224',
+               '667e58d91b6379.53203432',
+               '667c09221b1994.79645670',
+               '667e677c1e25e7.27858012',
+               '667c0caff0c527.66621614',
+               '667e58d9166f67.75643219',
+               '667e58d91402f9.55869379',
+               '667c0d7c1a2c25.42171062',
+               '667e58d918dfe6.23747237',
+               '667c09c03bb026.40883695',
+               '667c0f783366a2.15185331',
+               '667e677c2f4e53.85361321',
+               '667e58d8e67dc9.69173999',
+               '667e58d8e8a9f3.26329150',
+               '667e58d8eaefe0.18391362',
+               '667e58d8efebc2.38937885',
+               '667e58d9004242.97860565',
+               '667e58d904aea6.48830596',
+               '667e58d8f20555.60582824',
+               '667d31828576d8.46037940',
+               '667d320e166875.30973434',
+               '667d3293d6fcc2.53026792',
+               '667c065f45a327.55067013',
+               '667d2fe49edd63.94185560',
+               '667d2d726d34d9.80543124',
+               '667d2ed3431ed1.79929882',
+               '667d2b22923911.57953310',
+               '667e677c722cd4.54466988',
+               '667c1208be16e3.98383881',
+               '667c485f88cb41.11683168',
+               '667d1cd9150f44.31238978',
+               '667d1f47aca158.41077537',
+               '667c12bb905a58.52710727',
+               '667d1921657499.98433906',
+               '667e6dd7dd4a69.18470849',
+               '667d2678db47c2.73895222',
+               '667c1332cd8232.01161681',
+               '667c14616ac802.18010687',
+               '667c03d72b1502.67552912',
+               '667c15626a3e40.50715063',
+               '667d29d704db37.12173206',
+               '667e677c3950d9.96416684',
+               '667e677c3cbac5.50389286',
+               '667d15b1ac09a7.11635501',
+               '667e677c408dd7.97426812',
+               '667e677c587561.43422097',
+               '667d17335293c2.93969318',
+               '667e6dd8602869.69317036',
+               '667e6dd8418eb0.29956026',
+               '667e6dd848adf1.98125995',
+               '667e6dd84c56d1.57393902',
+               '667e6dd85d3ca6.45572149',
+               '667e6dd8632305.25075935',
+               '667cfde9845216.22492904',
+               '667c1947cf8119.42008676',
+               '667e677c6978f5.52670606',
+               '667c1864225670.88486374'
+               ]
     try:
         query = {
             "id": {"$in": sensor_ids},
@@ -1621,3 +1621,126 @@ def get_sensorList():
     except Exception as e:
         logs_config.logger.error("Error fetching sensor IDs:", exc_info=True)
         return jsonify({"error": str(e)}), 500
+
+@router.route('/getPredDataDaily', methods=['GET'])
+def getPredDataDaily():
+    try:
+        # Access parameters from the query string
+        todo_id = request.args.get('id')
+        date = request.args.get('date')
+
+        month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
+        month_today = (datetime.now()).month
+
+        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+
+
+        # Concatenate todo_id and date to create a new identifier
+        id = todo_id + "_" + date
+        query = {'_id': id}
+        l1 = []
+
+        url = "http://jpdclmdm.radius-ami.com:8850/gtDta"
+        headers = {
+            "Content-Type": "application/json",
+            "token": "yomUE5MXM52pDri0zd44QLonEJFpkgGdsFJrakW1CZ966zYwEIKv8qEp57+1q+QJ9lcbiMlvF6IPVO2kA31Wi9keJAAGP0E3mlTyxmXlto+GQNNcobIPJCk0umanOKfRo3rVXcDf2Z0/iNaYtv1chqh2ou0VFjnvw+//opyhMfz80CoZv2z6OJBBH5eJbXHKA/GdTBmEd2ELB7Nkv3oMkeAq4C8KaTRuriYBWgcKaI4gDGapkvg+IxwBeTkigc7/D34a0VSUr3CklolWayTf0ae04l+/DMVuMVXOGnrIRVF3rpEGICA+8Z55wkd9fAJhCWf3GGsU2bf1hgzwttlS9SHRbSgLa67WQDXzgLGe9W2zaKACAVIN0bS+8KRqQT1wDhVVQUaFkUVZyH6kEQrfow==",
+            "api_gateway": "AMI",
+            "APIAgent": "shubh"
+        }
+
+        params = {
+            "sensor_id": todo_id,
+            "type": "LP",
+            "count": "0",
+            "sub_type": "FDR",
+            "r_count": "5000"
+        }
+        response = requests.post(url, json=params, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        l1.append(data['DATA'])
+
+        columns = ['sensor', 'Clock', 'R_Current', 'Y_Current', 'B_Current', 'R_Voltage', 'Y_Voltage', 'B_Voltage',
+                   'Kwh', 'BlockEnergy-WhExp', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ2', 'BlockEnergy-VArhQ3',
+                   'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp',
+                   'BlockEnergy-VAhExp', 'MeterHealthIndicator']
+
+        datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
+        df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
+        df = df.drop(['sensor', 'R_Current', 'Y_Current', 'B_Current', 'R_Voltage', 'Y_Voltage', 'B_Voltage',
+                    'BlockEnergy-WhExp', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ2', 'BlockEnergy-VArhQ3',
+                   'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp',
+                   'BlockEnergy-VAhExp', 'MeterHealthIndicator'], axis=1)
+
+        start_time = pd.to_datetime(start_date)
+        end_time = pd.to_datetime(end_date)
+        df['Clock'] = pd.to_datetime(df['Clock'])
+        df['Kwh'] = pd.to_numeric(df['Kwh'])
+        filtered_df = df.loc[(df['Clock'] >= start_time) & (df['Clock'] <= end_time)]
+        # filtered_df.sort_values(by = [df['Clock']])
+        filtered_df.set_index(['Clock'], inplace=True, drop=True)
+        df1 = (filtered_df[['Kwh']].resample(rule="1H").sum())
+        percent = 0.0
+        act_daily_sum, actual_max_hour, actual_max_value = 0.0, "00", 0.0
+        pred_daily_sum, pred_max_hour, pred_max_value = 0.0, "00", 0.0
+
+        # actual data  storing
+        formatted_data_act = {"data_act": []}
+        if df1.empty is False:
+            act_hour_counter = 0
+            for value in df1["Kwh"]:
+                formatted_data_act["data_act"].append({"clock": str(act_hour_counter).zfill(2), "act_kwh": value})
+                act_daily_sum += value
+                act_hour_counter += 1
+            max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
+            actual_max_hour = str(max_value_dict['clock']).zfill(2)
+            actual_max_value = round(max_value_dict['act_kwh'], 2)
+
+        if (len(formatted_data_act['data_act'])) < 24:
+            for i in range((len(formatted_data_act['data_act'])), 24):
+                formatted_data_act["data_act"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
+
+        actual_data = formatted_data_act
+        pd.set_option('display.max_columns', 5000)
+
+        # Check if predicted data exists
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+
+        formatted_data_pred = {"data_pred": []}
+        if (len(todos_pred) != 0):
+            # Predicted data found, extract values from the data
+            pred_hour_counter = 0
+            for key, value in todos_pred[0]["data"].items():
+                formatted_data_pred["data_pred"].append(
+                    {"clock": str(pred_hour_counter).zfill(2), "pre_kwh": round(value["pre_kwh"], 2)})
+                pred_daily_sum += (value["pre_kwh"])
+                pred_hour_counter += 1
+
+            max_value_dict = max(formatted_data_pred['data_pred'], key=lambda x: x['pre_kwh'])
+            pred_max_hour = str(max_value_dict['clock']).zfill(2)
+            pred_max_value = round(max_value_dict['pre_kwh'], 2)
+
+        # Predicted data not found or incomplete, create an array of zeros for each hour
+        if (len(formatted_data_pred['data_pred'])) < 24:
+            for i in range((len(formatted_data_pred['data_pred'])), 24):
+                formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
+
+        predicted_data = formatted_data_pred
+
+        if ((month_from_date) != (month_today)) & (act_daily_sum != 0):
+            percent = round(abs(((act_daily_sum - pred_daily_sum) / act_daily_sum) * 100), 2)
+
+        # Combine actual and predicted data into a single dictionary
+        response_data = {"actual_data": actual_data["data_act"], "predicted_data": predicted_data["data_pred"]}
+
+        return {"rc": 0, "message": "Success",
+                "actual_daily_sum": round(act_daily_sum, 2), "pred_daily_sum": round(pred_daily_sum, 2),
+                "actual_max_hour": actual_max_hour, "actual_max_value": actual_max_value,
+                "pred_max_hour": pred_max_hour, "pred_max_value": pred_max_value,
+                "data": response_data,
+                "percentage": percent}
+
+    except Exception as e:
+
+        return {"error": str(e)}
