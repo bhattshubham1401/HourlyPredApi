@@ -1,11 +1,11 @@
 import concurrent
 from calendar import monthrange
 from concurrent.futures import ThreadPoolExecutor
-
 from flask import Blueprint, request, jsonify
-
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10
+
+
 
 router = Blueprint('router', __name__)
 import requests
@@ -16,117 +16,28 @@ import numpy as np
 from logs import logs_config
 
 
-@router.route('/get_sensorListV1', methods=['GET'])
-def get_sensorListV1():
+@router.route('/get_sensorList', methods=['GET'])
+def get_sensorList():
     try:
         sensor_ids = [
-            "66755ea75d9656.09451425",
-            "66792887ab2bf0.01972524",
-            "66796b38011256.43379844",
-            "66796c7d38ef95.94782159",
-            "667975ae47a9d3.45611637",
-            "667989e30478b9.04540881",
-            "66798b07a176f7.28421426",
-            "66798c998af0a4.39772704",
-            "66798d04b74f65.00513254",
-            "66798d6f3b99a8.11022930",
-            "66798dd85a2067.34235472",
-            "66798e4245c0d7.47939284",
-            "66798f359b8a34.89774241",
-            "66798f9a010539.13786166",
-            "66799027e46756.51131984",
-            "667bd42c040dd4.71905290",
-            "667be335c9c907.26863078",
-            "667be57d43ddc1.43514258",
-            "667be670c7f740.52758876",
-            "667be7240c74a4.64013414",
-            "667be8df45fab9.64137172",
-            "667be9cb3031e1.24562866",
-            "667beac5d62785.79876238",
-            "667bfdfeab6d34.51534194",
-            "667bff2df379b5.53081304",
-            "667bffb3b3ae66.16138506",
-            "667c03d72b1502.67552912",
-            "667c05ad3595d9.00092026",
-            "667c065f45a327.55067013",
-            "667c07a988c680.36467497",
-            "667c0867052b10.12209224",
-            "667c09221b1994.79645670",
-            "667c09c03bb026.40883695",
-            "667c0caff0c527.66621614",
-            "667c0d7c1a2c25.42171062",
-            "667c0ece2d5d57.23218009",
-            "667c0f783366a2.15185331",
-            "667c1208be16e3.98383881",
-            "667c12bb905a58.52710727",
-            "667c1332cd8232.01161681",
-            "667c14616ac802.18010687",
-            "667c15626a3e40.50715063",
-            "667c1864225670.88486374",
-            "667c1947cf8119.42008676",
-            "667c485f88cb41.11683168",
-            "667cfde9845216.22492904",
-            "667d15b1ac09a7.11635501",
-            "667d17335293c2.93969318",
-            "667d1921657499.98433906",
-            "667d1cd9150f44.31238978",
-            "667d1f47aca158.41077537",
-            "667d2b22923911.57953310",
-            "667d2d726d34d9.80543124",
-            "667d2ed3431ed1.79929882",
-            "667d2fe49edd63.94185560",
-            "667d31828576d8.46037940",
-            "667d320e166875.30973434",
-            "667d3293d6fcc2.53026792",
-            "667e58d8e67dc9.69173999",
-            "667e58d8e8a9f3.26329150",
-            "667e58d8eaefe0.18391362",
-            "667e58d8efebc2.38937885",
-            "667e58d8f20555.60582824",
-            "667e58d9004242.97860565",
-            "667e58d904aea6.48830596",
-            "667e58d91402f9.55869379",
-            "667e58d9166f67.75643219",
-            "667e58d918dfe6.23747237",
-            "667e58d91b6379.53203432",
-            "667e677c1e25e7.27858012",
-            "667e677c217958.45562798",
-            "667e677c2549e8.85289343",
-            "667e677c2bddd7.76320522",
-            "667e677c2f4e53.85361321",
-            "667e677c3950d9.96416684",
-            "667e677c3cbac5.50389286",
-            "667e677c408dd7.97426812",
-            "667e677c587561.43422097",
-            "667e677c6978f5.52670606",
-            "667e677c722cd4.54466988",
-            "667e6dd7dd4a69.18470849",
-            "667e6dd8418eb0.29956026",
-            "667e6dd848adf1.98125995",
-            "667e6dd84c56d1.57393902",
-            "667e6dd85d3ca6.45572149",
-            "667e6dd8602869.69317036",
-            "667e6dd8632305.25075935"
+            '5f718b613291c7.03696209',
+            '5f718c439c7a78.65267835',
+            '6148740eea9db0.29702291',
+            '625fb44c5fb514.98107900',
+            '625fb9e020ff31.33961816',
+            '6260fd4351f892.69790282',
+            '627cd4815f2381.31981050',
+            '629094ee5fdff4.43505210',
+            '62b15dfee341d1.73837476',
+            '634e7c43038801.39310596',
+            '6399a18b1488b8.07706749',
+            '63a4195534d625.00718490',
+            '63a4272631f153.67811394',
+            '62a9920f75c931.62399458',
+            '62aad7f5c65185.80723547',
+            '63aa9161b9e7e1.16208626',
+            '63ca403ccd66f3.47133508'
         ]
-        # sensor_ids = [
-        #     '5f718b613291c7.03696209',
-        #     '5f718c439c7a78.65267835',
-        #     '6148740eea9db0.29702291',
-        #     '625fb44c5fb514.98107900',
-        #     '625fb9e020ff31.33961816',
-        #     '6260fd4351f892.69790282',
-        #     '627cd4815f2381.31981050',
-        #     '629094ee5fdff4.43505210',
-        #     '62b15dfee341d1.73837476',
-        #     '634e7c43038801.39310596',
-        #     '6399a18b1488b8.07706749',
-        #     '63a4195534d625.00718490',
-        #     '63a4272631f153.67811394',
-        #     '62a9920f75c931.62399458',
-        #     '62aad7f5c65185.80723547',
-        #     '63aa9161b9e7e1.16208626',
-        #     '63ca403ccd66f3.47133508'
-        # ]
 
         url = "https://vapt-npcl.myxenius.com/Sensor_newHelper/getDataApi"
         params = {
@@ -1602,8 +1513,8 @@ def fetch_data_for_sensors():
     return jsonify(results)
 
 
-@router.route('/get_sensorList', methods=['GET'])
-def get_sensorList():
+@router.route('/get_sensorListV1', methods=['GET'])
+def get_sensorListV1():
     sensor_ids = [
         "66755ea75d9656.09451425",
         "66792887ab2bf0.01972524",
@@ -1696,14 +1607,14 @@ def get_sensorList():
 
     try:
         query = {
-            "circle_id": {"$in": sensor_ids},
-            "type": "AC_METER",
-            "admin_status": {"$in": ["N", "S", "U"]},
-            "utility": "2"
+            "id": {"$in": sensor_ids},
+            "type": "AC",
+            "admin_status": {"$in": ["N", "S", "U"]}
         }
-        projection = {"id": 1, "_id": 0}
+
+        projection = {"asset_id": 1, "_id": 0}
         sensor_id = collection_name7.find(query, projection)
-        sensor_list = [doc["id"] for doc in sensor_id]
+        sensor_list = [doc["asset_id"] for doc in sensor_id]
         return jsonify(sensor_list), 200
 
     except Exception as e:
