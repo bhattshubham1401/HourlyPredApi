@@ -3,7 +3,7 @@ from pymongo.mongo_client import MongoClient
 # host = "13.127.57.185"
 host = "localhost"
 port = 27017
-db = "pvvnl"
+db = "jpdcl"
 
 collection  = "forcast"
 collection1 = "forcast1"
