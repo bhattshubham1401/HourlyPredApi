@@ -5,7 +5,7 @@ host = "localhost"
 port = 27017
 db = "jpdcl"
 
-collection  = "forcast"
+collection  = "predictions"
 collection1 = "forcast1"
 collection2 = "forcast2"
 collection3 = "forcast3"
