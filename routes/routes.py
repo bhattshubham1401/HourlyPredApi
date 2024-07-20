@@ -1616,7 +1616,7 @@ def get_sensorList():
         data = collection_name7.find(query, projection)
         sensor_list = [{'uuid': item['id'], 'sensorName': item['asset_id'], "UOM": item['UOM']} for item in
                        data]
-        return jsonify(sensor_list), 200
+        return jsonify({"rc": 0, "message": "Success", 'sensorList': sensor_list})
 
     except Exception as e:
         logs_config.logger.error("Error fetching sensor IDs:", exc_info=True)
