@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
-    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10
+    collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10, collection_name13
 
 router = Blueprint('router', __name__)
 import requests
@@ -1705,7 +1705,7 @@ def getPredDataDaily():
         pd.set_option('display.max_columns', 5000)
 
         # Check if predicted data exists
-        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name13.find(query, {'_id': 0, 'data': 1}))
 
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
