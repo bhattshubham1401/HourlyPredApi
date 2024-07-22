@@ -18,7 +18,7 @@ collection9 = "jdvvnl_LF"
 collection10 = "circle"
 collection11 = "transformed_dataV1"
 collection12 = "weather_data_forcast"
-collection13 = "transformTest"
+collection13 = "predictionsTest"
 
 MONGO_URL = f"mongodb://{host}:{port}"
 client = MongoClient(MONGO_URL)
