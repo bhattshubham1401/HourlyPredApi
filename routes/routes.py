@@ -1518,7 +1518,6 @@ def get_sensorList():
     sensor_ids = ['66755ea75d9656.09451425',
                '66792887ab2bf0.01972524',
                '66798b07a176f7.28421426',
-               '66796b38011256.43379844',
                '66796c7d38ef95.94782159',
                '667975ae47a9d3.45611637',
                '66798c998af0a4.39772704',
@@ -1582,12 +1581,10 @@ def get_sensorList():
                '667c12bb905a58.52710727',
                '667d1921657499.98433906',
                '667e6dd7dd4a69.18470849',
-               '667d2678db47c2.73895222',
                '667c1332cd8232.01161681',
                '667c14616ac802.18010687',
                '667c03d72b1502.67552912',
                '667c15626a3e40.50715063',
-               '667d29d704db37.12173206',
                '667e677c3950d9.96416684',
                '667e677c3cbac5.50389286',
                '667d15b1ac09a7.11635501',
@@ -1705,7 +1702,7 @@ def getPredDataDaily():
         pd.set_option('display.max_columns', 5000)
 
         # Check if predicted data exists
-        todos_pred = list(collection_name13.find(query, {'_id': 0, 'data': 1}))
+        todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
 
         formatted_data_pred = {"data_pred": []}
         if (len(todos_pred) != 0):
