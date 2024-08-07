@@ -1159,7 +1159,7 @@ def getweatherdata():
 
         # Iterate over each site
         for site_data in result:
-            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-06-21&end_date=2024-07-15&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-08-02&end_date=2024-07-15&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
             print(url)
             response = requests.get(url)
             response.raise_for_status()
@@ -1241,7 +1241,7 @@ def getweatherdataF():
 
         # Iterate over each site
         for site_data in result:
-            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date=2024-07-16&end_date=2024-08-02"
+            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date=2024-08-03&end_date=2024-08-16"
             print(url)
             response = requests.get(url)
             response.raise_for_status()
@@ -1632,7 +1632,6 @@ def getPredDataDaily():
         start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
         end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
 
-
         # Concatenate todo_id and date to create a new identifier
         id = todo_id + "_" + date
         query = {'_id': id}
@@ -1641,7 +1640,7 @@ def getPredDataDaily():
         url = "http://jpdclmdm.radius-ami.com:8850/gtDta"
         headers = {
             "Content-Type": "application/json",
-            "token": "yomUE5MXM52pDri0zd44QLonEJFpkgGdsFJrakW1CZ966zYwEIKv8qEp57+1q+QJ9lcbiMlvF6IPVO2kA31Wi9keJAAGP0E3mlTyxmXlto+GQNNcobIPJCk0umanOKfRo3rVXcDf2Z0/iNaYtv1chqh2ou0VFjnvw+//opyhMfz80CoZv2z6OJBBH5eJbXHKA/GdTBmEd2ELB7Nkv3oMkeAq4C8KaTRuriYBWgcKaI4gDGapkvg+IxwBeTkigc7/D34a0VSUr3CklolWayTf0ae04l+/DMVuMVXOGnrIRVF3rpEGICA+8Z55wkd9fAJhCWf3GGsU2bf1hgzwttlS9SHRbSgLa67WQDXzgLGe9W2zaKACAVIN0bS+8KRqQT1wDhVVQUaFkUVZyH6kEQrfow==",
+            "token": "x2JVD0J7BOjuKt6ULB856sfr19lUDVplETZzMzPPIaQhbqnK8iw2rtnTXG0SRYBJzGxG26piKiM28JwJY2+7sE6ErSoLvTWUlfJddUVl6n7mvzfFhnWX+JmP+PtnGzS6IjpLRkaeUi/UPSya6hkbGzR3Ta28b3cXZjc04cpNSVUShb690fiTMbWUC+w/jLYKd+siLGktn+dqJ8AZqRagPZ7hdBYTailIe+7EnGf8ySSOMLv3L/ep6/CcO6DsM75MTIUY3MacB8gI8xMWhGe68SwAtfPCa2pZ2mUMCMttr31h0mq0dC1rYzxm25xF/43uyaVXiTC5UdYe5PXYbCn/vr8ZMoPNJvTOMViX+6W9ogM+Knm1rcGuqhwztJA5Kw46xM8sAm1p67xmaDd8ZL6CFw==",
             "api_gateway": "AMI",
             "APIAgent": "shubh"
         }
@@ -1657,6 +1656,7 @@ def getPredDataDaily():
         response.raise_for_status()
         data = response.json()
         l1.append(data['DATA'])
+
 
         columns = ['sensor', 'Clock', 'R_Current', 'Y_Current', 'B_Current', 'R_Voltage', 'Y_Voltage', 'B_Voltage',
                    'Kwh', 'BlockEnergy-WhExp', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ2', 'BlockEnergy-VArhQ3',
@@ -1677,7 +1677,7 @@ def getPredDataDaily():
         filtered_df = df.loc[(df['Clock'] >= start_time) & (df['Clock'] <= end_time)]
         # filtered_df.sort_values(by = [df['Clock']])
         filtered_df.set_index(['Clock'], inplace=True, drop=True)
-        df1 = (filtered_df[['Kwh']].resample(rule="1H").sum())
+        df1 = (filtered_df[['Kwh']].resample(rule="30min").sum())
         percent = 0.0
         act_daily_sum, actual_max_hour, actual_max_value = 0.0, "00", 0.0
         pred_daily_sum, pred_max_hour, pred_max_value = 0.0, "00", 0.0
