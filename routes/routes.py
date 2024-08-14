@@ -1200,6 +1200,11 @@ def getweatherdata():
 # weather data forcasted
 @router.route('/getweatherdataF', methods=['POST'])
 def getweatherdataF():
+    date1 = datetime.now()
+    date2 = date1 + timedelta(days=14)
+
+    startDate = date1.strftime("%Y-%m-%d")
+    endDate = date2.strftime("%Y-%m-%d")
     try:
         lst = ['667572f85ded75.67576759',
                '667997aaa85681.59292546',
@@ -1230,18 +1235,16 @@ def getweatherdataF():
                     "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
             }}
         ]
-        print(pipeline)
 
         # Execute the pipeline and retrieve the result
         result = list(collection_name7.aggregate(pipeline))
-        print(result)
 
         # Construct data to be inserted into MongoDB
         bulk_insert_data = []
 
         # Iterate over each site
         for site_data in result:
-            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date=2024-08-03&end_date=2024-08-16"
+            url = f"https://api.open-meteo.com/v1/forecast?latitude={site_data['latitude']}&longitude={site_data['longitude']}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_80m&start_date={startDate}&end_date={endDate}"
             print(url)
             response = requests.get(url)
             response.raise_for_status()
