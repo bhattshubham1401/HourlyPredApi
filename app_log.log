@@ -1,0 +1,8 @@
+2024-07-20 13:21:01,420 - ERROR - routes.py:1624 - Error fetching sensor IDs:
+Traceback (most recent call last):
+  File "D:\HourlyPredApi\routes\routes.py", line 1619, in get_sensorList
+    data['resource']]
+    ~~~~^^^^^^^^^^^^
+  File "D:\HourlyPredApi\venv\Lib\site-packages\pymongo\cursor.py", line 770, in __getitem__
+    raise TypeError("index %r cannot be applied to Cursor instances" % index)
+TypeError: index 'resource' cannot be applied to Cursor instances
