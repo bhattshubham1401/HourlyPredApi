@@ -6,6 +6,7 @@ from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10, collection_name13
+from dependencies.pip._vendor.tenacity.wait import wait_base
 
 router = Blueprint('router', __name__)
 import requests
@@ -1184,11 +1185,12 @@ def getweatherdata():
                     }
 
                     bulk_insert_data.append(hour_data)
+
                     # print(bulk_insert_data)
 
         # Insert the data into MongoDB in bulk
         if bulk_insert_data:
-            collection_name8.insert_many(bulk_insert_data)
+            # collection_name8.insert_many(bulk_insert_data)
             return {"message": "Weather data fetched and stored successfully"}
         else:
             return {"message": "No weather data available for the specified sites"}
@@ -1200,11 +1202,16 @@ def getweatherdata():
 # weather data forcasted
 @router.route('/getweatherdataF', methods=['POST'])
 def getweatherdataF():
-    date1 = datetime.now()
+    file_name = "output_date.txt"
+    with open(file_name, "r") as date_file:
+        date_str = date_file.read().strip()  # Strip to remove any extra whitespace/newlines
+
+    date1 = datetime.strptime(date_str, "%Y-%m-%d")
     date2 = date1 + timedelta(days=14)
 
     startDate = date1.strftime("%Y-%m-%d")
     endDate = date2.strftime("%Y-%m-%d")
+
     try:
         lst = ['667572f85ded75.67576759',
                '667997aaa85681.59292546',
@@ -1236,10 +1243,7 @@ def getweatherdataF():
             }}
         ]
 
-        # Execute the pipeline and retrieve the result
         result = list(collection_name7.aggregate(pipeline))
-
-        # Construct data to be inserted into MongoDB
         bulk_insert_data = []
 
         # Iterate over each site
@@ -1269,9 +1273,12 @@ def getweatherdataF():
                     }
 
                     bulk_insert_data.append(hour_data)
-                    # print(bulk_insert_data)
 
-        # Insert the data into MongoDB in bulk
+                    with open(file_name, "w") as date_file:
+                        endDate_dt = datetime.strptime(endDate, "%Y-%m-%d")
+                        next_date = endDate_dt + timedelta(days=1)
+                        date_file.write(next_date.strftime("%Y-%m-%d"))
+
         if bulk_insert_data:
             collection_name8.insert_many(bulk_insert_data)
             return {"message": "Weather data fetched and stored successfully"}
