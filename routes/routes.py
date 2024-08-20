@@ -1702,8 +1702,8 @@ def getPredDataDaily():
             actual_max_hour = str(max_value_dict['clock']).zfill(2)
             actual_max_value = round(max_value_dict['act_kwh'], 2)
 
-        if (len(formatted_data_act['data_act'])) < 24:
-            for i in range((len(formatted_data_act['data_act'])), 24):
+        if (len(formatted_data_act['data_act'])) < 48:
+            for i in range((len(formatted_data_act['data_act'])), 48):
                 formatted_data_act["data_act"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
 
         actual_data = formatted_data_act
@@ -1727,8 +1727,8 @@ def getPredDataDaily():
             pred_max_value = round(max_value_dict['pre_kwh'], 2)
 
         # Predicted data not found or incomplete, create an array of zeros for each hour
-        if (len(formatted_data_pred['data_pred'])) < 24:
-            for i in range((len(formatted_data_pred['data_pred'])), 24):
+        if (len(formatted_data_pred['data_pred'])) < 48:
+            for i in range((len(formatted_data_pred['data_pred'])), 48):
                 formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
 
         predicted_data = formatted_data_pred
