@@ -1860,65 +1860,15 @@ def get_sensorList():
 def getPredDataDailyjpdcl():
     try:
         # Access parameters from the query string
-        todo_id = request.args.get('id')
-        date = request.args.get('date')
-
-        month_from_date = (datetime.strptime(date, '%Y-%m-%d')).month
-        month_today = (datetime.now()).month
-
-        start_date = datetime.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
-        end_date = datetime.strptime(date + " 23:59:59", "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+        data = request.json
+        todo_id = data.get('id')
+        date = data.get('date')
 
         # Concatenate todo_id and date to create a new identifier
         id = todo_id + "_" + date
         query = {'_id': id}
-        # l1 = []
-
-
-
-        #
-        # columns = ['sensor', 'Clock', 'R_Current', 'Y_Current', 'B_Current', 'R_Voltage', 'Y_Voltage', 'B_Voltage',
-        #            'Kwh', 'BlockEnergy-WhExp', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ2', 'BlockEnergy-VArhQ3',
-        #            'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp',
-        #            'BlockEnergy-VAhExp', 'MeterHealthIndicator']
-
-        # datalist = [(entry['sensor_id'], entry['raw_data']) for i in range(len(l1)) for entry in l1[i]]
-        # df = pd.DataFrame([row[0].split(',') + row[1].split(',') for row in datalist], columns=columns)
-        # df = df.drop(['sensor', 'R_Current', 'Y_Current', 'B_Current', 'R_Voltage', 'Y_Voltage', 'B_Voltage',
-        #             'BlockEnergy-WhExp', 'BlockEnergy-VArhQ1', 'BlockEnergy-VArhQ2', 'BlockEnergy-VArhQ3',
-        #            'BlockEnergy-VArhQ4', 'BlockEnergy-VAhImp',
-        #            'BlockEnergy-VAhExp', 'MeterHealthIndicator'], axis=1)
-
-        start_time = pd.to_datetime(start_date)
-        end_time = pd.to_datetime(end_date)
-        # df['Clock'] = pd.to_datetime(df['Clock'])
-        # df['Kwh'] = pd.to_numeric(df['Kwh'])
-        # filtered_df = df.loc[(df['Clock'] >= start_time) & (df['Clock'] <= end_time)]
-        # filtered_df.sort_values(by = [df['Clock']])
-        # filtered_df.set_index(['Clock'], inplace=True, drop=True)
-        # df1 = (filtered_df[['Kwh']].resample(rule="30min").sum())
         percent = 0.0
-        act_daily_sum, actual_max_hour, actual_max_value = 0.0, "00", 0.0
         pred_daily_sum, pred_max_hour, pred_max_value = 0.0, "00", 0.0
-
-        # actual data  storing
-        # formatted_data_act = {"data_act": []}
-        # if df1.empty is False:
-        #     act_hour_counter = 0
-        #     for value in df1["Kwh"]:
-        #         formatted_data_act["data_act"].append({"clock": str(act_hour_counter).zfill(2), "act_kwh": value})
-        #         act_daily_sum += value
-        #         act_hour_counter += 1
-        #     max_value_dict = max(formatted_data_act['data_act'], key=lambda x: x['act_kwh'])
-        #     actual_max_hour = str(max_value_dict['clock']).zfill(2)
-        #     actual_max_value = round(max_value_dict['act_kwh'], 2)
-
-        # if (len(formatted_data_act['data_act'])) < 48:
-        #     for i in range((len(formatted_data_act['data_act'])), 48):
-        #         formatted_data_act["data_act"].append({"clock": str(i).zfill(2), "act_kwh": 0.0})
-        #
-        # actual_data = formatted_data_act
-        # pd.set_option('display.max_columns', 5000)
 
         # Check if predicted data exists
         todos_pred = list(collection_name.find(query, {'_id': 0, 'data': 1}))
@@ -1943,9 +1893,6 @@ def getPredDataDailyjpdcl():
                 formatted_data_pred["data_pred"].append({"clock": str(i).zfill(2), "pre_kwh": 0.0})
 
         predicted_data = formatted_data_pred
-
-        if ((month_from_date) != (month_today)) & (act_daily_sum != 0):
-            percent = round(abs(((act_daily_sum - pred_daily_sum) / act_daily_sum) * 100), 2)
 
         # Combine actual and predicted data into a single dictionary
         response_data = {"predicted_data": predicted_data["data_pred"]}
