@@ -9,7 +9,6 @@ cffi~=1.16.0
 Pillow==10.1.0
 ipython==8.18.1
 jupyter~=1.0.0
-pip~=23.3.1
 attrs~=23.1.0
 argparse~=1.4.0
 wheel~=0.42.0
