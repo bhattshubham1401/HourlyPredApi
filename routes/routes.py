@@ -1909,24 +1909,18 @@ def getPredDataDailyjpdcl():
 
 
 # ===============================================================JPDCL WEATHER DTAA VERSION 2===========================================================
-from flask import request, jsonify
-from datetime import datetime
-import requests
-
-
 @router.route('/getweatherdataV1', methods=['POST'])
 def getweatherdataV1():
     try:
         # Get JSON data from request
         data = request.get_json()
-
         # Validate input parameters
-        if not data or 'site_ids' not in data or not isinstance(data['site_ids'], list):
-            return jsonify({"error": "Invalid input. Expected a list of site_ids."}), 400
+        if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
+            return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
         if 'start_date' not in data or 'end_date' not in data:
             return jsonify({"error": "Missing start_date or end_date."}), 400
 
-        lst = data['site_ids']  # Use the passed list
+        lst = data['site_id']  # Use the passed list
         start_date = data['start_date']
         end_date = data['end_date']
 
@@ -1958,10 +1952,9 @@ def getweatherdataV1():
             weather_data = response.json()
 
             if "hourly" in weather_data:
+                hourly_data = []
                 for i in range(len(weather_data['hourly']['time'])):
-                    hour_data = {
-                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
-                        "site_id": site_data["_id"],
+                    hourly_data.append({
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
                         "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
@@ -1972,11 +1965,21 @@ def getweatherdataV1():
                         "creation_time_iso": datetime.utcfromtimestamp(
                             datetime.strptime(weather_data['hourly']['time'][i],
                                               '%Y-%m-%dT%H:%M').timestamp()).isoformat()
-                    }
-                    bulk_insert_data.append(hour_data)
+                    })
+
+                # Group all hourly data under a single site document
+                site_document = {
+                    "site_id": site_data["_id"],
+                    "latitude": site_data["latitude"],
+                    "longitude": site_data["longitude"],
+                    "sensors": site_data["sensors"],  # Assuming you want to keep sensor data as well
+                    "weather_data": hourly_data  # Store the hourly data as an array
+                }
+
+                bulk_insert_data.append(site_document)
 
         if bulk_insert_data:
-            # collection_name8.insert_many(bulk_insert_data)
+            collection_name8.insert_many(bulk_insert_data)
             return jsonify({"message": "Weather data fetched and stored successfully"})
         else:
             return jsonify({"message": "No weather data available for the specified sites"})
