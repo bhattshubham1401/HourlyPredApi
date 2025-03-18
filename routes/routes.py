@@ -1947,14 +1947,18 @@ def getweatherdataV1():
         ]
 
         result = list(collection_name7.aggregate(pipeline))
+        # Construct data to be inserted into MongoDB
         bulk_insert_data = []
 
+        # Iterate over each site
         for site_data in result:
-            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-08-02&end_date=2024-07-15&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            print(url)
             response = requests.get(url)
             response.raise_for_status()
             weather_data = response.json()
 
+            # Process weather data if available
             if "hourly" in weather_data:
                 for i in range(len(weather_data['hourly']['time'])):
                     hour_data = {
@@ -1968,11 +1972,13 @@ def getweatherdataV1():
                         "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
                         "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
                         "creation_time_iso": datetime.utcfromtimestamp(
-                            datetime.strptime(weather_data['hourly']['time'][i], '%Y-%m-%dT%H:%M').timestamp()
-                        ).isoformat()
+                            datetime.strptime(weather_data['hourly']['time'][i],
+                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
                     }
 
                     bulk_insert_data.append(hour_data)
+
+                    # print(bulk_insert_data)
 
         # Insert the data into MongoDB in bulk
         if bulk_insert_data:
@@ -1983,7 +1989,6 @@ def getweatherdataV1():
 
     except Exception as e:
         return {"error": str(e)}
-
 
 # def getweatherdataV1():
 #     try:
