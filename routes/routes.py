@@ -1916,6 +1916,7 @@ def getweatherdataV1():
     try:
         # Get JSON data from request
         data = request.get_json()
+
         # Validate input parameters
         if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
             return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
@@ -1940,7 +1941,8 @@ def getweatherdataV1():
                 "latitude": {"$min": "$latitude"},
                 "longitude": {"$min": "$longitude"},
                 "sensors": {
-                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
+                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}
+                }
             }}
         ]
 
@@ -1954,10 +1956,9 @@ def getweatherdataV1():
             weather_data = response.json()
 
             if "hourly" in weather_data:
-                hourly_data = []
                 for i in range(len(weather_data['hourly']['time'])):
-                    hourly_data.append({
-                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
+                    hour_data = {
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
                         "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
@@ -1967,29 +1968,22 @@ def getweatherdataV1():
                         "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
                         "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
                         "creation_time_iso": datetime.utcfromtimestamp(
-                            datetime.strptime(weather_data['hourly']['time'][i],
-                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
-                    })
+                            datetime.strptime(weather_data['hourly']['time'][i], '%Y-%m-%dT%H:%M').timestamp()
+                        ).isoformat()
+                    }
 
-                # Group all hourly data under a single site document
-                site_document = {
-                    "site_id": site_data["_id"],
-                    "latitude": site_data["latitude"],
-                    "longitude": site_data["longitude"],
-                    "sensors": site_data["sensors"],  # Assuming you want to keep sensor data as well
-                    "weather_data": hourly_data  # Store the hourly data as an array
-                }
+                    bulk_insert_data.append(hour_data)
 
-                bulk_insert_data.append(site_document)
-
+        # Insert the data into MongoDB in bulk
         if bulk_insert_data:
-            collection_name8.insert_many(bulk_insert_data)
-            return jsonify({"message": "Weather data fetched and stored successfully"})
+            # collection_name8.insert_many(bulk_insert_data)
+            return {"message": "Weather data fetched and stored successfully"}
         else:
-            return jsonify({"message": "No weather data available for the specified sites"})
+            return {"message": "No weather data available for the specified sites"}
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return {"error": str(e)}
+
 
 # def getweatherdataV1():
 #     try:
