@@ -1984,3 +1984,33 @@ def getweatherdataV1():
 
     except Exception as e:
         return {"error": str(e)}
+
+
+@router.route('/get_data', methods=['POST'])
+def get_data():
+    try:
+        # Get the sensor list from the request body
+        data = request.get_json()
+
+        # Make sure the sensor list exists and is a list
+        if not data or 'sensor_ids' not in data or not isinstance(data['sensor_ids'], list):
+            return jsonify({"error": "Invalid input. 'sensor_ids' must be a list."}), 400
+
+        # Extract the list of sensor IDs from the request
+        sensor_ids = data['sensor_ids']
+
+        # Query MongoDB to find documents with sensor_ids in the provided list
+        data = list(collection_name5.find(
+            {"sensor_id": {"$in": sensor_ids}},  # Filter by sensor_id
+            {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1}  # Specify the fields to return
+        ))
+
+        # Convert ObjectId to string for the "_id" field
+        for item in data:
+            item["_id"] = str(item["_id"])
+
+        # Return the data as a JSON response
+        return jsonify(data), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
