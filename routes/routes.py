@@ -1912,90 +1912,10 @@ def getPredDataDailyjpdcl():
 
 # ===============================================================JPDCL WEATHER DATA VERSION 2===========================================================
 @router.route('/getweatherdataV1', methods=['POST'])
-# def getweatherdataV1():
-#     try:
-#         # Get JSON data from request
-#         data = request.get_json()
-#         # Validate input parameters
-#         if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
-#             return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
-#         if 'start_date' not in data or 'end_date' not in data:
-#             return jsonify({"error": "Missing start_date or end_date."}), 400
-#
-#         lst = data['site_id']  # Use the passed list
-#         start_date = data['start_date']
-#         end_date = data['end_date']
-#
-#         # Validate date format (YYYY-MM-DD)
-#         try:
-#             datetime.strptime(start_date, "%Y-%m-%d")
-#             datetime.strptime(end_date, "%Y-%m-%d")
-#         except ValueError:
-#             return jsonify({"error": "Invalid date format. Use YYYY-MM-DD."}), 400
-#
-#         pipeline = [
-#             {"$match": {'type': 'AC', 'admin_status': {"$in": ['N', 'S', 'U']}, 'site_id': {"$in": lst}}},
-#             {"$group": {
-#                 "_id": "$site_id",
-#                 "latitude": {"$min": "$latitude"},
-#                 "longitude": {"$min": "$longitude"},
-#                 "sensors": {
-#                     "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
-#             }}
-#         ]
-#
-#         result = list(collection_name7.aggregate(pipeline))
-#         bulk_insert_data = []
-#
-#         for site_data in result:
-#             url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
-#             response = requests.get(url)
-#             response.raise_for_status()
-#             weather_data = response.json()
-#
-#             if "hourly" in weather_data:
-#                 hourly_data = []
-#                 for i in range(len(weather_data['hourly']['time'])):
-#                     hourly_data.append({
-#                         "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
-#                         "site_id": site_data["_id"],
-#                         "time": weather_data['hourly']['time'][i],
-#                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
-#                         "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
-#                         "apparent_temperature": weather_data['hourly'].get('apparent_temperature', [])[i],
-#                         "precipitation": weather_data['hourly'].get('precipitation', [])[i],
-#                         "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
-#                         "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
-#                         "creation_time_iso": datetime.utcfromtimestamp(
-#                             datetime.strptime(weather_data['hourly']['time'][i],
-#                                               '%Y-%m-%dT%H:%M').timestamp()).isoformat()
-#                     })
-#
-#                 # Group all hourly data under a single site document
-#                 site_document = {
-#                     "site_id": site_data["_id"],
-#                     "latitude": site_data["latitude"],
-#                     "longitude": site_data["longitude"],
-#                     "sensors": site_data["sensors"],  # Assuming you want to keep sensor data as well
-#                     "weather_data": hourly_data  # Store the hourly data as an array
-#                 }
-#
-#                 bulk_insert_data.append(site_document)
-#
-#         if bulk_insert_data:
-#             collection_name8.insert_many(bulk_insert_data)
-#             return jsonify({"message": "Weather data fetched and stored successfully"})
-#         else:
-#             return jsonify({"message": "No weather data available for the specified sites"})
-#
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
 def getweatherdataV1():
     try:
         # Get JSON data from request
         data = request.get_json()
-
         # Validate input parameters
         if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
             return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
@@ -2013,11 +1933,6 @@ def getweatherdataV1():
         except ValueError:
             return jsonify({"error": "Invalid date format. Use YYYY-MM-DD."}), 400
 
-        # Check if start_date is before end_date
-        if datetime.strptime(start_date, "%Y-%m-%d") > datetime.strptime(end_date, "%Y-%m-%d"):
-            return jsonify({"error": "start_date cannot be later than end_date."}), 400
-
-        # MongoDB aggregation pipeline to group data by site_id
         pipeline = [
             {"$match": {'type': 'AC', 'admin_status': {"$in": ['N', 'S', 'U']}, 'site_id': {"$in": lst}}},
             {"$group": {
@@ -2025,15 +1940,13 @@ def getweatherdataV1():
                 "latitude": {"$min": "$latitude"},
                 "longitude": {"$min": "$longitude"},
                 "sensors": {
-                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}
-                }
+                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
             }}
         ]
 
         result = list(collection_name7.aggregate(pipeline))
-        bulk_operations = []
+        bulk_insert_data = []
 
-        # Loop through the aggregated site data
         for site_data in result:
             url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
             response = requests.get(url)
@@ -2063,25 +1976,112 @@ def getweatherdataV1():
                     "site_id": site_data["_id"],
                     "latitude": site_data["latitude"],
                     "longitude": site_data["longitude"],
-                    "sensors": site_data["sensors"],
-                    "weather_data": hourly_data
+                    "sensors": site_data["sensors"],  # Assuming you want to keep sensor data as well
+                    "weather_data": hourly_data  # Store the hourly data as an array
                 }
 
-                # Prepare bulk operation for MongoDB
-                bulk_operations.append(UpdateOne(
-                    {"site_id": site_document["site_id"]},
-                    {"$set": site_document},
-                    upsert=True  # This ensures existing data gets updated, or a new document is inserted
-                ))
+                bulk_insert_data.append(site_document)
 
-        # Bulk write operation (much faster than inserting each document one by one)
-        if bulk_operations:
-            collection_name8.bulk_write(bulk_operations)
+        if bulk_insert_data:
+            collection_name8.insert_many(bulk_insert_data)
             return jsonify({"message": "Weather data fetched and stored successfully"})
         else:
             return jsonify({"message": "No weather data available for the specified sites"})
 
     except Exception as e:
-        logging.error(f"Error fetching weather data: {e}")
         return jsonify({"error": str(e)}), 500
+
+# def getweatherdataV1():
+#     try:
+#         # Get JSON data from request
+#         data = request.get_json()
+#
+#         # Validate input parameters
+#         if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
+#             return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
+#         if 'start_date' not in data or 'end_date' not in data:
+#             return jsonify({"error": "Missing start_date or end_date."}), 400
+#
+#         lst = data['site_id']  # Use the passed list
+#         start_date = data['start_date']
+#         end_date = data['end_date']
+#
+#         # Validate date format (YYYY-MM-DD)
+#         try:
+#             datetime.strptime(start_date, "%Y-%m-%d")
+#             datetime.strptime(end_date, "%Y-%m-%d")
+#         except ValueError:
+#             return jsonify({"error": "Invalid date format. Use YYYY-MM-DD."}), 400
+#
+#         # Check if start_date is before end_date
+#         if datetime.strptime(start_date, "%Y-%m-%d") > datetime.strptime(end_date, "%Y-%m-%d"):
+#             return jsonify({"error": "start_date cannot be later than end_date."}), 400
+#
+#         # MongoDB aggregation pipeline to group data by site_id
+#         pipeline = [
+#             {"$match": {'type': 'AC', 'admin_status': {"$in": ['N', 'S', 'U']}, 'site_id': {"$in": lst}}},
+#             {"$group": {
+#                 "_id": "$site_id",
+#                 "latitude": {"$min": "$latitude"},
+#                 "longitude": {"$min": "$longitude"},
+#                 "sensors": {
+#                     "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}
+#                 }
+#             }}
+#         ]
+#
+#         result = list(collection_name7.aggregate(pipeline))
+#         bulk_operations = []
+#
+#         # Loop through the aggregated site data
+#         for site_data in result:
+#             url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+#             response = requests.get(url)
+#             response.raise_for_status()
+#             weather_data = response.json()
+#
+#             if "hourly" in weather_data:
+#                 hourly_data = []
+#                 for i in range(len(weather_data['hourly']['time'])):
+#                     hourly_data.append({
+#                         "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
+#                         "site_id": site_data["_id"],
+#                         "time": weather_data['hourly']['time'][i],
+#                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
+#                         "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
+#                         "apparent_temperature": weather_data['hourly'].get('apparent_temperature', [])[i],
+#                         "precipitation": weather_data['hourly'].get('precipitation', [])[i],
+#                         "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
+#                         "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
+#                         "creation_time_iso": datetime.utcfromtimestamp(
+#                             datetime.strptime(weather_data['hourly']['time'][i],
+#                                               '%Y-%m-%dT%H:%M').timestamp()).isoformat()
+#                     })
+#
+#                 # Group all hourly data under a single site document
+#                 site_document = {
+#                     "_id": site_data["_id"],
+#                     # "latitude": site_data["latitude"],
+#                     # "longitude": site_data["longitude"],
+#                     # "sensors": site_data["sensors"],
+#                     "weather_data": hourly_data
+#                 }
+#
+#                 # Prepare bulk operation for MongoDB
+#                 bulk_operations.append(UpdateOne(
+#                     {"site_id": site_document["site_id"]},
+#                     {"$set": site_document},
+#                     upsert=True  # This ensures existing data gets updated, or a new document is inserted
+#                 ))
+#
+#         # Bulk write operation (much faster than inserting each document one by one)
+#         if bulk_operations:
+#             collection_name8.bulk_write(bulk_operations)
+#             return jsonify({"message": "Weather data fetched and stored successfully"})
+#         else:
+#             return jsonify({"message": "No weather data available for the specified sites"})
+#
+#     except Exception as e:
+#         logging.error(f"Error fetching weather data: {e}")
+#         return jsonify({"error": str(e)}), 500
 
