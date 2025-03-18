@@ -1945,16 +1945,20 @@ def getweatherdataV1():
         result = list(collection_name7.aggregate(pipeline))
         bulk_insert_data = []
 
+        # Iterate over each site
         for site_data in result:
-            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-08-02&end_date=2024-07-15&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            print(url)
             response = requests.get(url)
             response.raise_for_status()
             weather_data = response.json()
 
+            # Process weather data if available
             if "hourly" in weather_data:
-                hourly_data = []
                 for i in range(len(weather_data['hourly']['time'])):
-                    hourly_data.append({
+                    hour_data = {
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
+                        "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
                         "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
@@ -1965,25 +1969,18 @@ def getweatherdataV1():
                         "creation_time_iso": datetime.utcfromtimestamp(
                             datetime.strptime(weather_data['hourly']['time'][i],
                                               '%Y-%m-%dT%H:%M').timestamp()).isoformat()
-                    })
+                    }
 
-                # Group all hourly data under a single site document
-                # site_document = {
-                #     "site_id": site_data["_id"],
-                #     "latitude": site_data["latitude"],
-                #     "longitude": site_data["longitude"],
-                #     "sensors": site_data["sensors"],  # Assuming you want to keep sensor data as well
-                #     "weather_data": hourly_data  # Store the hourly data as an array
-                # }
+                    bulk_insert_data.append(hour_data)
 
-                bulk_insert_data.append(hourly_data)
+                    # print(bulk_insert_data)
 
+        # Insert the data into MongoDB in bulk
         if bulk_insert_data:
             collection_name8.insert_many(bulk_insert_data)
-            return jsonify({"message": "Weather data fetched and stored successfully"})
+            return {"message": "Weather data fetched and stored successfully"}
         else:
-            return jsonify({"message": "No weather data available for the specified sites"})
+            return {"message": "No weather data available for the specified sites"}
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
+        return {"error": str(e)}
