@@ -2002,7 +2002,7 @@ def get_data():
         # Query MongoDB to find documents with sensor_ids in the provided list
         data = list(collection_name5.find(
             {"sensor_id": {"$in": sensor_ids}},  # Filter by sensor_id
-            {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1}  # Specify the fields to return
+            {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf" :1}  # Specify the fields to return
         ))
 
         # Convert ObjectId to string for the "_id" field
