@@ -1908,7 +1908,7 @@ def getPredDataDailyjpdcl():
         return {"error": str(e)}
 
 
-# ===============================================================JPDCL WEATHER DTAA VERSION 2===========================================================
+# ===============================================================JPDCL WEATHER DATA VERSION 2===========================================================
 @router.route('/getweatherdataV1', methods=['POST'])
 def getweatherdataV1():
     try:
@@ -1955,6 +1955,8 @@ def getweatherdataV1():
                 hourly_data = []
                 for i in range(len(weather_data['hourly']['time'])):
                     hourly_data.append({
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
+                        "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
                         "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
@@ -1986,4 +1988,3 @@ def getweatherdataV1():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
