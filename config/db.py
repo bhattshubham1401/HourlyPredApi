@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 
-# host = "13.127.57.185"
+# host = "35.154.221.2"
 host = "localhost"
 port = 27017
 db = "jpdcl"
@@ -11,7 +11,7 @@ collection1 = "forcast1"
 collection2 = "forcast2"
 collection3 = "forcast3"
 collection4 = "dlms"
-collection5 = "load_profile_jdvvnl"
+collection5 = "loadprofile"
 collection6 = "jdvvnl_lf_pred"
 collection7 = "sensor"
 collection8 = "weather_data"
