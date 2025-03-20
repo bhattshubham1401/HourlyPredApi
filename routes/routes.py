@@ -2069,7 +2069,7 @@ def get_dataV1():
         sensor_ids = data['sensor_ids']
 
         # Break sensor IDs into smaller batches to avoid memory overload
-        batch_size = 10  # You can adjust this based on your needs
+        batch_size = 5  # You can adjust this based on your needs
         batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
 
         all_data = []
