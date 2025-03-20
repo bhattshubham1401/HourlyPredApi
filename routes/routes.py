@@ -6,8 +6,6 @@ from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10, collection_name13
-from logs.logs_config import logger
-
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
@@ -2069,37 +2067,30 @@ def get_dataV1():
 
         # Extract the list of sensor IDs from the request
         sensor_ids = data['sensor_ids']
+        print(sensor_ids)
 
         # Break sensor IDs into smaller batches to avoid memory overload
-        batch_size = 25  # You can adjust this based on your needs
+        batch_size = 5  # You can adjust this based on your needs
         batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
-
-        logger.info(f"Total batches: {len(batches)}")
-        logger.info(f"First batch: {batches[0]}")
 
         all_data = []
 
         # Fetch data in batches
         for batch in batches:
-            logger.info(f"Querying batch: {batch}")
-
+            print(batch)
             cursor = collection_name5.find(
                 {"sensor_id": {"$in": batch}},  # Filter by sensor_id
-                {"read_time_str": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
+                {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
             )
-
-            results = list(cursor)
-            logger.info(f"Fetched {len(results)} records for batch: {batch}")
-
-            all_data.extend(results)  # Append batch results to the final list
+            all_data.extend(list(cursor))  # Append batch results to the final list
 
         # Convert ObjectId to string for the "_id" field
         for item in all_data:
+            print(item)
             item["_id"] = str(item["_id"])
 
         # Return the data as a JSON response
         return jsonify(all_data), 200
 
     except Exception as e:
-        logger.error(f"Error occurred: {e}")
         return jsonify({"error": str(e)}), 500
