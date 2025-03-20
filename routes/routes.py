@@ -1983,6 +1983,78 @@ def getweatherdataV1():
         return {"error": str(e)}
 
 
+@router.route('/getweatherdataV2', methods=['POST'])
+def getweatherdata():
+    try:
+        data = request.get_json()
+        if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
+            return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
+        if 'start_date' not in data or 'end_date' not in data:
+            return jsonify({"error": "Missing start_date or end_date."}), 400
+
+        lst = data['site_id']
+        start_date = data['start_date']
+        end_date = data['end_date']
+
+        pipeline = [
+            {"$match": {'type': 'AC', 'admin_status': {"$in": ['N', 'S', 'U']},
+                        'site_id': {"$in": lst}}},
+            {"$group": {
+                "_id": "$site_id",
+                "latitude": {"$min": "$latitude"},
+                "longitude": {"$min": "$longitude"},
+                "sensors": {
+                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
+            }}
+        ]
+
+        # Execute the pipeline and retrieve the result
+        result = list(collection_name7.aggregate(pipeline))
+        print(result)
+
+        # Construct data to be inserted into MongoDB
+        bulk_insert_data = []
+
+        # Iterate over each site
+        for site_data in result:
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date=2024-08-02&end_date=2024-07-15&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
+            print(url)
+            response = requests.get(url)
+            response.raise_for_status()
+            weather_data = response.json()
+
+            # Process weather data if available
+            if "hourly" in weather_data:
+                for i in range(len(weather_data['hourly']['time'])):
+                    hour_data = {
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
+                        "site_id": site_data["_id"],
+                        "time": weather_data['hourly']['time'][i],
+                        "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
+                        "relative_humidity_2m": weather_data['hourly'].get('relative_humidity_2m', [])[i],
+                        "apparent_temperature": weather_data['hourly'].get('apparent_temperature', [])[i],
+                        "precipitation": weather_data['hourly'].get('precipitation', [])[i],
+                        "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
+                        "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
+                        "creation_time_iso": datetime.utcfromtimestamp(
+                            datetime.strptime(weather_data['hourly']['time'][i],
+                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
+                    }
+
+                    bulk_insert_data.append(hour_data)
+
+                    # print(bulk_insert_data)
+
+        # Insert the data into MongoDB in bulk
+        if bulk_insert_data:
+            collection_name8.insert_many(bulk_insert_data)
+            return {"message": "Weather data fetched and stored successfully"}
+        else:
+            return {"message": "No weather data available for the specified sites"}
+
+    except Exception as e:
+        return {"error": str(e)}
+
 # @router.route('/get_data', methods=['POST'])
 # def get_data():
 #     try:
