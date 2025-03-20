@@ -1984,7 +1984,7 @@ def getweatherdataV1():
 
 
 @router.route('/getweatherdataV2', methods=['POST'])
-def getweatherdata():
+def getweatherdatav2():
     try:
         data = request.get_json()
         if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
