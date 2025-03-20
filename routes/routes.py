@@ -2058,6 +2058,8 @@ def get_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+
 @router.route('/get_dataV1', methods=['POST'])
 def get_dataV1():
     try:
@@ -2073,7 +2075,7 @@ def get_dataV1():
         print(sensor_ids)
 
         # Break sensor IDs into smaller batches to avoid memory overload
-        batch_size = 25  # You can adjust this based on your needs
+        batch_size = 5  # You can adjust this based on your needs
         batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
 
         def generate_batches():
@@ -2093,8 +2095,10 @@ def get_dataV1():
                 # Yield the batch as a JSON response
                 yield json.dumps(results)  # Convert the batch to a JSON string
 
-        # Return data as a streamed response
-        return Response(generate_batches(), content_type='application/json')
+        # Create a Response object with the generator passed through the `response` keyword argument
+        response = Response(response=generate_batches())  # Using keyword argument 'response' for the generator
+        response.headers['Content-Type'] = 'application/json'  # Explicitly set the content type
+        return response
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
