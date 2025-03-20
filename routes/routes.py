@@ -2,6 +2,7 @@ import concurrent
 from calendar import monthrange
 from concurrent.futures import ThreadPoolExecutor
 
+import pymongo
 from flask import Blueprint, request, jsonify
 from pymongo import InsertOne, UpdateOne, errors
 
@@ -2008,14 +2009,11 @@ def getweatherdatav2():
             }}
         ]
 
-        # Execute the pipeline and retrieve the result
         result = list(collection_name7.aggregate(pipeline))
         print(result)
 
-        # Construct data to be inserted into MongoDB
         bulk_insert_data = []
 
-        # Iterate over each site
         for site_data in result:
             url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
             print(url)
@@ -2023,11 +2021,10 @@ def getweatherdatav2():
             response.raise_for_status()
             weather_data = response.json()
 
-            # Process weather data if available
             if "hourly" in weather_data:
                 for i in range(len(weather_data['hourly']['time'])):
                     hour_data = {
-                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
                         "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
@@ -2037,18 +2034,16 @@ def getweatherdatav2():
                         "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
                         "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
                         "creation_time_iso": datetime.utcfromtimestamp(
-                            datetime.strptime(weather_data['hourly']['time'][i],
-                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
+                            datetime.strptime(weather_data['hourly']['time'][i], '%Y-%m-%dT%H:%M').timestamp()).isoformat()
                     }
-
                     bulk_insert_data.append(hour_data)
 
-                    # print(bulk_insert_data)
-
-        # Insert the data into MongoDB in bulk
         if bulk_insert_data:
-            collection_name8.insert_many(bulk_insert_data)
-            return {"message": "Weather data fetched and stored successfully"}
+            try:
+                collection_name8.insert_many(bulk_insert_data, ordered=False)
+            except pymongo.errors.BulkWriteError as e:
+                print(f"Duplicate entries found and skipped: {e.details}")
+            return {"message": "Weather data fetched and stored successfully (duplicates skipped)"}
         else:
             return {"message": "No weather data available for the specified sites"}
 
