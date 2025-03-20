@@ -2072,20 +2072,26 @@ def get_dataV1():
         batch_size = 5  # You can adjust this based on your needs
         batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
 
-        all_data = []
+        all_data = []  # List to hold all the fetched data
+
+        # MongoDB connection (assuming the default connection and database)
+        client = MongoClient('mongodb://localhost:27017/')
+        db = client['your_database_name']  # Replace with your DB name
+        collection = db['your_collection_name']  # Replace with your collection name
 
         # Fetch data in batches
         for batch in batches:
-            print(batch)
-            cursor = collection_name5.find(
+            print(f"Processing batch: {batch}")
+            # Query MongoDB using the batch of sensor_ids
+            cursor = collection.find(
                 {"sensor_id": {"$in": batch}},  # Filter by sensor_id
                 {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
             )
-            all_data.extend(list(cursor))  # Append batch results to the final list
+            # Append the fetched data to the final list
+            all_data.extend(list(cursor))
 
         # Convert ObjectId to string for the "_id" field
         for item in all_data:
-            print(item)
             item["_id"] = str(item["_id"])
 
         # Return the data as a JSON response
