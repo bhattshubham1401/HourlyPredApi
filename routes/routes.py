@@ -3,6 +3,7 @@ from calendar import monthrange
 from concurrent.futures import ThreadPoolExecutor
 
 from flask import Blueprint, request, jsonify
+from pymongo import InsertOne, UpdateOne, errors
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10, collection_name13
@@ -14,6 +15,7 @@ import traceback
 import numpy as np
 from logs import logs_config
 
+from bson import ObjectId
 
 @router.route('/get_sensorListV1', methods=["POST"])
 def get_sensorListV1():
@@ -1912,19 +1914,16 @@ def getPredDataDailyjpdcl():
 @router.route('/getweatherdataV1', methods=['POST'])
 def getweatherdataV1():
     try:
-        # Get JSON data from request
         data = request.get_json()
-        # Validate input parameters
         if not data or 'site_id' not in data or not isinstance(data['site_id'], list):
             return jsonify({"error": "Invalid input. Expected a list of site_id."}), 400
         if 'start_date' not in data or 'end_date' not in data:
             return jsonify({"error": "Missing start_date or end_date."}), 400
 
-        lst = data['site_id']  # Use the passed list
+        lst = data['site_id']
         start_date = data['start_date']
         end_date = data['end_date']
 
-        # Validate date format (YYYY-MM-DD)
         try:
             datetime.strptime(start_date, "%Y-%m-%d")
             datetime.strptime(end_date, "%Y-%m-%d")
@@ -1938,14 +1937,14 @@ def getweatherdataV1():
                 "latitude": {"$min": "$latitude"},
                 "longitude": {"$min": "$longitude"},
                 "sensors": {
-                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}}
+                    "$addToSet": {"id": "$id", "name": "$name", "latitude": "$latitude", "longitude": "$longitude"}
+                }
             }}
         ]
 
         result = list(collection_name7.aggregate(pipeline))
         bulk_insert_data = []
 
-        # Iterate over each site
         for site_data in result:
             url = f"https://archive-api.open-meteo.com/v1/archive?latitude={site_data['latitude']}&longitude={site_data['longitude']}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,wind_speed_10m,wind_speed_100m"
             print(url)
@@ -1953,11 +1952,10 @@ def getweatherdataV1():
             response.raise_for_status()
             weather_data = response.json()
 
-            # Process weather data if available
             if "hourly" in weather_data:
                 for i in range(len(weather_data['hourly']['time'])):
                     hour_data = {
-                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",  # MongoDB's unique identifier
+                        "_id": f"{site_data['_id']}_{weather_data['hourly']['time'][i]}",
                         "site_id": site_data["_id"],
                         "time": weather_data['hourly']['time'][i],
                         "temperature_2m": weather_data['hourly'].get('temperature_2m', [])[i],
@@ -1967,18 +1965,17 @@ def getweatherdataV1():
                         "wind_speed_10m": weather_data['hourly'].get('wind_speed_10m', [])[i],
                         "wind_speed_100m": weather_data['hourly'].get('wind_speed_100m', [])[i],
                         "creation_time_iso": datetime.utcfromtimestamp(
-                            datetime.strptime(weather_data['hourly']['time'][i],
-                                              '%Y-%m-%dT%H:%M').timestamp()).isoformat()
+                            datetime.strptime(weather_data['hourly']['time'][i], '%Y-%m-%dT%H:%M').timestamp()).isoformat()
                     }
+                    bulk_insert_data.append(InsertOne(hour_data))
 
-                    bulk_insert_data.append(hour_data)
-
-                    # print(bulk_insert_data)
-
-        # Insert the data into MongoDB in bulk
         if bulk_insert_data:
-            collection_name8.insert_many(bulk_insert_data)
-            return {"message": "Weather data fetched and stored successfully"}
+            try:
+                collection_name8.bulk_write(bulk_insert_data, ordered=False)
+                return {"message": "Weather data fetched and stored successfully"}
+            except errors.BulkWriteError as bwe:
+                print(f"Bulk write error: {bwe.details}")
+                return {"message": "Weather data fetched, but some duplicates were ignored."}
         else:
             return {"message": "No weather data available for the specified sites"}
 
@@ -1986,31 +1983,70 @@ def getweatherdataV1():
         return {"error": str(e)}
 
 
+# @router.route('/get_data', methods=['POST'])
+# def get_data():
+#     try:
+#         # Get the sensor list from the request body
+#         data = request.get_json()
+#
+#         # Make sure the sensor list exists and is a list
+#         if not data or 'sensor_ids' not in data or not isinstance(data['sensor_ids'], list):
+#             return jsonify({"error": "Invalid input. 'sensor_ids' must be a list."}), 400
+#
+#         # Extract the list of sensor IDs from the request
+#         sensor_ids = data['sensor_ids']
+#
+#         # Query MongoDB to find documents with sensor_ids in the provided list
+#         data = list(collection_name5.find(
+#             {"sensor_id": {"$in": sensor_ids}},  # Filter by sensor_id
+#             {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf" :1}  # Specify the fields to return
+#         ))
+#
+#         # Convert ObjectId to string for the "_id" field
+#         for item in data:
+#             item["_id"] = str(item["_id"])
+#
+#         # Return the data as a JSON response
+#         return jsonify(data), 200
+#
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+
 @router.route('/get_data', methods=['POST'])
 def get_data():
     try:
         # Get the sensor list from the request body
         data = request.get_json()
 
-        # Make sure the sensor list exists and is a list
+        # Validate the input data
         if not data or 'sensor_ids' not in data or not isinstance(data['sensor_ids'], list):
             return jsonify({"error": "Invalid input. 'sensor_ids' must be a list."}), 400
 
         # Extract the list of sensor IDs from the request
         sensor_ids = data['sensor_ids']
 
-        # Query MongoDB to find documents with sensor_ids in the provided list
-        data = list(collection_name5.find(
-            {"sensor_id": {"$in": sensor_ids}},  # Filter by sensor_id
-            {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf" :1}  # Specify the fields to return
-        ))
+        # Break sensor IDs into smaller batches to avoid memory overload
+        batch_size = 100  # You can adjust this based on your needs
+        batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
+
+        all_data = []
+
+        # Fetch data in batches
+        for batch in batches:
+            print(batch)
+            cursor = collection_name5.find(
+                {"sensor_id": {"$in": batch}},  # Filter by sensor_id
+                {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
+            )
+            all_data.extend(list(cursor))  # Append batch results to the final list
 
         # Convert ObjectId to string for the "_id" field
-        for item in data:
+        for item in all_data:
+            print(item)
             item["_id"] = str(item["_id"])
 
         # Return the data as a JSON response
-        return jsonify(data), 200
+        return jsonify(all_data), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
