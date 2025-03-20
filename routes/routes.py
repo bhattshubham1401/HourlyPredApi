@@ -1,4 +1,5 @@
 import concurrent
+import json
 from calendar import monthrange
 from concurrent.futures import ThreadPoolExecutor
 
@@ -6,6 +7,8 @@ from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10, collection_name13
+from dependencies.requests import Response
+
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
@@ -2070,27 +2073,28 @@ def get_dataV1():
         print(sensor_ids)
 
         # Break sensor IDs into smaller batches to avoid memory overload
-        batch_size = 5  # You can adjust this based on your needs
+        batch_size = 25  # You can adjust this based on your needs
         batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
 
-        all_data = []
+        def generate_batches():
+            # Fetch data in batches and yield the results
+            for batch in batches:
+                print(f"Querying batch: {batch}")
+                cursor = collection_name5.find(
+                    {"sensor_id": {"$in": batch}},  # Filter by sensor_id
+                    {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
+                )
+                results = list(cursor)
 
-        # Fetch data in batches
-        for batch in batches:
-            print(batch)
-            cursor = collection_name5.find(
-                {"sensor_id": {"$in": batch}},  # Filter by sensor_id
-                {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
-            )
-            all_data.extend(list(cursor))  # Append batch results to the final list
+                # Convert ObjectId to string for the "_id" field
+                for item in results:
+                    item["_id"] = str(item["_id"])
 
-        # Convert ObjectId to string for the "_id" field
-        for item in all_data:
-            print(item)
-            item["_id"] = str(item["_id"])
+                # Yield the batch as a JSON response
+                yield json.dumps(results)  # Convert the batch to a JSON string
 
-        # Return the data as a JSON response
-        return jsonify(all_data), 200
+        # Return data as a streamed response
+        return Response(generate_batches(), content_type='application/json')
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
