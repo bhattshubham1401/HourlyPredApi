@@ -2054,3 +2054,42 @@ def get_data():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@router.route('/get_dataV1', methods=['POST'])
+def get_dataV1():
+    try:
+        # Get the sensor list from the request body
+        data = request.get_json()
+
+        # Validate the input data
+        if not data or 'sensor_ids' not in data or not isinstance(data['sensor_ids'], list):
+            return jsonify({"error": "Invalid input. 'sensor_ids' must be a list."}), 400
+
+        # Extract the list of sensor IDs from the request
+        sensor_ids = data['sensor_ids']
+
+        # Break sensor IDs into smaller batches to avoid memory overload
+        batch_size = 10  # You can adjust this based on your needs
+        batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
+
+        all_data = []
+
+        # Fetch data in batches
+        for batch in batches:
+            print(batch)
+            cursor = collection_name5.find(
+                {"sensor_id": {"$in": batch}},  # Filter by sensor_id
+                {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
+            )
+            all_data.extend(list(cursor))  # Append batch results to the final list
+
+        # Convert ObjectId to string for the "_id" field
+        for item in all_data:
+            print(item)
+            item["_id"] = str(item["_id"])
+
+        # Return the data as a JSON response
+        return jsonify(all_data), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
