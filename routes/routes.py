@@ -6,6 +6,8 @@ from flask import Blueprint, request, jsonify
 
 from config.db import collection_name, collection_name1, collection_name2, collection_name3, collection_name4, \
     collection_name5, collection_name6, collection_name7, collection_name8, collection_name9, collection_name10, collection_name13
+from logs.logs_config import logger
+
 router = Blueprint('router', __name__)
 import requests
 import pandas as pd
@@ -2072,23 +2074,24 @@ def get_dataV1():
         batch_size = 5  # You can adjust this based on your needs
         batches = [sensor_ids[i:i + batch_size] for i in range(0, len(sensor_ids), batch_size)]
 
-        all_data = []  # List to hold all the fetched data
+        logger.info(f"Total batches: {len(batches)}")
+        logger.info(f"First batch: {batches[0]}")
 
-        # MongoDB connection (assuming the default connection and database)
-        client = MongoClient('mongodb://localhost:27017/')
-        db = client['your_database_name']  # Replace with your DB name
-        collection = db['your_collection_name']  # Replace with your collection name
+        all_data = []
 
         # Fetch data in batches
         for batch in batches:
-            print(f"Processing batch: {batch}")
-            # Query MongoDB using the batch of sensor_ids
-            cursor = collection.find(
+            logger.info(f"Querying batch: {batch}")
+
+            cursor = collection_name5.find(
                 {"sensor_id": {"$in": batch}},  # Filter by sensor_id
-                {"read_time_str": 1, "1:0:1:29:0:255": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
+                {"read_time_str": 1, "sensor_id": 1, "meter_load_mf": 1}  # Specify the fields to return
             )
-            # Append the fetched data to the final list
-            all_data.extend(list(cursor))
+
+            results = list(cursor)
+            logger.info(f"Fetched {len(results)} records for batch: {batch}")
+
+            all_data.extend(results)  # Append batch results to the final list
 
         # Convert ObjectId to string for the "_id" field
         for item in all_data:
@@ -2098,4 +2101,5 @@ def get_dataV1():
         return jsonify(all_data), 200
 
     except Exception as e:
+        logger.error(f"Error occurred: {e}")
         return jsonify({"error": str(e)}), 500
